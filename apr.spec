@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.4
-Release: 2
+Release: 2.1
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -14,6 +14,10 @@ Patch1: apr-0.9.3-config.patch
 Patch2: apr-0.9.3-testrand.patch
 Patch3: apr-0.9.3-noipv6.patch
 Patch4: apr-0.9.4-noresolv.patch
+Patch5: apr-0.9.4-tempdir.patch
+Patch6: apr-0.9.4-gniv4map.patch
+Patch7: apr-0.9.4-cleanups.patch
+Patch8: apr-0.9.4-time2038.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -43,6 +47,10 @@ C data structures and routines.
 %patch2 -p1 -b .testrand
 %patch3 -p1 -b .noipv6
 %patch4 -p1 -b .noresolv
+%patch5 -p1 -b .tempdir
+%patch6 -p1 -b .gniv4map
+%patch7 -p1 -b .cleanups
+%patch8 -p1 -b .time2038
 
 # regenerate configure script etc.
 ./buildconf
@@ -123,6 +131,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Mon Jul 19 2004 Joe Orton <jorton@redhat.com> 0.9.4-2.1
+- merge fixes for:
+ * cleanup structure reuse
+ * only do AF_INET reverse lookups of v4-mapped IPv6 addresses
+ * apr_temp_dir_get() fixes (#128144)
+ * apr_time_exp_get() handling dates in 2038 (Philip Martin)
+
 * Fri Oct  3 2003 Joe Orton <jorton@redhat.com> 0.9.4-2
 - disable tests on x86_64 (#97611)
 
