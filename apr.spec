@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.4
-Release: 16
+Release: 18
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -28,6 +28,7 @@ Patch15: apr-0.9.4-time2038.patch
 Patch16: apr-0.9.4-mutextype.patch
 Patch17: apr-0.9.4-permbits.patch
 Patch18: apr-0.9.4-stacksize.patch
+Patch19: apr-0.9.4-cleanups.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -71,6 +72,7 @@ C data structures and routines.
 %patch16 -p1 -b .mutextype
 %patch17 -p1 -b .permbits
 %patch18 -p1 -b .stacksize
+%patch19 -p1 -b .cleanups
 
 %build
 # regenerate configure script etc.
@@ -143,6 +145,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Wed Jun 30 2004 Joe Orton <jorton@redhat.com> 0.9.4-18
+- rebuild now /dev/shm is mounted
+
+* Thu Jun 17 2004 Joe Orton <jorton@redhat.com> 0.9.4-17
+- add fix for cleanup structure reuse (part of upstream #23567)
+
 * Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
