@@ -18,8 +18,8 @@
 #
 
 if test "$#" != 2 && test "$#" != 3; then
-  echo "USAGE: $0 PROJECT VERSION [SIGNING-USER]"
-  echo "  see the comments in this script for more info."
+  echo "USAGE: $0 PROJECT VERSION [SIGNING-USER]"         >&2
+  echo "  see the comments in this script for more info." >&2
   exit 1
 fi
 
@@ -34,12 +34,16 @@ case "$1" in
     tag_prefix="APU"
     ver_prefix="apu"
     ;;
+  *)
+    echo "ERROR: '$1' is an unknown project." >&2
+    echo "  choose one of: apr, apr-util"     >&2
+    exit 1
 esac
 
 vsn="$2"
-major="`echo $2 | sed 's/\..*$//'`"
-minor="`echo $2 | sed 's/^[0-9]*\.\([0-9]*\)\..*$/\1/'`"
-patch="`echo $2 | sed 's/^.*\.//'`"
+major="`echo $vsn | sed 's/\..*$//'`"
+minor="`echo $vsn | sed 's/^[0-9]*\.\([0-9]*\)\..*$/\1/'`"
+patch="`echo $vsn | sed 's/^.*\.//'`"
 
 tagname="${tag_prefix}_${major}_${minor}_${patch}"
 
@@ -50,7 +54,7 @@ echo " Tag name: $tagname"
 echo "Directory: $dirname"
 
 if test -d ${dirname}; then
-  echo "ERROR: for safety, you must manually remove $dirname."
+  echo "ERROR: for safety, you must manually remove $dirname." >&2
   exit 1
 fi
 
@@ -70,8 +74,8 @@ echo $split
 echo ""
 
 if grep "#define.*${tag_prefix}_IS_DEV_VERSION" ${dirname}/include/${ver_prefix}_version.h > /dev/null; then
-  echo "ERROR: ${ver_prefix}_version.h still defines a development version."
-  echo "       This script can only produce formal releases."
+  echo "ERROR: ${ver_prefix}_version.h still defines a development version." >&2
+  echo "       This script can only produce formal releases." >&2
   exit 1
 fi
 
