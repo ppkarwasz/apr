@@ -2,31 +2,39 @@
 #
 # release.sh : build a release tarball
 #
-# USAGE: release.sh PROJECT VERSION [SIGNING-USER] [APR-SOURCE]
+# USAGE: release.sh PROJECT TAG RELEASE-VERSION [SIGNING-USER] [APR-SOURCE]
 #
 #   The project is either 'apr', 'apr-util' or 'apr-iconv'
 #
-#   The version number is specified as MAJOR.MINOR.PATCH (and will be used
-#   in the output tarball name). The script will then look for a CVS tag
-#   named "APR_{MAJOR}_{MINOR}_{PATCH}" and export it into a subdirectory
-#   (of the current directory). Next, it will run the appropriate commands
-#   to prepare and construct the tarball. The subdirectory will be cleaned
-#   up upon exit.
+#   The TAG is the CVS tag that will be pulled when retreiving the source.
 #
-#   The "signing user" is the name of the key that you'll be signing the
+#   The RELEASE-VERSION is the name that will be given to the tarball.
+#   Eg. if RELEASE-VERSION is 5.6.7 then the tarball will be apr-5.6.7.tar.gz
+#
+#   The SIGNING-USER is an optional name of the key that you'll be signing the
 #   release with.
 #
-#   The 'apr source' is a path to the local APR source directory required
+#   The APR-SOURCE is an optional path to the local APR source directory required
 #   for apr-util's buildconf to find the required files.
 #
+#
+#   This script will run the appropriate commands to prepare and construct the
+#   tarball. The subdirectory will be cleaned up upon exit.
+#
 
-if test "$#" != 2 && test "$#" != 3 && test "$#" != 4; then
-  echo "USAGE: $0 PROJECT VERSION [SIGNING-USER] [APR-SOURCE]" >&2
+if test "$#" != 3 && test "$#" != 4 && test "$#" != 5; then
+  echo "USAGE: $0 PROJECT TAG RELEASE-VERSION [SIGNING-USER] [APR-SOURCE]" >&2
   echo "  see the comments in this script for more info."      >&2
   exit 1
 fi
 
-case "$1" in
+PROJECT=$1
+TAG=$2
+RELEASE_VERSION=$3
+SIGNING_USER=$4
+APR_SOURCE=$5
+
+case "$PROJECT" in
   apr)
     repos_name="apr"
     tag_prefix="APR"
@@ -43,23 +51,16 @@ case "$1" in
     ver_prefix="api"
     ;;
   *)
-    echo "ERROR: '$1' is an unknown project." >&2
+    echo "ERROR: '$PROJECT' is an unknown project." >&2
     echo "  choose one of: apr, apr-util, apr-iconv"     >&2
     exit 1
 esac
 
-vsn="$2"
-major="`echo $vsn | sed 's/\..*$//'`"
-minor="`echo $vsn | sed 's/^[0-9]*\.\([0-9]*\)\..*$/\1/'`"
-patch="`echo $vsn | sed 's/^.*\.//'`"
+dirname="${repos_name}-${RELEASE_VERSION}"
 
-tagname="${tag_prefix}_${major}_${minor}_${patch}"
-
-dirname="${repos_name}-$vsn"
-
-echo "  Version: $vsn"
-echo " Tag name: $tagname"
-echo "Directory: $dirname"
+echo "       Tag name: $TAG"
+echo "Release Version: $RELEASE_VERSION"
+echo "      Directory: $dirname"
 
 if test -d ${dirname}; then
   echo "ERROR: for safety, you must manually remove $dirname." >&2
@@ -76,16 +77,10 @@ echo ""
 echo "Starting CVS export of ${repos_name} to $dirname ..."
 echo ""
 
-cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic export -r ${tagname} -d ${dirname} ${repos_name} > /dev/null || exit 1
+cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic export -r ${TAG} -d ${dirname} ${repos_name} > /dev/null || exit 1
 
 echo $split
 echo ""
-
-if grep "#define.*${tag_prefix}_IS_DEV_VERSION" ${dirname}/include/${ver_prefix}_version.h > /dev/null; then
-  echo "ERROR: ${ver_prefix}_version.h still defines a development version." >&2
-  echo "       This script can only produce formal releases." >&2
-  exit 1
-fi
 
 echo "Eliminating unwanted files (e.g. .cvsignore) and generating initial"
 echo "files via buildconf ..."
@@ -95,8 +90,8 @@ find $dirname -name .cvsignore | xargs rm -f
 find $dirname -name autom4te.cache | xargs rm -rf
 rm -f $dirnme/STATUS
 
-if test -n "$4"; then
-  ARGS="--with-apr=$4"
+if test -n "$APR_SOURCE"; then
+  ARGS="--with-apr=$APR_SOURCE"
 else
   ARGS=""
 fi
@@ -127,8 +122,8 @@ echo ""
 rm -rf ${dirname}
 
 if test -x "`which pgp 2> /dev/null`"; then
-  if test -n "$3"; then
-    user="-u $3"
+  if test -n "$SIGNING_USER"; then
+    user="-u $SIGNING_USER"
   fi
 
   pgp -sba ${dirname}.tar.gz ${user}
@@ -139,8 +134,8 @@ if test -x "`which pgp 2> /dev/null`"; then
     md5sum ${dirname}.tar.Z > ${dirname}.tar.Z.md5
   fi
 elif test -x "`which gpg 2> /dev/null`"; then
-  if test -n "$3"; then
-    user="--default-key $3"
+  if test -n "$SIGNING_USER"; then
+    user="--default-key $SIGNING_USER"
   fi
 
   gpg --armor ${user} --detach-sign ${dirname}.tar.gz
