@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.4
-Release: 15
+Release: 16
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -143,6 +143,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
 * Thu Jun 10 2004 Joe Orton <jorton@redhat.com> 0.9.4-15
 - add support for setuid/setgid/sticky bits (André Malo)
 - add apr_threadattr_{guardsize,stacksize}_set() (latter by Jeff Trawick)
