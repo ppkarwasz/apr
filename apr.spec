@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.4
-Release: 12
+Release: 14
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -22,6 +22,10 @@ Patch9: apr-0.9.4-dotdot.patch
 Patch10: apr-0.9.4-cflags.patch
 Patch11: apr-0.9.4-mmapzero.patch
 Patch12: apr-0.9.4-largefile.patch
+Patch13: apr-0.9.4-largecopy.patch
+Patch14: apr-0.9.4-gniv4map.patch
+Patch15: apr-0.9.4-time2038.patch
+Patch16: apr-0.9.4-mutextype.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -59,17 +63,15 @@ C data structures and routines.
 %patch10 -p1 -b .cflags
 %patch11 -p1 -b .mmapzero
 %patch12 -p1 -b .largefile
+%patch13 -p1 -b .largecopy
+%patch14 -p1 -b .gniv4map
+%patch15 -p1 -b .time2038
+%patch16 -p1 -b .mutextype
 
 %build
 # regenerate configure script etc.
 ./buildconf
-
-# Disable setpshared and sem_open, which only work on NPTL kernels.
-cat > config.cache <<EOF
-ac_cv_func_pthread_mutexattr_setpshared=no
-ac_cv_func_sem_open=no
-EOF
-%configure -C \
+%configure \
         --includedir=%{_includedir}/apr-%{aprver} \
         --with-installbuilddir=%{_libdir}/apr/build \
         --with-devrandom=/dev/urandom \
@@ -137,6 +139,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Mon Jun  7 2004 Joe Orton <jorton@redhat.com> 0.9.4-14
+- enable posixsem and process-shared pthread mutex support, but
+  ensure that sysvsem remains the default mechanism
+
+* Mon May 24 2004 Joe Orton <jorton@redhat.com> 0.9.4-13
+- entirely remove 2Gb file size limit from apr_file_copy();
+  fixes "svnadmin hotcopy" on repos with >2Gb strings table
+- work around getnameinfo bugs with v4-mapped addresses
+- fix apr_time_exp_get() for dates in 2038 (Philip Martin)
+
 * Thu May 13 2004 Joe Orton <jorton@redhat.com> 0.9.4-12
 - use APR_LARGEFILE in apr_file_{copy,append}
 
