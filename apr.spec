@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.5
-Release: 3
+Release: 4
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -18,6 +18,7 @@ Patch16: apr-0.9.4-mutextype.patch
 Patch18: apr-0.9.4-stacksize.patch
 Patch20: apr-0.9.4-nested.patch
 Patch21: apr-0.9.4-lp64psem.patch
+Patch22: apr-0.9.5-sendfiles390.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -50,6 +51,7 @@ C data structures and routines.
 %patch18 -p1 -b .stacksize
 %patch20 -p1 -b .nested
 %patch21 -p1 -b .lp64psem
+%patch22 -p1 -b .sendfiles390
 
 %build
 # regenerate configure script etc.
@@ -126,6 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Wed Feb  2 2005 Joe Orton <jorton@redhat.com> 0.9.5-4
+- don't disable sendfile on s390 (IBM LTC, #146891)
+
 * Mon Nov 22 2004 Joe Orton <jorton@redhat.com> 0.9.5-3
 - really fix apr-config --srcdir
 
