@@ -1,10 +1,9 @@
-
 %define aprver 0
 
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.6
-Release: 1
+Release: 2
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -29,8 +28,9 @@ including Unices, MS Win32, BeOS and OS/2.
 %package devel
 Group: Development/Libraries
 Summary: APR library development kit
-Requires: apr = %{version}-%{release}
 Conflicts: subversion-devel < 0.20.1-2
+Requires: apr = %{version}-%{release}, gcc = %(gcc -dumpversion)
+# shipped libtool hard-codes paths to gcc libraries in versioned dir
 
 %description devel
 This package provides the support files which can be used to 
@@ -100,7 +100,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc CHANGES LICENSE
+%doc CHANGES LICENSE NOTICE
 %{_libdir}/libapr-%{aprver}.so.*
 
 %files devel
@@ -118,6 +118,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Tue Mar  1 2005 Joe Orton <jorton@redhat.com> 0.9.6-2
+- have apr-devel depend on specific version of gcc
+- add NOTICE to docdir
+
 * Wed Feb  9 2005 Joe Orton <jorton@redhat.com> 0.9.6-1
 - update to 0.9.6
 
