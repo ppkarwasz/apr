@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.5
-Release: 1
+Release: 2
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -15,7 +15,6 @@ Patch4: apr-0.9.4-trimlibs.patch
 Patch6: apr-0.9.4-tests.patch
 Patch10: apr-0.9.4-cflags.patch
 Patch16: apr-0.9.4-mutextype.patch
-Patch17: apr-0.9.4-permbits.patch
 Patch18: apr-0.9.4-stacksize.patch
 Patch20: apr-0.9.4-nested.patch
 Patch21: apr-0.9.4-lp64psem.patch
@@ -84,6 +83,10 @@ done
 
 install -m 755 build/mkdir.sh $RPM_BUILD_ROOT%{_libdir}/apr/build/mkdir.sh
 
+# fix apr-config to point at the install "srcdir" (fixed properly in 1.0.0)
+sed -i -e "s,^\(APR_.*_DIR\)=.*$,\1=%{_libdir}/apr/build," \
+    $RPM_BUILD_ROOT%{_bindir}/apr-config
+
 # Sanitize apr_rules.mk
 sed -e "/^apr_build/d" \
     -e 's|$(apr_builders)|%{_libdir}/apr/build|g' \
@@ -123,6 +126,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Mon Nov 22 2004 Joe Orton <jorton@redhat.com> 0.9.5-2
+- fix apr-config --srcdir again
+
 * Sun Nov 21 2004 Joe Orton <jorton@redhat.com> 0.9.5-1
 - update to 0.9.5
 
