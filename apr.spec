@@ -3,32 +3,20 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 0.9.4
-Release: 24
+Version: 0.9.5
+Release: 1
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
 Source0: %{name}-%{version}.tar.gz
-Patch0: apr-0.9.3-deplibs.patch
-Patch1: apr-0.9.3-config.patch
 Patch2: apr-0.9.3-testrand.patch
 Patch3: apr-0.9.3-noipv6.patch
 Patch4: apr-0.9.4-trimlibs.patch
-Patch5: apr-0.9.4-pthread.patch
 Patch6: apr-0.9.4-tests.patch
-Patch7: apr-0.9.4-tempdir.patch
-Patch8: apr-0.9.4-aprofft.patch
-Patch9: apr-0.9.4-dotdot.patch
 Patch10: apr-0.9.4-cflags.patch
-Patch11: apr-0.9.4-mmapzero.patch
-Patch12: apr-0.9.4-largefile.patch
-Patch13: apr-0.9.4-largecopy.patch
-Patch14: apr-0.9.4-gniv4map.patch
-Patch15: apr-0.9.4-time2038.patch
 Patch16: apr-0.9.4-mutextype.patch
 Patch17: apr-0.9.4-permbits.patch
 Patch18: apr-0.9.4-stacksize.patch
-Patch19: apr-0.9.4-cleanups.patch
 Patch20: apr-0.9.4-nested.patch
 Patch21: apr-0.9.4-lp64psem.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -55,26 +43,12 @@ C data structures and routines.
 
 %prep
 %setup -q
-%patch0 -p1 -b .deplibs
-%patch1 -p1 -b .config
 %patch2 -p1 -b .testrand
 %patch3 -p1 -b .noipv6
 %patch4 -p1 -b .trimlibs
-%patch5 -p1 -b .pthread
 %patch6 -p1 -b .tests
-%patch7 -p1 -b .tempdir
-%patch8 -p1 -b .aprofft
-%patch9 -p1 -b .dotdot
 %patch10 -p1 -b .cflags
-%patch11 -p1 -b .mmapzero
-%patch12 -p1 -b .largefile
-%patch13 -p1 -b .largecopy
-%patch14 -p1 -b .gniv4map
-%patch15 -p1 -b .time2038
-%patch16 -p1 -b .mutextype
-%patch17 -p1 -b .permbits
 %patch18 -p1 -b .stacksize
-%patch19 -p1 -b .cleanups
 %patch20 -p1 -b .nested
 %patch21 -p1 -b .lp64psem
 
@@ -149,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Sun Nov 21 2004 Joe Orton <jorton@redhat.com> 0.9.5-1
+- update to 0.9.5
+
 * Mon Sep 27 2004 Joe Orton <jorton@redhat.com> 0.9.4-24
 - rebuild
 
