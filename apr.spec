@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.4
-Release: 11
+Release: 12
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -60,10 +60,10 @@ C data structures and routines.
 %patch11 -p1 -b .mmapzero
 %patch12 -p1 -b .largefile
 
+%build
 # regenerate configure script etc.
 ./buildconf
 
-%build
 # Disable setpshared and sem_open, which only work on NPTL kernels.
 cat > config.cache <<EOF
 ac_cv_func_pthread_mutexattr_setpshared=no
@@ -137,6 +137,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Thu May 13 2004 Joe Orton <jorton@redhat.com> 0.9.4-12
+- use APR_LARGEFILE in apr_file_{copy,append}
+
 * Wed Mar 24 2004 Joe Orton <jorton@redhat.com> 0.9.4-11
 - add APR_LARGEFILE flag
 
