@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.4
-Release: 21
+Release: 22
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -29,6 +29,8 @@ Patch16: apr-0.9.4-mutextype.patch
 Patch17: apr-0.9.4-permbits.patch
 Patch18: apr-0.9.4-stacksize.patch
 Patch19: apr-0.9.4-cleanups.patch
+Patch20: apr-0.9.4-nested.patch
+Patch21: apr-0.9.4-lp64psem.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -73,6 +75,8 @@ C data structures and routines.
 %patch17 -p1 -b .permbits
 %patch18 -p1 -b .stacksize
 %patch19 -p1 -b .cleanups
+%patch20 -p1 -b .nested
+%patch21 -p1 -b .lp64psem
 
 %build
 # regenerate configure script etc.
@@ -82,7 +86,7 @@ C data structures and routines.
         --with-installbuilddir=%{_libdir}/apr/build \
         --with-devrandom=/dev/urandom \
         CC=gcc CXX=g++
-make %{?_smp_mflags} && make dox
+make %{?_smp_mflags} CFLAGS=-Wall && make dox
 
 %check
 # Run non-interactive tests
@@ -145,6 +149,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Tue Aug 31 2004 Joe Orton <jorton@redhat.com> 0.9.4-22
+- backport fixes from HEAD:
+ * correct implementation of nested mutexes
+ * support for POSIX semaphores on LP64 platforms
+
 * Thu Jul 15 2004 Joe Orton <jorton@redhat.com> 0.9.4-21
 - rebuild for another attempt at using sem_open
 
