@@ -4,7 +4,7 @@
 #
 # USAGE: release.sh PROJECT VERSION [SIGNING-USER]
 #
-#   The project is either 'apr' or 'apr-util'
+#   The project is either 'apr', 'apr-util' or 'apr-iconv'
 #
 #   The version number is specified as MAJOR.MINOR.PATCH (and will be used
 #   in the output tarball name). The script will then look for a CVS tag
@@ -34,9 +34,14 @@ case "$1" in
     tag_prefix="APU"
     ver_prefix="apu"
     ;;
+  apr-iconv)
+    repos_name="apr-iconv"
+    tag_prefix="API"
+    ver_prefix="api"
+    ;;
   *)
     echo "ERROR: '$1' is an unknown project." >&2
-    echo "  choose one of: apr, apr-util"     >&2
+    echo "  choose one of: apr, apr-util, apr-iconv"     >&2
     exit 1
 esac
 
@@ -87,7 +92,14 @@ find $dirname -name .cvsignore | xargs rm -f
 find $dirname -name autom4te.cache | xargs rm -rf
 rm -f $dirnme/STATUS
 
-(cd ${dirname} && ./buildconf) || exit 1
+if test -x ${dirname}/buildconf; then
+    (cd ${dirname} && ./buildconf) || exit 1
+elif test -x ${dirname}/buildconf.sh; then
+    (cd ${dirname} && ./buildconf.sh) || exit 1
+else
+    echo "Unable to find buildconf or buildconf.sh to run."
+    exit 1
+fi
 
 echo $split
 echo ""
