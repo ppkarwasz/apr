@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.4
-Release: 18
+Release: 19
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -145,6 +145,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Thu Jul  1 2004 Joe Orton <jorton@redhat.com> 0.9.4-19
+- rebuild
+
 * Wed Jun 30 2004 Joe Orton <jorton@redhat.com> 0.9.4-18
 - rebuild now /dev/shm is mounted
 
