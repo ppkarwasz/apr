@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.4
-Release: 20
+Release: 21
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -145,6 +145,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Thu Jul 15 2004 Joe Orton <jorton@redhat.com> 0.9.4-21
+- rebuild for another attempt at using sem_open
+
 * Tue Jul 13 2004 Joe Orton <jorton@redhat.com> 0.9.4-20
 - move sticky/suid bits outside APR_OS_DEFAULT bitmask (Greg Hudson)
 
