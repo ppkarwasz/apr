@@ -2,7 +2,7 @@
 #
 # release.sh : build a release tarball
 #
-# USAGE: release.sh PROJECT VERSION [SIGNING-USER]
+# USAGE: release.sh PROJECT VERSION [SIGNING-USER] [APR-SOURCE]
 #
 #   The project is either 'apr', 'apr-util' or 'apr-iconv'
 #
@@ -16,10 +16,13 @@
 #   The "signing user" is the name of the key that you'll be signing the
 #   release with.
 #
+#   The 'apr source' is a path to the local APR source directory required
+#   for apr-util's buildconf to find the required files.
+#
 
-if test "$#" != 2 && test "$#" != 3; then
-  echo "USAGE: $0 PROJECT VERSION [SIGNING-USER]"         >&2
-  echo "  see the comments in this script for more info." >&2
+if test "$#" != 2 && test "$#" != 3 && test "$#" != 4; then
+  echo "USAGE: $0 PROJECT VERSION [SIGNING-USER] [APR-SOURCE]" >&2
+  echo "  see the comments in this script for more info."      >&2
   exit 1
 fi
 
@@ -92,10 +95,16 @@ find $dirname -name .cvsignore | xargs rm -f
 find $dirname -name autom4te.cache | xargs rm -rf
 rm -f $dirnme/STATUS
 
+if test -n "$4"; then
+  ARGS="--with-apr=$4"
+else
+  ARGS=""
+fi
+
 if test -x ${dirname}/buildconf; then
-    (cd ${dirname} && ./buildconf) || exit 1
+    (cd ${dirname} && ./buildconf $ARGS) || exit 1
 elif test -x ${dirname}/buildconf.sh; then
-    (cd ${dirname} && ./buildconf.sh) || exit 1
+    (cd ${dirname} && ./buildconf.sh $ARGS) || exit 1
 else
     echo "Unable to find buildconf or buildconf.sh to run."
     exit 1
