@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.4
-Release: 10
+Release: 11
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -21,6 +21,7 @@ Patch8: apr-0.9.4-aprofft.patch
 Patch9: apr-0.9.4-dotdot.patch
 Patch10: apr-0.9.4-cflags.patch
 Patch11: apr-0.9.4-mmapzero.patch
+Patch12: apr-0.9.4-largefile.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -57,6 +58,7 @@ C data structures and routines.
 %patch9 -p1 -b .dotdot
 %patch10 -p1 -b .cflags
 %patch11 -p1 -b .mmapzero
+%patch12 -p1 -b .largefile
 
 # regenerate configure script etc.
 ./buildconf
@@ -135,6 +137,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Wed Mar 24 2004 Joe Orton <jorton@redhat.com> 0.9.4-11
+- add APR_LARGEFILE flag
+
 * Mon Mar 15 2004 Joe Orton <jorton@redhat.com> 0.9.4-10
 - fix configure check for mmap of /dev/zero
 - just put -D_GNU_SOURCE in CPPFLAGS not _{BSD,SVID,XOPEN}_SOURCE
