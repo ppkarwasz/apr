@@ -62,6 +62,11 @@ if test -d ${dirname}; then
   exit 1
 fi
 
+if test -d ${dirname}-win32; then
+  echo "ERROR: for safety, you must manually remove ${dirname}-win32." >&2
+  exit 1
+fi
+
 split="---------------------------------------------------------------------"
 
 # make sure that the perms are good for the tarball
@@ -74,6 +79,11 @@ echo ""
 
 #cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic export -r ${TAG} -d ${dirname} ${repos_name} > /dev/null || exit 1
 svn export http://svn.apache.org/repos/asf/apr/${repos_name}/tags/${TAG} ${dirname}
+echo $split
+echo ""
+echo "Starting SVN export of ${repos_name} to ${dirname}-win32 ..."
+echo ""
+svn export --native-eol CRLF http://svn.apache.org/repos/asf/apr/${repos_name}/tags/${TAG} ${dirname}-win32
 
 echo $split
 echo ""
@@ -85,6 +95,9 @@ echo ""
 find $dirname -name .cvsignore | xargs rm -f
 find $dirname -name autom4te.cache | xargs rm -rf
 rm -f $dirname/STATUS
+find ${dirname}-win32 -name .cvsignore | xargs rm -f
+find ${dirname}-win32 -name autom4te.cache | xargs rm -rf
+rm -f ${dirname}-win32/STATUS
 
 if test -n "$APR_SOURCE"; then
   ARGS="--with-apr=$APR_SOURCE"
@@ -103,13 +116,24 @@ fi
 
 echo $split
 echo ""
-echo "Building the tarball, .gz, and .Z files ..."
+echo "Building the tarball, .gz, .bz2, and .Z files ..."
 echo ""
 
 tar cf ${dirname}.tar ${dirname}
 gzip -9 --to-stdout ${dirname}.tar > ${dirname}.tar.gz
-bzip2 -c ${dirname}.tar > ${dirname}.tar.bz2
+bzip2 -9 -c ${dirname}.tar > ${dirname}.tar.bz2
 compress ${dirname}.tar
+
+echo $split
+echo ""
+echo "Building the Windows Zip file ..."
+echo ""
+mv ${dirname} ${dirname}-unix
+mv ${dirname}-win32 ${dirname}
+zip -9 -r ${dirname}.zip ${dirname}
+mv ${dirname} ${dirname}-win32
+mv ${dirname}-unix ${dirname}
+
 
 echo $split
 echo ""
@@ -117,33 +141,36 @@ echo "Cleaning up and signing the files ..."
 echo ""
 
 rm -rf ${dirname}
+rm -rf ${dirname}-win32
+
+ARCH_FORMATS="tar.gz tar.bz2 tar.Z zip"
 
 if test -x "`which pgp 2> /dev/null`"; then
   if test -n "$SIGNING_USER"; then
     user="-u $SIGNING_USER"
   fi
 
-  pgp -sba ${dirname}.tar.gz ${user}
-  pgp -sba ${dirname}.tar.bz2 ${user}
-  pgp -sba ${dirname}.tar.Z ${user}
+  for x in ${ARCH_FORMATS}
+  do
+    pgp -sba ${dirname}.${x} ${user}
+  done
 
   if test -x "`which md5sum 2> /dev/null`"; then
-    md5sum ${dirname}.tar.gz > ${dirname}.tar.gz.md5
-    md5sum ${dirname}.tar.bz2 > ${dirname}.tar.bz2.md5
-    md5sum ${dirname}.tar.Z > ${dirname}.tar.Z.md5
+    for x in ${ARCH_FORMATS}
+    do
+      md5sum ${dirname}.${x} > ${dirname}.tar.gz.md5
+    done
   fi
 elif test -x "`which gpg 2> /dev/null`"; then
   if test -n "$SIGNING_USER"; then
     user="--default-key $SIGNING_USER"
   fi
 
-  gpg --armor ${user} --detach-sign ${dirname}.tar.gz
-  gpg --armor ${user} --detach-sign ${dirname}.tar.bz2
-  gpg --armor ${user} --detach-sign ${dirname}.tar.Z
-
-  gpg --print-md md5 ${dirname}.tar.gz > ${dirname}.tar.gz.md5
-  gpg --print-md md5 ${dirname}.tar.bz2 > ${dirname}.tar.bz2.md5
-  gpg --print-md md5 ${dirname}.tar.Z > ${dirname}.tar.Z.md5
+  for x in ${ARCH_FORMATS}
+  do
+    gpg --armor ${user} --detach-sign ${dirname}.${x}
+    gpg --print-md md5 ${dirname}.${x} > ${dirname}.${x}.md5
+  done
 else
   echo "PGP or GnuPG not found!  Not signing release!"
 fi
