@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.4
-Release: 4
+Release: 10
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -16,6 +16,11 @@ Patch3: apr-0.9.3-noipv6.patch
 Patch4: apr-0.9.4-trimlibs.patch
 Patch5: apr-0.9.4-pthread.patch
 Patch6: apr-0.9.4-tests.patch
+Patch7: apr-0.9.4-tempdir.patch
+Patch8: apr-0.9.4-aprofft.patch
+Patch9: apr-0.9.4-dotdot.patch
+Patch10: apr-0.9.4-cflags.patch
+Patch11: apr-0.9.4-mmapzero.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -47,18 +52,20 @@ C data structures and routines.
 %patch4 -p1 -b .trimlibs
 %patch5 -p1 -b .pthread
 %patch6 -p1 -b .tests
+%patch7 -p1 -b .tempdir
+%patch8 -p1 -b .aprofft
+%patch9 -p1 -b .dotdot
+%patch10 -p1 -b .cflags
+%patch11 -p1 -b .mmapzero
 
 # regenerate configure script etc.
 ./buildconf
 
 %build
-# disable setpshared and sem_open, which only work on NPTL kernels
-# force detection of sys_siglist[] since 2.57's AC_DECL_SYS_SIGLIST
-# is useless
+# Disable setpshared and sem_open, which only work on NPTL kernels.
 cat > config.cache <<EOF
 ac_cv_func_pthread_mutexattr_setpshared=no
 ac_cv_func_sem_open=no
-ac_cv_have_decl_sys_siglist=yes
 EOF
 %configure -C \
         --includedir=%{_includedir}/apr-%{aprver} \
@@ -74,7 +81,7 @@ make %{?_smp_mflags} && make dox
 excludes=testlock
 %endif
 pushd test
-make %{?_smp_mflags} testall
+make %{?_smp_mflags} testall CFLAGS=-fno-strict-aliasing
 TZ=PST8PDT ./testall -v ${excludes+-x $excludes} || exit 1
 popd
 
@@ -128,6 +135,29 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Mon Mar 15 2004 Joe Orton <jorton@redhat.com> 0.9.4-10
+- fix configure check for mmap of /dev/zero
+- just put -D_GNU_SOURCE in CPPFLAGS not _{BSD,SVID,XOPEN}_SOURCE
+
+* Tue Mar 02 2004 Elliot Lee <sopwith@redhat.com> 0.9.4-9.1
+- rebuilt
+
+* Thu Feb 19 2004 Joe Orton <jorton@redhat.com> 0.9.4-9
+- undocument apr_dir_read() ordering constraint and fix tests
+
+* Sun Feb 15 2004 Joe Orton <jorton@redhat.com> 0.9.4-8
+- rebuilt without -Wall -Werror
+
+* Fri Feb 13 2004 Elliot Lee <sopwith@redhat.com> 0.9.4-7
+- rebuilt
+
+* Tue Feb  3 2004 Joe Orton <jorton@redhat.com> 0.9.4-6
+- define apr_off_t as int/long/... to prevent it changing
+  with _FILE_OFFSET_BITS on 32-bit platforms
+
+* Mon Jan 12 2004 Joe Orton <jorton@redhat.com> 0.9.4-5
+- add apr_temp_dir_get fixes from HEAD
+
 * Thu Jan  8 2004 Joe Orton <jorton@redhat.com> 0.9.4-4
 - ensure that libapr is linked against libpthread
 - don't link libapr against -lnsl
