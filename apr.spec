@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.4
-Release: 2.1
+Release: 4
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -13,11 +13,9 @@ Patch0: apr-0.9.3-deplibs.patch
 Patch1: apr-0.9.3-config.patch
 Patch2: apr-0.9.3-testrand.patch
 Patch3: apr-0.9.3-noipv6.patch
-Patch4: apr-0.9.4-noresolv.patch
-Patch5: apr-0.9.4-tempdir.patch
-Patch6: apr-0.9.4-gniv4map.patch
-Patch7: apr-0.9.4-cleanups.patch
-Patch8: apr-0.9.4-time2038.patch
+Patch4: apr-0.9.4-trimlibs.patch
+Patch5: apr-0.9.4-pthread.patch
+Patch6: apr-0.9.4-tests.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -31,7 +29,7 @@ including Unices, MS Win32, BeOS and OS/2.
 %package devel
 Group: Development/Libraries
 Summary: APR library development kit
-Requires: apr = %{version}, libtool
+Requires: apr = %{version}
 Conflicts: subversion-devel < 0.20.1-2
 
 %description devel
@@ -46,11 +44,9 @@ C data structures and routines.
 %patch1 -p1 -b .config
 %patch2 -p1 -b .testrand
 %patch3 -p1 -b .noipv6
-%patch4 -p1 -b .noresolv
-%patch5 -p1 -b .tempdir
-%patch6 -p1 -b .gniv4map
-%patch7 -p1 -b .cleanups
-%patch8 -p1 -b .time2038
+%patch4 -p1 -b .trimlibs
+%patch5 -p1 -b .pthread
+%patch6 -p1 -b .tests
 
 # regenerate configure script etc.
 ./buildconf
@@ -71,15 +67,16 @@ EOF
         CC=gcc CXX=g++
 make %{?_smp_mflags} && make dox
 
-%ifnarch x86_64
-# https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=97611
 %check
 # Run non-interactive tests
+%ifarch x86_64
+# https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=97611
+excludes=testlock
+%endif
 pushd test
 make %{?_smp_mflags} testall
-TZ=PST8PDT ./testall -v || exit 1
+TZ=PST8PDT ./testall -v ${excludes+-x $excludes} || exit 1
 popd
-%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -131,12 +128,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
-* Mon Jul 19 2004 Joe Orton <jorton@redhat.com> 0.9.4-2.1
-- merge fixes for:
- * cleanup structure reuse
- * only do AF_INET reverse lookups of v4-mapped IPv6 addresses
- * apr_temp_dir_get() fixes (#128144)
- * apr_time_exp_get() handling dates in 2038 (Philip Martin)
+* Thu Jan  8 2004 Joe Orton <jorton@redhat.com> 0.9.4-4
+- ensure that libapr is linked against libpthread
+- don't link libapr against -lnsl
+
+* Thu Nov 13 2003 Joe Orton <jorton@redhat.com> 0.9.4-3
+- -devel package no longer requires libtool
 
 * Fri Oct  3 2003 Joe Orton <jorton@redhat.com> 0.9.4-2
 - disable tests on x86_64 (#97611)
