@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.4
-Release: 22
+Release: 23
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -44,7 +44,7 @@ including Unices, MS Win32, BeOS and OS/2.
 %package devel
 Group: Development/Libraries
 Summary: APR library development kit
-Requires: apr = %{version}
+Requires: apr = %{version}-%{release}
 Conflicts: subversion-devel < 0.20.1-2
 
 %description devel
@@ -149,6 +149,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Wed Sep  1 2004 Joe Orton <jorton@redhat.com> 0.9.4-23
+- have -devel require apr of same V-R
+
 * Tue Aug 31 2004 Joe Orton <jorton@redhat.com> 0.9.4-22
 - backport fixes from HEAD:
  * correct implementation of nested mutexes
