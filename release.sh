@@ -22,32 +22,28 @@
 #   tarball. The subdirectory will be cleaned up upon exit.
 #
 
-if test "$#" != 3 && test "$#" != 4 && test "$#" != 5; then
-  echo "USAGE: $0 PROJECT TAG RELEASE-VERSION [SIGNING-USER] [APR-SOURCE]" >&2
+if test "$#" != 2 && test "$#" != 3 && test "$#" != 4; then
+  echo "USAGE: $0 PROJECT TAG [SIGNING-USER] [APR-SOURCE]" >&2
   echo "  see the comments in this script for more info."      >&2
   exit 1
 fi
 
 PROJECT=$1
 TAG=$2
-RELEASE_VERSION=$3
-SIGNING_USER=$4
-APR_SOURCE=$5
+SIGNING_USER=$3
+APR_SOURCE=$4
 
 case "$PROJECT" in
   apr)
     repos_name="apr"
-    tag_prefix="APR"
     ver_prefix="apr"
     ;;
   apr-util)
     repos_name="apr-util"
-    tag_prefix="APU"
     ver_prefix="apu"
     ;;
   apr-iconv)
     repos_name="apr-iconv"
-    tag_prefix="API"
     ver_prefix="api"
     ;;
   *)
@@ -56,10 +52,9 @@ case "$PROJECT" in
     exit 1
 esac
 
-dirname="${repos_name}-${RELEASE_VERSION}"
+dirname="${repos_name}-${TAG}"
 
 echo "       Tag name: $TAG"
-echo "Release Version: $RELEASE_VERSION"
 echo "      Directory: $dirname"
 
 if test -d ${dirname}; then
@@ -74,10 +69,11 @@ umask 022
 
 echo $split
 echo ""
-echo "Starting CVS export of ${repos_name} to $dirname ..."
+echo "Starting SVN export of ${repos_name} to $dirname ..."
 echo ""
 
-cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic export -r ${TAG} -d ${dirname} ${repos_name} > /dev/null || exit 1
+#cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic export -r ${TAG} -d ${dirname} ${repos_name} > /dev/null || exit 1
+svn export http://svn.apache.org/repos/asf/apr/${repos_name}/tags/${TAG} ${dirname}
 
 echo $split
 echo ""
@@ -88,7 +84,7 @@ echo ""
 
 find $dirname -name .cvsignore | xargs rm -f
 find $dirname -name autom4te.cache | xargs rm -rf
-rm -f $dirnme/STATUS
+rm -f $dirname/STATUS
 
 if test -n "$APR_SOURCE"; then
   ARGS="--with-apr=$APR_SOURCE"
