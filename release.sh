@@ -108,6 +108,7 @@ echo ""
 
 tar cf ${dirname}.tar ${dirname}
 gzip -9 --to-stdout ${dirname}.tar > ${dirname}.tar.gz
+bzip2 -c ${dirname}.tar > ${dirname}.tar.bz2
 compress ${dirname}.tar
 
 echo $split
@@ -123,10 +124,12 @@ if test -x "`which pgp 2> /dev/null`"; then
   fi
 
   pgp -sba ${dirname}.tar.gz ${user}
+  pgp -sba ${dirname}.tar.bz2 ${user}
   pgp -sba ${dirname}.tar.Z ${user}
 
   if test -x "`which md5sum 2> /dev/null`"; then
     md5sum ${dirname}.tar.gz > ${dirname}.tar.gz.md5
+    md5sum ${dirname}.tar.bz2 > ${dirname}.tar.bz2.md5
     md5sum ${dirname}.tar.Z > ${dirname}.tar.Z.md5
   fi
 elif test -x "`which gpg 2> /dev/null`"; then
@@ -135,9 +138,11 @@ elif test -x "`which gpg 2> /dev/null`"; then
   fi
 
   gpg --armor ${user} --detach-sign ${dirname}.tar.gz
+  gpg --armor ${user} --detach-sign ${dirname}.tar.bz2
   gpg --armor ${user} --detach-sign ${dirname}.tar.Z
 
   gpg --print-md md5 ${dirname}.tar.gz > ${dirname}.tar.gz.md5
+  gpg --print-md md5 ${dirname}.tar.bz2 > ${dirname}.tar.bz2.md5
   gpg --print-md md5 ${dirname}.tar.Z > ${dirname}.tar.Z.md5
 else
   echo "PGP or GnuPG not found!  Not signing release!"
