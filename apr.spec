@@ -4,7 +4,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.4
-Release: 14
+Release: 15
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -26,6 +26,8 @@ Patch13: apr-0.9.4-largecopy.patch
 Patch14: apr-0.9.4-gniv4map.patch
 Patch15: apr-0.9.4-time2038.patch
 Patch16: apr-0.9.4-mutextype.patch
+Patch17: apr-0.9.4-permbits.patch
+Patch18: apr-0.9.4-stacksize.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -67,6 +69,8 @@ C data structures and routines.
 %patch14 -p1 -b .gniv4map
 %patch15 -p1 -b .time2038
 %patch16 -p1 -b .mutextype
+%patch17 -p1 -b .permbits
+%patch18 -p1 -b .stacksize
 
 %build
 # regenerate configure script etc.
@@ -139,6 +143,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Thu Jun 10 2004 Joe Orton <jorton@redhat.com> 0.9.4-15
+- add support for setuid/setgid/sticky bits (André Malo)
+- add apr_threadattr_{guardsize,stacksize}_set() (latter by Jeff Trawick)
+
 * Mon Jun  7 2004 Joe Orton <jorton@redhat.com> 0.9.4-14
 - enable posixsem and process-shared pthread mutex support, but
   ensure that sysvsem remains the default mechanism
