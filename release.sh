@@ -2,7 +2,7 @@
 #
 # release.sh : build a release tarball
 #
-# USAGE: release.sh VERSION
+# USAGE: release.sh VERSION [SIGNING-USER]
 #
 #   The version number is specified as MAJOR.MINOR.PATCH (and will be used
 #   in the output tarball name). The script will then look for a CVS tag
@@ -10,6 +10,9 @@
 #   (of the current directory). Next, it will run the appropriate commands
 #   to prepare and construct the tarball. The subdirectory will be cleaned
 #   up upon exit.
+#
+#   The "signing user" is the name of the key that you'll be signing the
+#   release with.
 #
 
 if test "$#" != 1 && test "$#" != 2; then
@@ -50,6 +53,13 @@ cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic export -r ${tagname} -d $
 
 echo $split
 echo ""
+
+if grep '#define.*APR_IS_DEV_VERSION' ${dirname}/include/apr_version.h > /dev/null; then
+  echo "ERROR: apr_version.h still defines a development version. This"
+  echo "       script can only produce formal releases."
+  exit 1
+fi
+
 echo "Eliminating unwanted files (e.g. .cvsignore) and generating initial"
 echo "files via buildconf ..."
 echo ""
