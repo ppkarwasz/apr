@@ -83,7 +83,7 @@ find $dirname -name .cvsignore | xargs rm -f
 find $dirname -name autom4te.cache | xargs rm -rf
 rm -f $dirnme/STATUS
 
-# (cd ${dirname} && ./buildconf) || exit 1
+(cd ${dirname} && ./buildconf) || exit 1
 
 echo $split
 echo ""
