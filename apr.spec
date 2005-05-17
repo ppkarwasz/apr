@@ -3,7 +3,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.6
-Release: 2
+Release: 3
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -12,9 +12,9 @@ Patch3: apr-0.9.3-noipv6.patch
 Patch4: apr-0.9.4-trimlibs.patch
 Patch6: apr-0.9.4-tests.patch
 Patch10: apr-0.9.4-cflags.patch
-Patch16: apr-0.9.4-mutextype.patch
 Patch18: apr-0.9.4-stacksize.patch
 Patch21: apr-0.9.4-lp64psem.patch
+Patch22: apr-0.9.4-attrerror.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -46,6 +46,7 @@ C data structures and routines.
 %patch10 -p1 -b .cflags
 %patch18 -p1 -b .stacksize
 %patch21 -p1 -b .lp64psem
+%patch22 -p1 -b .attrerror
 
 %build
 # regenerate configure script etc.
@@ -118,6 +119,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Tue May 17 2005 Joe Orton <jorton@redhat.com> 0.9.6-3
+- fix apr_procattr_child_*_set error handling
+
 * Tue Mar  1 2005 Joe Orton <jorton@redhat.com> 0.9.6-2
 - have apr-devel depend on specific version of gcc
 - add NOTICE to docdir
