@@ -3,7 +3,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.6
-Release: 3
+Release: 4
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -119,6 +119,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Mon Jul 11 2005 Florian La Roche <laroche@redhat.com>
+- rebuild
+
 * Tue May 17 2005 Joe Orton <jorton@redhat.com> 0.9.6-3
 - fix apr_procattr_child_*_set error handling
 
