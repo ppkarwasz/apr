@@ -3,7 +3,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.6
-Release: 4
+Release: 5
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -15,6 +15,9 @@ Patch10: apr-0.9.4-cflags.patch
 Patch18: apr-0.9.4-stacksize.patch
 Patch21: apr-0.9.4-lp64psem.patch
 Patch22: apr-0.9.4-attrerror.patch
+Patch23: apr-0.9.6-readdir64.patch
+Patch24: apr-0.9.6-uidgid.patch
+Patch25: apr-0.9.6-flushbufs.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -47,6 +50,9 @@ C data structures and routines.
 %patch18 -p1 -b .stacksize
 %patch21 -p1 -b .lp64psem
 %patch22 -p1 -b .attrerror
+%patch23 -p1 -b .readdir64
+%patch24 -p1 -b .uidgid
+%patch25 -p1 -b .flushbufs
 
 %build
 # regenerate configure script etc.
@@ -119,6 +125,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Fri Sep  9 2005 Joe Orton <jorton@redhat.com> 0.9.6-5
+- add from 0.9.x branch:
+ * fix for apr_{uid,gid}_* error handling (r239592)
+ * fix for apr_file_ write flushing (r267192)
+- add backport for use of readdir64_r (r265032, r265681, r265684)
+
 * Mon Jul 11 2005 Florian La Roche <laroche@redhat.com>
 - rebuild
 
