@@ -3,7 +3,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.6
-Release: 5
+Release: 6
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -62,7 +62,7 @@ C data structures and routines.
         --with-installbuilddir=%{_libdir}/apr/build \
         --with-devrandom=/dev/urandom \
         CC=gcc CXX=g++
-make %{?_smp_mflags} CFLAGS=-Wall && make dox
+make %{?_smp_mflags} && make dox
 
 %check
 # Run non-interactive tests
@@ -125,6 +125,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Thu Sep 15 2005 Joe Orton <jorton@redhat.com> 0.9.6-6
+- don't override CFLAGS at build time
+
 * Fri Sep  9 2005 Joe Orton <jorton@redhat.com> 0.9.6-5
 - add from 0.9.x branch:
  * fix for apr_{uid,gid}_* error handling (r239592)
