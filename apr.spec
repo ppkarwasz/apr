@@ -18,6 +18,8 @@ Patch22: apr-0.9.4-attrerror.patch
 Patch23: apr-0.9.6-readdir64.patch
 Patch24: apr-0.9.6-uidgid.patch
 Patch25: apr-0.9.6-flushbufs.patch
+Patch26: apr-0.9.6-tcpopts.patch
+Patch27: apr-0.9.6-procexit.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -53,6 +55,8 @@ C data structures and routines.
 %patch23 -p1 -b .readdir64
 %patch24 -p1 -b .uidgid
 %patch25 -p1 -b .flushbufs
+%patch26 -p1 -b .tcpopts
+%patch27 -p1 -b .procexit
 
 %build
 # regenerate configure script etc.
@@ -127,6 +131,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Thu Sep 15 2005 Joe Orton <jorton@redhat.com> 0.9.6-6
 - don't override CFLAGS at build time
+- allow setting TCP_NODELAY and TCP_CORK concurrently
+- use _exit() not exit() in child if exec*() fails (upstream #30913)
 
 * Fri Sep  9 2005 Joe Orton <jorton@redhat.com> 0.9.6-5
 - add from 0.9.x branch:
