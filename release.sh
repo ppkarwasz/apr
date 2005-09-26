@@ -118,7 +118,7 @@ fi
 
 echo $split
 echo ""
-echo "Building the tarball, .gz, .bz2, and files ..."
+echo "Building the tarball, .gz and .bz2 files ..."
 echo ""
 
 tar cf ${dirname}.tar ${dirname}
