@@ -14,8 +14,8 @@
 #   The SIGNING-USER is an optional name of the key that you'll be signing the
 #   release with.
 #
-#   The APR-SOURCE is an optional path to the local APR source directory required
-#   for apr-util's buildconf to find the required files.
+#   The APR-SOURCE is an optional path to the local APR source directory 
+#   required for apr-util's buildconf to find the required files.
 #
 #
 #   This script will run the appropriate commands to prepare and construct the
@@ -77,13 +77,15 @@ echo ""
 echo "Starting SVN export of ${repos_name} to $dirname ..."
 echo ""
 
-#cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic export -r ${TAG} -d ${dirname} ${repos_name} > /dev/null || exit 1
-svn export http://svn.apache.org/repos/asf/apr/${repos_name}/tags/${TAG} ${dirname}
+svn export http://svn.apache.org/repos/asf/apr/${repos_name}/tags/${TAG} \
+           ${dirname}
 echo $split
 echo ""
 echo "Starting SVN export of ${repos_name} to ${dirname}-win32 ..."
 echo ""
-svn export --native-eol CRLF http://svn.apache.org/repos/asf/apr/${repos_name}/tags/${TAG} ${dirname}-win32
+svn export --native-eol CRLF \
+           http://svn.apache.org/repos/asf/apr/${repos_name}/tags/${TAG} \
+           ${dirname}-win32
 
 echo $split
 echo ""
@@ -116,17 +118,17 @@ fi
 
 echo $split
 echo ""
-echo "Building the tarball, .gz, .bz2, and .Z files ..."
+echo "Building the tarball, .gz, .bz2, and files ..."
 echo ""
 
 tar cf ${dirname}.tar ${dirname}
 gzip -9 --to-stdout ${dirname}.tar > ${dirname}.tar.gz
 bzip2 -9 -c ${dirname}.tar > ${dirname}.tar.bz2
-compress ${dirname}.tar
+rm ${dirname}.tar
 
 echo $split
 echo ""
-echo "Building the Windows Zip file ..."
+echo "Building the windows zip file ..."
 echo ""
 mv ${dirname} ${dirname}-unix
 mv ${dirname}-win32 ${dirname}
@@ -143,7 +145,7 @@ echo ""
 rm -rf ${dirname}
 rm -rf ${dirname}-win32
 
-ARCH_FORMATS="tar.gz tar.bz2 tar.Z zip"
+ARCH_FORMATS="tar.gz tar.bz2 zip"
 
 if test -x "`which pgp 2> /dev/null`"; then
   if test -n "$SIGNING_USER"; then
