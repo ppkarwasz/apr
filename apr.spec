@@ -3,7 +3,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.6
-Release: 6
+Release: 7
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -129,6 +129,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Fri Sep 30 2005 Florian La Roche <laroche@redhat.com>
+- rebuild for new gcc
+
 * Thu Sep 15 2005 Joe Orton <jorton@redhat.com> 0.9.6-6
 - don't override CFLAGS at build time
 - allow setting TCP_NODELAY and TCP_CORK concurrently
