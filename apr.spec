@@ -2,8 +2,8 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 0.9.6
-Release: 7
+Version: 0.9.7
+Release: 2
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -14,10 +14,7 @@ Patch6: apr-0.9.4-tests.patch
 Patch10: apr-0.9.4-cflags.patch
 Patch18: apr-0.9.4-stacksize.patch
 Patch21: apr-0.9.4-lp64psem.patch
-Patch22: apr-0.9.4-attrerror.patch
 Patch23: apr-0.9.6-readdir64.patch
-Patch24: apr-0.9.6-uidgid.patch
-Patch25: apr-0.9.6-flushbufs.patch
 Patch26: apr-0.9.6-tcpopts.patch
 Patch27: apr-0.9.6-procexit.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -51,10 +48,7 @@ C data structures and routines.
 %patch10 -p1 -b .cflags
 %patch18 -p1 -b .stacksize
 %patch21 -p1 -b .lp64psem
-%patch22 -p1 -b .attrerror
 %patch23 -p1 -b .readdir64
-%patch24 -p1 -b .uidgid
-%patch25 -p1 -b .flushbufs
 %patch26 -p1 -b .tcpopts
 %patch27 -p1 -b .procexit
 
@@ -129,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Thu Oct 20 2005 Joe Orton <jorton@redhat.com> 0.9.7-2
+- update to 0.9.7
+
 * Fri Sep 30 2005 Florian La Roche <laroche@redhat.com>
 - rebuild for new gcc
 
