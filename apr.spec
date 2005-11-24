@@ -3,7 +3,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.7
-Release: 2
+Release: 3
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -17,6 +17,7 @@ Patch21: apr-0.9.4-lp64psem.patch
 Patch23: apr-0.9.6-readdir64.patch
 Patch26: apr-0.9.6-tcpopts.patch
 Patch27: apr-0.9.6-procexit.patch
+Patch28: apr-0.9.7-deepbind.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -51,6 +52,7 @@ C data structures and routines.
 %patch23 -p1 -b .readdir64
 %patch26 -p1 -b .tcpopts
 %patch27 -p1 -b .procexit
+%patch28 -p1 -b .deepbind
 
 %build
 # regenerate configure script etc.
@@ -123,6 +125,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Thu Nov 24 2005 Joe Orton <jorton@redhat.com> 0.9.7-3
+- use RTLD_DEEPBIND in apr_dso_open by default
+
 * Thu Oct 20 2005 Joe Orton <jorton@redhat.com> 0.9.7-2
 - update to 0.9.7
 
