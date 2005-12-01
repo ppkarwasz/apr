@@ -3,7 +3,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 0.9.7
-Release: 3
+Release: 4
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -125,6 +125,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Wed Nov 30 2005 Warren Togami <wtogami@redhat.com> 0.9.7-4
+- rebuild against gcc-4.1.0
+
 * Thu Nov 24 2005 Joe Orton <jorton@redhat.com> 0.9.7-3
 - use RTLD_DEEPBIND in apr_dso_open by default
 
