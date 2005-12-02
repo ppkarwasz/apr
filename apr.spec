@@ -55,11 +55,15 @@ C data structures and routines.
 make %{?_smp_mflags} && make dox
 
 %check
-# Run non-interactive tests
+%ifnarch s390 ppc
+# Run non-interactive tests.  Skip on platforms which several
+# builds might be run concurrently since the test suite binds
+# to fixed port numbers in a few places.
 pushd test
 make %{?_smp_mflags} testall
 ./testall -v -q || exit 1
 popd
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
