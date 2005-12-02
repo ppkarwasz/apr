@@ -1,23 +1,17 @@
-%define aprver 0
+%define aprver 1
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 0.9.7
-Release: 4
+Version: 1.2.2
+Release: 1
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
 Source0: %{name}-%{version}.tar.gz
-Patch3: apr-0.9.3-noipv6.patch
-Patch4: apr-0.9.4-trimlibs.patch
-Patch6: apr-0.9.4-tests.patch
-Patch10: apr-0.9.4-cflags.patch
-Patch18: apr-0.9.4-stacksize.patch
-Patch21: apr-0.9.4-lp64psem.patch
-Patch23: apr-0.9.6-readdir64.patch
-Patch26: apr-0.9.6-tcpopts.patch
-Patch27: apr-0.9.6-procexit.patch
-Patch28: apr-0.9.7-deepbind.patch
+Patch1: apr-0.9.6-readdir64.patch
+Patch2: apr-0.9.6-procexit.patch
+Patch3: apr-0.9.7-deepbind.patch
+Patch4: apr-1.2.2-chdirwarn.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -43,23 +37,17 @@ C data structures and routines.
 
 %prep
 %setup -q
-%patch3 -p1 -b .noipv6
-%patch4 -p1 -b .trimlibs
-%patch6 -p1 -b .tests
-%patch10 -p1 -b .cflags
-%patch18 -p1 -b .stacksize
-%patch21 -p1 -b .lp64psem
-%patch23 -p1 -b .readdir64
-%patch26 -p1 -b .tcpopts
-%patch27 -p1 -b .procexit
-%patch28 -p1 -b .deepbind
+%patch1 -p1 -b .readdir64
+%patch2 -p1 -b .procexit
+%patch3 -p1 -b .deepbind
+%patch4 -p1 -b .chdirwarn
 
 %build
 # regenerate configure script etc.
 ./buildconf
 %configure \
         --includedir=%{_includedir}/apr-%{aprver} \
-        --with-installbuilddir=%{_libdir}/apr/build \
+        --with-installbuilddir=%{_libdir}/apr-%{aprver}/build \
         --with-devrandom=/dev/urandom \
         CC=gcc CXX=g++
 make %{?_smp_mflags} && make dox
@@ -67,30 +55,13 @@ make %{?_smp_mflags} && make dox
 %check
 # Run non-interactive tests
 pushd test
-make %{?_smp_mflags} testall CFLAGS=-fno-strict-aliasing
-TZ=PST8PDT ./testall -v || exit 1
+make %{?_smp_mflags} testall
+./testall -v -q || exit 1
 popd
 
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-
-# These are referenced by apr_rules.mk
-for f in make_exports.awk make_var_export.awk; do
-    install -m 644 build/${f} $RPM_BUILD_ROOT%{_libdir}/apr/build/${f}
-done
-
-install -m 755 build/mkdir.sh $RPM_BUILD_ROOT%{_libdir}/apr/build/mkdir.sh
-
-# fix apr-config to point at the install "srcdir" (fixed properly in 1.0.0)
-sed -i -e "s,^\(APR_.*_DIR\)=.*$,\1=%{_libdir}/apr," \
-    $RPM_BUILD_ROOT%{_bindir}/apr-config
-
-# Sanitize apr_rules.mk
-sed -e "/^apr_build/d" \
-    -e 's|$(apr_builders)|%{_libdir}/apr/build|g' \
-    -e 's|$(apr_builddir)|%{_libdir}/apr/build|g' \
-    < build/apr_rules.mk > $RPM_BUILD_ROOT%{_libdir}/apr/build/apr_rules.mk
 
 # Move docs to more convenient location
 mv docs/dox/html html
@@ -115,16 +86,20 @@ rm -rf $RPM_BUILD_ROOT
 %doc docs/APRDesign.html docs/canonical_filenames.html
 %doc docs/incomplete_types docs/non_apr_programs
 %doc --parents html
-%{_bindir}/apr-config
+%{_bindir}/apr-%{aprver}-config
 %{_libdir}/libapr-%{aprver}.*a
 %{_libdir}/libapr-%{aprver}.so
-%dir %{_libdir}/apr
-%dir %{_libdir}/apr/build
-%{_libdir}/apr/build/*
+%{_libdir}/pkgconfig/*.pc
+%dir %{_libdir}/apr-%{aprver}
+%dir %{_libdir}/apr-%{aprver}/build
+%{_libdir}/apr-%{aprver}/build/*
 %dir %{_includedir}/apr-%{aprver}
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Fri Dec  2 2005 Joe Orton <jorton@redhat.com> 1.2.2-1
+- update to 1.2.2
+
 * Wed Nov 30 2005 Warren Togami <wtogami@redhat.com> 0.9.7-4
 - rebuild against gcc-4.1.0
 
