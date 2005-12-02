@@ -12,6 +12,7 @@ Patch1: apr-0.9.6-readdir64.patch
 Patch2: apr-0.9.6-procexit.patch
 Patch3: apr-0.9.7-deepbind.patch
 Patch4: apr-1.2.2-chdirwarn.patch
+Patch5: apr-1.2.2-reuseaddr.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -41,6 +42,7 @@ C data structures and routines.
 %patch2 -p1 -b .procexit
 %patch3 -p1 -b .deepbind
 %patch4 -p1 -b .chdirwarn
+%patch5 -p1 -b .reuseaddr
 
 %build
 # regenerate configure script etc.
