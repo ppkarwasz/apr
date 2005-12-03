@@ -108,9 +108,6 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Dec  2 2005 Joe Orton <jorton@redhat.com> 1.2.2-1
 - update to 1.2.2
 
-* Wed Nov 30 2005 Warren Togami <wtogami@redhat.com> 0.9.7-4
-- rebuild against gcc-4.1.0
-
 * Thu Nov 24 2005 Joe Orton <jorton@redhat.com> 0.9.7-3
 - use RTLD_DEEPBIND in apr_dso_open by default
 
