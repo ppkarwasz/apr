@@ -3,7 +3,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.2
-Release: 1
+Release: 2
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -14,6 +14,7 @@ Patch3: apr-0.9.7-deepbind.patch
 Patch4: apr-1.2.2-chdirwarn.patch
 Patch5: apr-1.2.2-reuseaddr.patch
 Patch6: apr-1.2.2-locktimeout.patch
+Patch7: apr-1.2.2-libdir.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -45,10 +46,16 @@ C data structures and routines.
 %patch4 -p1 -b .chdirwarn
 %patch5 -p1 -b .reuseaddr
 %patch6 -p1 -b .locktimeout
+%patch7 -p1 -b .libdir
 
 %build
 # regenerate configure script etc.
 ./buildconf
+
+# Forcibly prevent detection of shm_open (which then picks up but
+# does not use -lrt).
+export ac_cv_search_shm_open=no
+
 %configure \
         --includedir=%{_includedir}/apr-%{aprver} \
         --with-installbuilddir=%{_libdir}/apr-%{aprver}/build \
@@ -73,6 +80,10 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 # Move docs to more convenient location
 mv docs/dox/html html
+
+# Trim exported dependecies
+sed -ri '/^dependency_libs/{s,-l(uuid|crypt) ,,g}' \
+      $RPM_BUILD_ROOT%{_libdir}/libapr*.la
 
 # Unpackaged files:
 rm -f $RPM_BUILD_ROOT%{_libdir}/apr.exp
@@ -105,6 +116,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Tue Dec  6 2005 Joe Orton <jorton@redhat.com> 1.2.2-2
+- avoid linking against -lrt
+- don't print -L${libdir} in --libs output
+- don't export -lcrypt/-luuid in .la file
+
 * Fri Dec  2 2005 Joe Orton <jorton@redhat.com> 1.2.2-1
 - update to 1.2.2
 
