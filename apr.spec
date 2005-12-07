@@ -3,7 +3,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.2
-Release: 2
+Release: 3
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -84,6 +84,8 @@ mv docs/dox/html html
 # Trim exported dependecies
 sed -ri '/^dependency_libs/{s,-l(uuid|crypt) ,,g}' \
       $RPM_BUILD_ROOT%{_libdir}/libapr*.la
+sed -ri '/^LIBS=/{s,-l(uuid|crypt) ,,g;s/  */ /g}' \
+      $RPM_BUILD_ROOT%{_bindir}/apr-%{aprver}-config
 
 # Unpackaged files:
 rm -f $RPM_BUILD_ROOT%{_libdir}/apr.exp
@@ -116,6 +118,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Wed Dec  7 2005 Joe Orton <jorton@redhat.com> 1.2.2-3
+- apr-1-config: strip more exports (#175124) 
+
 * Tue Dec  6 2005 Joe Orton <jorton@redhat.com> 1.2.2-2
 - avoid linking against -lrt
 - don't print -L${libdir} in --libs output
