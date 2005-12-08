@@ -3,7 +3,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.2
-Release: 3
+Release: 4
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -15,6 +15,7 @@ Patch4: apr-1.2.2-chdirwarn.patch
 Patch5: apr-1.2.2-reuseaddr.patch
 Patch6: apr-1.2.2-locktimeout.patch
 Patch7: apr-1.2.2-libdir.patch
+Patch8: apr-1.2.2-seekflush.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -47,6 +48,7 @@ C data structures and routines.
 %patch5 -p1 -b .reuseaddr
 %patch6 -p1 -b .locktimeout
 %patch7 -p1 -b .libdir
+%patch8 -p1 -b .seekflush
 
 %build
 # regenerate configure script etc.
@@ -118,6 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Thu Dec  8 2005 Joe Orton <jorton@redhat.com> 1.2.2-4
+- add apr_file_seek() fixes from upstream (r326593, r326597)
+
 * Wed Dec  7 2005 Joe Orton <jorton@redhat.com> 1.2.2-3
 - apr-1-config: strip more exports (#175124) 
 
