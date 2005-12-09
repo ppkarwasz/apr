@@ -3,7 +3,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.2
-Release: 5
+Release: 5.1
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -120,6 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
+- rebuilt
+
 * Fri Dec  9 2005 Joe Orton <jorton@redhat.com> 1.2.2-5
 - rebuild for new gcc
 
