@@ -3,7 +3,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.2
-Release: 5.2
+Release: 6
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -16,6 +16,7 @@ Patch5: apr-1.2.2-reuseaddr.patch
 Patch6: apr-1.2.2-locktimeout.patch
 Patch7: apr-1.2.2-libdir.patch
 Patch8: apr-1.2.2-seekflush.patch
+Patch9: apr-1.2.2-pthreadprio.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -49,6 +50,7 @@ C data structures and routines.
 %patch6 -p1 -b .locktimeout
 %patch7 -p1 -b .libdir
 %patch8 -p1 -b .seekflush
+%patch9 -p1 -b .pthreadprio
 
 %build
 # regenerate configure script etc.
@@ -120,6 +122,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Wed Jan  4 2006 Joe Orton <jorton@redhat.com> 1.2.2-6
+- fix build with recent glibc (#176911)
+
 * Tue Jan  3 2006 Jesse Keating <jkeating@redhat.com> 1.2.2-5.2
 - rebuilt again
 
