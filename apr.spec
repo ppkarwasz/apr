@@ -16,7 +16,6 @@ Patch5: apr-1.2.2-reuseaddr.patch
 Patch6: apr-1.2.2-locktimeout.patch
 Patch7: apr-1.2.2-libdir.patch
 Patch8: apr-1.2.2-seekflush.patch
-Patch9: apr-1.2.2-pthreadprio.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -50,7 +49,6 @@ C data structures and routines.
 %patch6 -p1 -b .locktimeout
 %patch7 -p1 -b .libdir
 %patch8 -p1 -b .seekflush
-%patch9 -p1 -b .pthreadprio
 
 %build
 # regenerate configure script etc.
@@ -59,6 +57,11 @@ C data structures and routines.
 # Forcibly prevent detection of shm_open (which then picks up but
 # does not use -lrt).
 export ac_cv_search_shm_open=no
+
+# Forcibly prevent detection of pthread_mutexattr_setrobust_np,
+# which doesn't seem to work.
+export ac_cv_pthread_mutexattr_setrobust_np=no
+export apr_cv_setrobust_with_prio_inherit=no
 
 %configure \
         --includedir=%{_includedir}/apr-%{aprver} \
