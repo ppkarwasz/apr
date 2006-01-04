@@ -60,7 +60,7 @@ export ac_cv_search_shm_open=no
 
 # Forcibly prevent detection of pthread_mutexattr_setrobust_np,
 # which doesn't seem to work.
-export ac_cv_pthread_mutexattr_setrobust_np=no
+export ac_cv_func_pthread_mutexattr_setrobust_np=no
 export apr_cv_setrobust_with_prio_inherit=no
 
 %configure \
