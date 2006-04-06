@@ -2,21 +2,16 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.2.2
-Release: 7.2
+Version: 1.2.6
+Release: 2
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
 Source0: %{name}-%{version}.tar.gz
 Patch1: apr-0.9.6-readdir64.patch
-Patch2: apr-0.9.6-procexit.patch
 Patch3: apr-0.9.7-deepbind.patch
-Patch4: apr-1.2.2-chdirwarn.patch
-Patch5: apr-1.2.2-reuseaddr.patch
 Patch6: apr-1.2.2-locktimeout.patch
 Patch7: apr-1.2.2-libdir.patch
-Patch8: apr-1.2.2-seekflush.patch
-Patch9: apr-1.2.2-random.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -43,14 +38,9 @@ C data structures and routines.
 %prep
 %setup -q
 %patch1 -p1 -b .readdir64
-%patch2 -p1 -b .procexit
 %patch3 -p1 -b .deepbind
-%patch4 -p1 -b .chdirwarn
-%patch5 -p1 -b .reuseaddr
 %patch6 -p1 -b .locktimeout
 %patch7 -p1 -b .libdir
-%patch8 -p1 -b .seekflush
-%patch9 -p1 -b .random
 
 %build
 # regenerate configure script etc.
@@ -59,11 +49,6 @@ C data structures and routines.
 # Forcibly prevent detection of shm_open (which then picks up but
 # does not use -lrt).
 export ac_cv_search_shm_open=no
-
-# Forcibly prevent detection of pthread_mutexattr_setrobust_np,
-# which doesn't seem to work.
-export ac_cv_func_pthread_mutexattr_setrobust_np=no
-export apr_cv_setrobust_with_prio_inherit=no
 
 %configure \
         --includedir=%{_includedir}/apr-%{aprver} \
@@ -127,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Thu Apr  6 2006 Joe Orton <jorton@redhat.com> 1.2.6-2
+- update to 1.2.6
+
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 1.2.2-7.2
 - bump again for double-long bug on ppc(64)
 
