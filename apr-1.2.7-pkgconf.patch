@@ -29,7 +29,7 @@ installed in parallel.
  includedir="@includedir@"
  
 +libdir=`pkg-config --variable=libdir apr-@APR_MAJOR_VERSION@`
-+installbuilddir="${libdir}/build"
++installbuilddir="${libdir}/apr/build"
 +
  CC="@CC@"
  CPP="@CPP@"

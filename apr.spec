@@ -3,7 +3,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.7
-Release: 2
+Release: 3
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -114,6 +114,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Tue May  2 2006 Joe Orton <jorton@redhat.com> 1.2.7-3
+- fix installbuilddir in apr-1-config
+
 * Tue May  2 2006 Joe Orton <jorton@redhat.com> 1.2.7-2
 - update to 1.2.7
 - use pkg-config in apr-1-config to make it libdir-agnostic
