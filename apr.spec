@@ -2,16 +2,17 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.2.6
+Version: 1.2.7
 Release: 2
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
 Source0: %{name}-%{version}.tar.gz
 Patch1: apr-0.9.6-readdir64.patch
-Patch3: apr-0.9.7-deepbind.patch
-Patch6: apr-1.2.2-locktimeout.patch
-Patch7: apr-1.2.2-libdir.patch
+Patch2: apr-0.9.7-deepbind.patch
+Patch3: apr-1.2.2-locktimeout.patch
+Patch4: apr-1.2.2-libdir.patch
+Patch5: apr-1.2.7-pkgconf.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen
 Conflicts: subversion < 0.20.1-2
@@ -26,7 +27,7 @@ including Unices, MS Win32, BeOS and OS/2.
 Group: Development/Libraries
 Summary: APR library development kit
 Conflicts: subversion-devel < 0.20.1-2
-Requires: apr = %{version}-%{release}, gcc = %(gcc -dumpversion)
+Requires: apr = %{version}-%{release}, gcc = %(gcc -dumpversion), pkgconfig
 # shipped libtool hard-codes paths to gcc libraries in versioned dir
 
 %description devel
@@ -38,9 +39,10 @@ C data structures and routines.
 %prep
 %setup -q
 %patch1 -p1 -b .readdir64
-%patch3 -p1 -b .deepbind
-%patch6 -p1 -b .locktimeout
-%patch7 -p1 -b .libdir
+%patch2 -p1 -b .deepbind
+%patch3 -p1 -b .locktimeout
+%patch4 -p1 -b .libdir
+%patch5 -p1 -b .pkgconf
 
 %build
 # regenerate configure script etc.
@@ -112,6 +114,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Tue May  2 2006 Joe Orton <jorton@redhat.com> 1.2.7-2
+- update to 1.2.7
+- use pkg-config in apr-1-config to make it libdir-agnostic
+
 * Thu Apr  6 2006 Joe Orton <jorton@redhat.com> 1.2.6-2
 - update to 1.2.6
 

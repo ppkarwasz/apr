@@ -1,0 +1,36 @@
+
+This is a fugly hack to make apr-1-config libdir-agnostic, by using
+pkg-config to determine the libdir setting.  pkg-config will
+magically determine the appropriate libdir setting.
+
+This allows apr-devel.i386 and apr-devel.x86_64 to be 
+installed in parallel.
+
+--- apr-1.2.7/Makefile.in.pkgconf
++++ apr-1.2.7/Makefile.in
+@@ -60,7 +60,7 @@
+ 
+ # Create apr-config script suitable for the install tree
+ apr-config.out: $(APR_CONFIG)
+-	sed 's,^\(location=\).*$$,\1installed,' < $(APR_CONFIG) > $@
++	sed 's,^\(location=\).*$$,\1installed,;s,^\(APR_.*_DIR\)=.*,\1="$${libdir}/build",' < $(APR_CONFIG) > $@
+ 
+ # Create apr_rules.mk suitable for the install tree
+ build/apr_rules.out: build/apr_rules.mk
+--- apr-1.2.7/apr-config.in.pkgconf
++++ apr-1.2.7/apr-config.in
+@@ -24,11 +24,12 @@
+ prefix="@prefix@"
+ exec_prefix="@exec_prefix@"
+ bindir="@bindir@"
+-libdir="@libdir@"
+ datadir="@datadir@"
+-installbuilddir="@installbuilddir@"
+ includedir="@includedir@"
+ 
++libdir=`pkg-config --variable=libdir apr-@APR_MAJOR_VERSION@`
++installbuilddir="${libdir}/build"
++
+ CC="@CC@"
+ CPP="@CPP@"
+ SHELL="@SHELL@"
