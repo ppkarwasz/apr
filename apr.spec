@@ -1,13 +1,17 @@
 %define aprver 1
 
+# Arches on which the multilib apr.h hack is needed:
+%define multilib_arches %{ix86} ia64 ppc ppc64 s390 s390x x86_64
+
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.7
-Release: 3
+Release: 3.1
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
 Source0: %{name}-%{version}.tar.gz
+Source1: apr-wrapper.h
 Patch1: apr-0.9.6-readdir64.patch
 Patch2: apr-0.9.7-deepbind.patch
 Patch3: apr-1.2.2-locktimeout.patch
@@ -83,6 +87,14 @@ sed -ri '/^dependency_libs/{s,-l(uuid|crypt) ,,g}' \
 sed -ri '/^LIBS=/{s,-l(uuid|crypt) ,,g;s/  */ /g}' \
       $RPM_BUILD_ROOT%{_bindir}/apr-%{aprver}-config
 
+%ifarch %{multilib_arches}
+# Ugly hack to allow parallel installation of 32-bit and 64-bit apr-devel 
+# packages:
+mv $RPM_BUILD_ROOT%{_includedir}/apr-%{aprver}/apr.h \
+   $RPM_BUILD_ROOT%{_includedir}/apr-%{aprver}/apr-%{_arch}.h
+install -c -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_includedir}/apr-%{aprver}/apr.h
+%endif
+
 # Unpackaged files:
 rm -f $RPM_BUILD_ROOT%{_libdir}/apr.exp
 
@@ -114,6 +126,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Mon May  8 2006 Joe Orton <jorton@redhat.com> 1.2.7-3.1
+- use multilib parallel-installation wrapper hack for apr.h
+
 * Tue May  2 2006 Joe Orton <jorton@redhat.com> 1.2.7-3
 - fix installbuilddir in apr-1-config
 
