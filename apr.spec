@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.7
-Release: 3.1
+Release: 4
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -126,7 +126,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
-* Mon May  8 2006 Joe Orton <jorton@redhat.com> 1.2.7-3.1
+* Mon May  8 2006 Joe Orton <jorton@redhat.com> 1.2.7-4
 - use multilib parallel-installation wrapper hack for apr.h
 
 * Tue May  2 2006 Joe Orton <jorton@redhat.com> 1.2.7-3
