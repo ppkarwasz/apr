@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.7
-Release: 4
+Release: 5
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -18,7 +18,7 @@ Patch3: apr-1.2.2-locktimeout.patch
 Patch4: apr-1.2.2-libdir.patch
 Patch5: apr-1.2.7-pkgconf.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildPrereq: autoconf, libtool, doxygen
+BuildPrereq: autoconf, libtool, doxygen, e2fsprogs-devel
 Conflicts: subversion < 0.20.1-2
 
 %description
@@ -126,6 +126,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Tue May 16 2006 Joe Orton <jorton@redhat.com> 1.2.7-5
+- BR e2fsprogs-devel for libuuid
+
 * Mon May  8 2006 Joe Orton <jorton@redhat.com> 1.2.7-4
 - use multilib parallel-installation wrapper hack for apr.h
 
