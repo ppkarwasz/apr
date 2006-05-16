@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.7
-Release: 5
+Release: 6
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -126,7 +126,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
-* Tue May 16 2006 Joe Orton <jorton@redhat.com> 1.2.7-5
+* Tue May 16 2006 Joe Orton <jorton@redhat.com> 1.2.7-6
 - BR e2fsprogs-devel for libuuid
 
 * Mon May  8 2006 Joe Orton <jorton@redhat.com> 1.2.7-4
