@@ -17,9 +17,23 @@ installed in parallel.
  
  # Create apr_rules.mk suitable for the install tree
  build/apr_rules.out: build/apr_rules.mk
+--- apr-1.2.7/apr.pc.in.pkgconf
++++ apr-1.2.7/apr.pc.in
+@@ -3,9 +3,10 @@
+ libdir=@libdir@
+ APR_MAJOR_VERSION=@APR_MAJOR_VERSION@
+ includedir=@includedir@
++CPPFLAGS=@EXTRA_CPPFLAGS@
+ 
+ Name: APR
+ Description: The Apache Portable Runtime library
+ Version: @APR_DOTTED_VERSION@
+ Libs: -L${libdir} -l@APR_LIBNAME@ @EXTRA_LIBS@
+-Cflags: @EXTRA_CPPFLAGS@ @EXTRA_CFLAGS@ -I${includedir}
++Cflags: ${CPPFLAGS} @EXTRA_CFLAGS@ -I${includedir}
 --- apr-1.2.7/apr-config.in.pkgconf
 +++ apr-1.2.7/apr-config.in
-@@ -24,11 +24,12 @@
+@@ -24,15 +24,16 @@
  prefix="@prefix@"
  exec_prefix="@exec_prefix@"
  bindir="@bindir@"
@@ -34,3 +48,8 @@ installed in parallel.
  CC="@CC@"
  CPP="@CPP@"
  SHELL="@SHELL@"
+-CPPFLAGS="@EXTRA_CPPFLAGS@"
++CPPFLAGS=`pkg-config --variable=CPPFLAGS apr-@APR_MAJOR_VERSION@`
+ CFLAGS="@EXTRA_CFLAGS@"
+ LDFLAGS="@EXTRA_LDFLAGS@"
+ LIBS="@EXTRA_LIBS@"
