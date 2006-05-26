@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.7
-Release: 7
+Release: 8
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -126,6 +126,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Fri May 26 2006 Jakub Jelinek <jakub@redhat.com> 1.2.7-8
+- rebuilt with GCC 4.1.0
+
 * Tue May 23 2006 Joe Orton <jorton@redhat.com> 1.2.7-7
 - fix another multilib conflict (#192659)
 
