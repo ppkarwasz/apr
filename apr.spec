@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.7
-Release: 9
+Release: 9.1
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -128,6 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - sh: gcc: command not found
+- rebuild
+
 * Mon Jun 19 2006 Joe Orton <jorton@redhat.com> 1.2.7-9
 - add fix for use of %%pI with psprintf
 
