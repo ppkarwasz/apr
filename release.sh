@@ -28,6 +28,10 @@ if test "$#" != 2 && test "$#" != 3 && test "$#" != 4; then
   exit 1
 fi
 
+# This forces all exported releases to be on the same timezone
+# when SVN props are used inside files.
+TZ=UTC
+
 PROJECT=$1
 TAG=$2
 SIGNING_USER=$3
