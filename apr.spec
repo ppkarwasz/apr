@@ -33,7 +33,7 @@ including Unices, MS Win32, BeOS and OS/2.
 Group: Development/Libraries
 Summary: APR library development kit
 Conflicts: subversion-devel < 0.20.1-2
-Requires: apr = %{version}-%{release}, gcc = %(gcc -dumpversion), pkgconfig
+Requires: apr = %{version}-%{release}, gcc = %(gcc -dumpversion || echo 0.0.0), pkgconfig
 # shipped libtool hard-codes paths to gcc libraries in versioned dir
 
 %description devel
