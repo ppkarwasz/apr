@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.7
-Release: 9.1
+Release: 10
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -18,6 +18,7 @@ Patch3: apr-1.2.2-locktimeout.patch
 Patch4: apr-1.2.2-libdir.patch
 Patch5: apr-1.2.7-pkgconf.patch
 Patch6: apr-1.2.7-psprintfpi.patch
+Patch7: apr-1.2.7-ac260.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildPrereq: autoconf, libtool, doxygen, e2fsprogs-devel
 Conflicts: subversion < 0.20.1-2
@@ -49,6 +50,7 @@ C data structures and routines.
 %patch4 -p1 -b .libdir
 %patch5 -p1 -b .pkgconf
 %patch6 -p1 -b .psprintfpi
+%patch7 -p1 -b .ac260
 
 %build
 # regenerate configure script etc.
@@ -128,7 +130,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
-* Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - sh: gcc: command not found
+* Wed Jul 19 2006 Joe Orton <jorton@redhat.com> 1.2.7-10
+- fix buildconf with autoconf 2.60 (#199067)
+
+* Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> 1.2.7-9.1
 - rebuild
 
 * Mon Jun 19 2006 Joe Orton <jorton@redhat.com> 1.2.7-9

@@ -1,0 +1,38 @@
+
+Author: jorton
+Date: Wed Jul 19 04:07:31 2006
+New Revision: 423435
+
+URL: http://svn.apache.org/viewvc?rev=423435&view=rev
+Log:
+* build/apr_common.m4 (APR_CONFIG_NICE, APR_PARSE_ARGUMENTS): Fix to
+remove assumption that $@ is preserved forever - it never was in any
+autoconf release; autoconf 2.60 happens to overwrite it earlier.
+
+--- apr-1.2.7/build/apr_common.m4.ac260
++++ apr-1.2.7/build/apr_common.m4
+@@ -64,7 +64,12 @@
+     echo "NOTEST_LIBS=\"$NOTEST_LIBS\"; export NOTEST_LIBS" >> $1
+   fi
+ 
+-  for arg in [$]0 "[$]@"; do
++  # Retrieve command-line arguments.
++  eval "set x $[0] $ac_configure_args"
++  shift
++
++  for arg
++  do
+     APR_EXPAND_VAR(arg, $arg)
+     echo "\"[$]arg\" \\" >> $1
+   done
+@@ -800,6 +805,10 @@
+ dnl set ups.
+ AC_DEFUN(APR_PARSE_ARGUMENTS,[
+ ac_prev=
++# Retrieve the command-line arguments.  The eval is needed because
++# the arguments are quoted to preserve accuracy.
++eval "set x $ac_configure_args"
++shift
+ for ac_option
+ do
+   # If the previous option needs an argument, assign it.
