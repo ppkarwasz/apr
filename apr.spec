@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.8
-Release: 3
+Release: 4
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -19,7 +19,7 @@ Patch4: apr-1.2.2-libdir.patch
 Patch5: apr-1.2.7-pkgconf.patch
 Patch6: apr-1.2.7-psprintfpi.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildPrereq: autoconf, libtool, doxygen, e2fsprogs-devel
+BuildPrereq: autoconf, libtool, doxygen, e2fsprogs-devel, python
 Conflicts: subversion < 0.20.1-2
 
 %description
@@ -128,6 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Thu Feb 15 2007 Joe Orton <jorton@redhat.com> 1.2.8-4
+- add BR for python
+
 * Thu Feb 15 2007 Joe Orton <jorton@redhat.com> 1.2.8-3
 - update to pick up new libtool, drop specific gcc requirement
 
