@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.8
-Release: 2
+Release: 3
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -32,7 +32,7 @@ including Unices, MS Win32, BeOS and OS/2.
 Group: Development/Libraries
 Summary: APR library development kit
 Conflicts: subversion-devel < 0.20.1-2
-Requires: apr = %{version}-%{release}, gcc = %(gcc -dumpversion || echo 0.0.0), pkgconfig
+Requires: apr = %{version}-%{release}, pkgconfig
 # shipped libtool hard-codes paths to gcc libraries in versioned dir
 
 %description devel
@@ -128,6 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Thu Feb 15 2007 Joe Orton <jorton@redhat.com> 1.2.8-3
+- update to pick up new libtool, drop specific gcc requirement
+
 * Mon Dec  4 2006 Joe Orton <jorton@redhat.com> 1.2.8-2
 - update to 1.2.8
 
