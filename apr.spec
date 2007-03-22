@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.8
-Release: 4
+Release: 5
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -19,7 +19,7 @@ Patch4: apr-1.2.2-libdir.patch
 Patch5: apr-1.2.7-pkgconf.patch
 Patch6: apr-1.2.7-psprintfpi.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildPrereq: autoconf, libtool, doxygen, e2fsprogs-devel, python
+BuildPrereq: autoconf, libtool, e2fsprogs-devel, python
 Conflicts: subversion < 0.20.1-2
 
 %description
@@ -33,7 +33,6 @@ Group: Development/Libraries
 Summary: APR library development kit
 Conflicts: subversion-devel < 0.20.1-2
 Requires: apr = %{version}-%{release}, pkgconfig
-# shipped libtool hard-codes paths to gcc libraries in versioned dir
 
 %description devel
 This package provides the support files which can be used to 
@@ -63,7 +62,7 @@ export ac_cv_search_shm_open=no
         --with-installbuilddir=%{_libdir}/apr-%{aprver}/build \
         --with-devrandom=/dev/urandom \
         CC=gcc CXX=g++
-make %{?_smp_mflags} && make dox
+make %{?_smp_mflags}
 
 %check
 %ifnarch s390 ppc
@@ -79,9 +78,6 @@ popd
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-
-# Move docs to more convenient location
-mv docs/dox/html html
 
 # Trim exported dependecies
 sed -ri '/^dependency_libs/{s,-l(uuid|crypt) ,,g}' \
@@ -116,7 +112,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc docs/APRDesign.html docs/canonical_filenames.html
 %doc docs/incomplete_types docs/non_apr_programs
-%doc --parents html
 %{_bindir}/apr-%{aprver}-config
 %{_libdir}/libapr-%{aprver}.*a
 %{_libdir}/libapr-%{aprver}.so
@@ -128,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Thu Mar 22 2007 Joe Orton <jorton@redhat.com> 1.2.8-5
+- drop the doxygen documentation (which causes multilib conflicts)
+
 * Thu Feb 15 2007 Joe Orton <jorton@redhat.com> 1.2.8-4
 - add BR for python
 
