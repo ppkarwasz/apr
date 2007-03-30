@@ -6,11 +6,11 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.8
-Release: 5
+Release: 6
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
-Source0: %{name}-%{version}.tar.gz
+Source0: http://www.apache.org/dist/apr/%{name}-%{version}.tar.gz
 Source1: apr-wrapper.h
 Patch1: apr-0.9.6-readdir64.patch
 Patch2: apr-0.9.7-deepbind.patch
@@ -19,8 +19,7 @@ Patch4: apr-1.2.2-libdir.patch
 Patch5: apr-1.2.7-pkgconf.patch
 Patch6: apr-1.2.7-psprintfpi.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildPrereq: autoconf, libtool, e2fsprogs-devel, python
-Conflicts: subversion < 0.20.1-2
+BuildRequires: autoconf, libtool, e2fsprogs-devel, python
 
 %description
 The mission of the Apache Portable Runtime (APR) is to provide a
@@ -60,8 +59,7 @@ export ac_cv_search_shm_open=no
 %configure \
         --includedir=%{_includedir}/apr-%{aprver} \
         --with-installbuilddir=%{_libdir}/apr-%{aprver}/build \
-        --with-devrandom=/dev/urandom \
-        CC=gcc CXX=g++
+        --with-devrandom=/dev/urandom
 make %{?_smp_mflags}
 
 %check
@@ -94,7 +92,8 @@ install -c -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_includedir}/apr-%{aprver}/apr.h
 %endif
 
 # Unpackaged files:
-rm -f $RPM_BUILD_ROOT%{_libdir}/apr.exp
+rm -f $RPM_BUILD_ROOT%{_libdir}/apr.exp \
+      $RPM_BUILD_ROOT%{_libdir}/libapr-*.a
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -123,6 +122,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Fri Mar 30 2007 Joe Orton <jorton@redhat.com> 1.2.8-6
+- merge review (#225253): drop .a archive; drop use of CC/CXX,
+  use BuildRequires; drop old Conflicts; URL reference for Source
+
 * Thu Mar 22 2007 Joe Orton <jorton@redhat.com> 1.2.8-5
 - drop the doxygen documentation (which causes multilib conflicts)
 
