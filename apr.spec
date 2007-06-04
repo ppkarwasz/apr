@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.8
-Release: 6
+Release: 7
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -62,17 +62,6 @@ export ac_cv_search_shm_open=no
         --with-devrandom=/dev/urandom
 make %{?_smp_mflags}
 
-%check
-%ifnarch s390 ppc
-# Run non-interactive tests.  Skip on platforms which several
-# builds might be run concurrently since the test suite binds
-# to fixed port numbers in a few places.
-pushd test
-make %{?_smp_mflags} testall
-./testall -v -q || exit 1
-popd
-%endif
-
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
@@ -122,6 +111,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Mon Jun  4 2007 Joe Orton <jorton@redhat.com> 1.2.8-7
+- drop %%check section entirely; inappropriate to run in build env.
+
 * Fri Mar 30 2007 Joe Orton <jorton@redhat.com> 1.2.8-6
 - merge review (#225253): drop .a archive; drop use of CC/CXX,
   use BuildRequires; drop old Conflicts; URL reference for Source
