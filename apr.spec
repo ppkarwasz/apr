@@ -5,12 +5,12 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.2.8
-Release: 7
+Version: 1.2.9
+Release: 1
 License: Apache Software License
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
-Source0: http://www.apache.org/dist/apr/%{name}-%{version}.tar.gz
+Source0: http://www.apache.org/dist/apr/%{name}-%{version}.tar.bz2
 Source1: apr-wrapper.h
 Patch1: apr-0.9.6-readdir64.patch
 Patch2: apr-0.9.7-deepbind.patch
@@ -111,6 +111,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Mon Jun 25 2007 Bojan Smojver <bojan@rexursive.com> 1.2.9-1
+- bump up to 1.2.9
+
 * Mon Jun  4 2007 Joe Orton <jorton@redhat.com> 1.2.8-7
 - drop %%check section entirely; inappropriate to run in build env.
 
