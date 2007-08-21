@@ -6,8 +6,8 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.9
-Release: 1
-License: Apache Software License
+Release: 2
+License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
 Source0: http://www.apache.org/dist/apr/%{name}-%{version}.tar.bz2
@@ -111,6 +111,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Tue Aug 21 2007 Joe Orton <jorton@redhat.com> 1.2.9-2
+- fix License
+
 * Mon Jun 25 2007 Bojan Smojver <bojan@rexursive.com> 1.2.9-1
 - bump up to 1.2.9
 
