@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.9
-Release: 2
+Release: 3
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -60,6 +60,7 @@ export ac_cv_search_shm_open=no
         --includedir=%{_includedir}/apr-%{aprver} \
         --with-installbuilddir=%{_libdir}/apr-%{aprver}/build \
         --with-devrandom=/dev/urandom
+
 make %{?_smp_mflags}
 
 %install
@@ -83,6 +84,8 @@ install -c -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_includedir}/apr-%{aprver}/apr.h
 # Unpackaged files:
 rm -f $RPM_BUILD_ROOT%{_libdir}/apr.exp \
       $RPM_BUILD_ROOT%{_libdir}/libapr-*.a
+
+%check
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -111,6 +114,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Fri Aug 31 2007 Joe Orton <jorton@redhat.com> 1.2.9-3
+- fix API/ABI of 32-bit builds (#254241)
+
 * Tue Aug 21 2007 Joe Orton <jorton@redhat.com> 1.2.9-2
 - fix License
 
