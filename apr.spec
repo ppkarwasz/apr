@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.9
-Release: 3
+Release: 4
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -18,6 +18,7 @@ Patch3: apr-1.2.2-locktimeout.patch
 Patch4: apr-1.2.2-libdir.patch
 Patch5: apr-1.2.7-pkgconf.patch
 Patch6: apr-1.2.7-psprintfpi.patch
+Patch7: apr-1.2.9-openlfs.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: autoconf, libtool, e2fsprogs-devel, python
 
@@ -47,6 +48,7 @@ C data structures and routines.
 %patch4 -p1 -b .libdir
 %patch5 -p1 -b .pkgconf
 %patch6 -p1 -b .psprintfpi
+%patch7 -p1 -b .openlfs
 
 %build
 # regenerate configure script etc.
@@ -60,7 +62,6 @@ export ac_cv_search_shm_open=no
         --includedir=%{_includedir}/apr-%{aprver} \
         --with-installbuilddir=%{_libdir}/apr-%{aprver}/build \
         --with-devrandom=/dev/urandom
-
 make %{?_smp_mflags}
 
 %install
@@ -86,6 +87,15 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/apr.exp \
       $RPM_BUILD_ROOT%{_libdir}/libapr-*.a
 
 %check
+%if "%{_lib}" == "lib"
+# Fail if LFS support isn't preent in a 32-bit build, since this
+# breaks ABI and the soname doesn't change: see #254241
+if ! grep off64_t include/apr.h; then
+  cat config.log
+  : LFS support not present in 32-bit build
+  exit 1
+fi
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -114,7 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
-* Fri Aug 31 2007 Joe Orton <jorton@redhat.com> 1.2.9-3
+* Sun Sep  2 2007 Joe Orton <jorton@redhat.com> 1.2.9-4
 - fix API/ABI of 32-bit builds (#254241)
 
 * Tue Aug 21 2007 Joe Orton <jorton@redhat.com> 1.2.9-2
