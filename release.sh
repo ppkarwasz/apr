@@ -2,7 +2,7 @@
 #
 # release.sh : build a release tarball
 #
-# USAGE: release.sh PROJECT TAG RELEASE-VERSION [SIGNING-USER] [APR-SOURCE]
+# USAGE: release.sh PROJECT TAG [SIGNING-USER] [APR-SOURCE]
 #
 #   The project is either 'apr', 'apr-util' or 'apr-iconv'
 #
