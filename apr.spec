@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.2.11
-Release: 1
+Release: 2
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -85,15 +85,14 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/apr.exp \
       $RPM_BUILD_ROOT%{_libdir}/libapr-*.a
 
 %check
-%if "%{_lib}" == "lib"
-# Fail if LFS support isn't preent in a 32-bit build, since this
+# Fail if LFS support isn't present in a 32-bit build, since this
 # breaks ABI and the soname doesn't change: see #254241
-if ! grep off64_t include/apr.h; then
+if grep 'define SIZEOF_VOIDP 4' include/apr.h \
+   && ! grep off64_t include/apr.h; then
   cat config.log
   : LFS support not present in 32-bit build
   exit 1
 fi
-%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -122,6 +121,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Tue Sep 18 2007 Joe Orton <jorton@redhat.com> 1.2.11-2
+- fix %%check for non-multilib 64-bit platforms
+
 * Sun Sep  9 2007 Bojan Smojver <bojan@rexursive.com> 1.2.11-1
 - bump up to 1.2.11
 - drop openlfs patch (fixed upstream)
