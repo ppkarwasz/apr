@@ -40,16 +40,6 @@
      return suite;
 --- apr-1.2.7/strings/apr_snprintf.c.psprintfpi
 +++ apr-1.2.7/strings/apr_snprintf.c
-@@ -463,7 +463,8 @@
- }
- 
- 
--
-+/* Must be passed a buffer of size NUM_BUF_SIZE where buf_end points
-+ * to 1 byte past the end of the buffer. */
- static char *conv_apr_sockaddr(apr_sockaddr_t *sa, char *buf_end, apr_size_t *len)
- {
-     char *p = buf_end;
 @@ -473,7 +474,14 @@
  
      p = conv_10(sa->port, TRUE, &is_negative, p, &sub_len);

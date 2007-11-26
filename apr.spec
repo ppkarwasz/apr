@@ -5,8 +5,8 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.2.11
-Release: 2
+Version: 1.2.12
+Release: 1%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -121,6 +121,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Mon Nov 26 2007 Bojan Smojver <bojan@rexursive.com> 1.2.12-1
+- bump up to 1.2.12
+- add dist
+- remove a comment from apr-1.2.7-psprintfpi.patch (applied upstream)
+
 * Tue Sep 18 2007 Joe Orton <jorton@redhat.com> 1.2.11-2
 - fix %%check for non-multilib 64-bit platforms
 
