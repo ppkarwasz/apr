@@ -5,19 +5,17 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.2.12
-Release: 2%{?dist}
+Version: 1.3.2
+Release: 1%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
 Source0: http://www.apache.org/dist/apr/%{name}-%{version}.tar.bz2
 Source1: apr-wrapper.h
-Patch1: apr-0.9.6-readdir64.patch
-Patch2: apr-0.9.7-deepbind.patch
-Patch3: apr-1.2.2-locktimeout.patch
-Patch4: apr-1.2.2-libdir.patch
-Patch5: apr-1.2.7-pkgconf.patch
-Patch6: apr-1.2.7-psprintfpi.patch
+Patch1: apr-0.9.7-deepbind.patch
+Patch2: apr-1.2.2-locktimeout.patch
+Patch3: apr-1.2.2-libdir.patch
+Patch4: apr-1.2.7-pkgconf.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: autoconf, libtool, e2fsprogs-devel, python
 
@@ -41,12 +39,10 @@ C data structures and routines.
 
 %prep
 %setup -q
-%patch1 -p1 -b .readdir64
-%patch2 -p1 -b .deepbind
-%patch3 -p1 -b .locktimeout
-%patch4 -p1 -b .libdir
-%patch5 -p1 -b .pkgconf
-%patch6 -p1 -b .psprintfpi
+%patch1 -p1 -b .deepbind
+%patch2 -p1 -b .locktimeout
+%patch3 -p1 -b .libdir
+%patch4 -p1 -b .pkgconf
 
 %build
 # regenerate configure script etc.
@@ -121,6 +117,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/apr-%{aprver}/*.h
 
 %changelog
+* Thu Jun 19 2008 Bojan Smojver <bojan@rexursive.com> - 1.3.2-1
+- bump up to 1.3.2
+
+* Sun Jun  1 2008 Bojan Smojver <bojan@rexursive.com> - 1.3.0-1
+- bump up to 1.3.0
+
 * Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 1.2.12-2
 - Autorebuild for GCC 4.3
 
