@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.3.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -62,6 +62,9 @@ make %{?_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
+mkdir -p $RPM_BUILD_ROOT/%{_datadir}/aclocal
+install -m 644 build/find_apr.m4 $RPM_BUILD_ROOT/%{_datadir}/aclocal
+
 # Trim exported dependecies
 sed -ri '/^dependency_libs/{s,-l(uuid|crypt) ,,g}' \
       $RPM_BUILD_ROOT%{_libdir}/libapr*.la
@@ -115,8 +118,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/apr-%{aprver}/build/*
 %dir %{_includedir}/apr-%{aprver}
 %{_includedir}/apr-%{aprver}/*.h
+%{_datadir}/aclocal/*.m4
 
 %changelog
+* Wed Jul 16 2008 Bojan Smojver <bojan@rexursive.com> - 1.3.2-2
+- ship find_apr.m4, fix bug #455189
+
 * Thu Jun 19 2008 Bojan Smojver <bojan@rexursive.com> - 1.3.2-1
 - bump up to 1.3.2
 
