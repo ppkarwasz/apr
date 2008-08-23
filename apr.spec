@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.3.3
-Release: 2%{?dist}
+Release: 1%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
