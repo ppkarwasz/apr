@@ -5,7 +5,7 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.3.2
+Version: 1.3.3
 Release: 2%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
@@ -121,6 +121,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Sat Aug 16 2008 Bojan Smojver <bojan@rexursive.com> - 1.3.3-1
+- bump up to 1.3.3
+
 * Wed Jul 16 2008 Bojan Smojver <bojan@rexursive.com> - 1.3.2-2
 - ship find_apr.m4, fix bug #455189
 

@@ -33,11 +33,12 @@ installed in parallel.
 +Cflags: ${CPPFLAGS} @EXTRA_CFLAGS@ -I${includedir}
 --- apr-1.2.7/apr-config.in.pkgconf
 +++ apr-1.2.7/apr-config.in
-@@ -24,15 +24,16 @@
+@@ -24,16 +24,17 @@
  prefix="@prefix@"
  exec_prefix="@exec_prefix@"
  bindir="@bindir@"
 -libdir="@libdir@"
+ datarootdir="@datadir@"
  datadir="@datadir@"
 -installbuilddir="@installbuilddir@"
  includedir="@includedir@"
