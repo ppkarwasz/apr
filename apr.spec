@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.3.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -121,6 +121,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Fri Jan  2 2009 Joe Orton <jorton@redhat.com> 1.3.3
+- rebuild
+
 * Sat Aug 16 2008 Bojan Smojver <bojan@rexursive.com> - 1.3.3-1
 - bump up to 1.3.3
 
