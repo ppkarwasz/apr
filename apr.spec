@@ -5,7 +5,7 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.3.3
+Version: 1.3.5
 Release: 4%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
@@ -16,7 +16,6 @@ Patch1: apr-0.9.7-deepbind.patch
 Patch2: apr-1.2.2-locktimeout.patch
 Patch3: apr-1.2.2-libdir.patch
 Patch4: apr-1.2.7-pkgconf.patch
-Patch5: apr-1.3.3-libtool22.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: autoconf, libtool, e2fsprogs-devel, python
 
@@ -44,7 +43,6 @@ C data structures and routines.
 %patch2 -p1 -b .locktimeout
 %patch3 -p1 -b .libdir
 %patch4 -p1 -b .pkgconf
-%patch5 -p1 -b .libtool22
 
 %build
 # regenerate configure script etc.
@@ -123,6 +121,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Mon Jun  8 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.5-1
+- bump up to 1.3.5
+
 * Mon Feb 23 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
