@@ -121,7 +121,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
-* Mon Jun  8 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.5-1
+* Mon Jun  8 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.5-4
 - bump up to 1.3.5
 
 * Mon Feb 23 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.3-4
