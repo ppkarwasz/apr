@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.3.5
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -17,7 +17,7 @@ Patch2: apr-1.2.2-locktimeout.patch
 Patch3: apr-1.2.2-libdir.patch
 Patch4: apr-1.2.7-pkgconf.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires: autoconf, libtool, e2fsprogs-devel, python
+BuildRequires: autoconf, libtool, libuuid-devel, python
 
 %description
 The mission of the Apache Portable Runtime (APR) is to provide a
@@ -121,6 +121,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Tue Jun 30 2009 Joe Orton <jorton@redhat.com> 1.3.5-5
+- BR libuuid-devel instead of e2fsprogs-devel
+
 * Mon Jun  8 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.5-4
 - bump up to 1.3.5
 
