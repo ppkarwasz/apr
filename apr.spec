@@ -52,6 +52,11 @@ C data structures and routines.
 # does not use -lrt).
 export ac_cv_search_shm_open=no
 
+# We know we have these on new Fedoras (kernel >= 2.6.28)
+export apr_cv_epoll_create1=yes
+export apr_cv_dup3=yes
+export apr_cv_accept4=yes
+
 %configure \
         --includedir=%{_includedir}/apr-%{aprver} \
         --with-installbuilddir=%{_libdir}/apr-%{aprver}/build \
