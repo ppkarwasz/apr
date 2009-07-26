@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.3.7
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -56,6 +56,7 @@ export ac_cv_search_shm_open=no
 export apr_cv_epoll_create1=yes
 export apr_cv_dup3=yes
 export apr_cv_accept4=yes
+export apr_cv_sock_cloexec=yes
 
 %configure \
         --includedir=%{_includedir}/apr-%{aprver} \
@@ -126,6 +127,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Sun Jul 26 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.7-2
+- include apr_cv_sock_cloexec too
+
 * Sun Jul 26 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.7-1
 - bump up to 1.3.7
 
