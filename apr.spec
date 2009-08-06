@@ -5,8 +5,8 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.3.7
-Release: 2%{?dist}
+Version: 1.3.8
+Release: 1%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -127,6 +127,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Thu Aug  6 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.8-1
+- bump up to 1.3.8
+- CVE-2009-2412
+- allocator alignment fixes
+
 * Sun Jul 26 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.7-2
 - include apr_cv_sock_cloexec too
 
