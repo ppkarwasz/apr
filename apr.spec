@@ -5,7 +5,7 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.3.8
+Version: 1.3.9
 Release: 1%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
@@ -127,6 +127,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Fri Sep 25 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.9-1
+- bump up to 1.3.9
+
 * Thu Aug  6 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.8-1
 - bump up to 1.3.8
 - CVE-2009-2412
