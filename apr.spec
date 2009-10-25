@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.3.9
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -70,6 +70,8 @@ sed -ri '/^dependency_libs/{s,-l(uuid|crypt) ,,g}' \
       $RPM_BUILD_ROOT%{_libdir}/libapr*.la
 sed -ri '/^LIBS=/{s,-l(uuid|crypt) ,,g;s/  */ /g}' \
       $RPM_BUILD_ROOT%{_bindir}/apr-%{aprver}-config
+sed -ri '/^Libs/{s,-l(uuid|crypt) ,,g}' \
+      $RPM_BUILD_ROOT%{_libdir}/pkgconfig/apr-%{aprver}.pc
 
 %ifarch %{multilib_arches}
 # Ugly hack to allow parallel installation of 32-bit and 64-bit apr-devel 
@@ -121,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Sun Oct 25 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.9-3
+- remove uuid/crypt libs from pkg-config file
+
 * Mon Sep 28 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.9-2
 - revert use of accept4(), dup3() and epoll_create1()
 
