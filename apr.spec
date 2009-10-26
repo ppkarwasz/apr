@@ -124,7 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Sun Oct 25 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.9-3
-- remove uuid/crypt libs from pkg-config file
+- remove uuid/crypt libs from pkg-config file (#511522)
 
 * Mon Sep 28 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.9-2
 - revert use of accept4(), dup3() and epoll_create1()
