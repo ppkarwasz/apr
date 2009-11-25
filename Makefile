@@ -1,11 +1,11 @@
 # Makefile for source rpm: apr
-# $Id: Makefile,v 1.2 2004/11/21 13:09:51 jorton Exp $
+# $Id: Makefile,v 1.3 2007/10/15 18:35:56 notting Exp $
 NAME := apr
 SPECFILE = $(firstword $(wildcard *.spec))
 UPSTREAM_CHECKS = asc
 
 define find-makefile-common
-for d in common ../common ../../common ; do if [ -f $$d/Makefile.common ] ; then if [ -f $$d/CVS/Root -a -w $$/Makefile.common ] ; then cd $$d ; cvs -Q update ; fi ; echo "$$d/Makefile.common" ; break ; fi ; done
+for d in common ../common ../../common ; do if [ -f $$d/Makefile.common ] ; then if [ -f $$d/CVS/Root -a -w $$d/Makefile.common ] ; then cd $$d ; cvs -Q update ; fi ; echo "$$d/Makefile.common" ; break ; fi ; done
 endef
 
 MAKEFILE_COMMON := $(shell $(find-makefile-common))
