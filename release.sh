@@ -136,7 +136,7 @@ echo "Building the windows zip file ..."
 echo ""
 mv ${dirname} ${dirname}-unix
 mv ${dirname}-win32 ${dirname}
-zip -9 -r ${dirname}.zip ${dirname}
+zip -9 -r ${dirname}-win32-src.zip ${dirname}
 mv ${dirname} ${dirname}-win32
 mv ${dirname}-unix ${dirname}
 
@@ -155,7 +155,7 @@ sha1sum="`which sha1sum 2> /dev/null | head -1`"
 md5="`which md5 2> /dev/null | head -1`"
 sha1="`which sha1 2> /dev/null | head -1`"
 
-set -- ${dirname}.tar.gz ${dirname}.tar.bz2 ${dirname}.zip
+set -- ${dirname}.tar.gz ${dirname}.tar.bz2 ${dirname}-win32-src.zip
 # if found we use openssl for generating the checksums
 # and convert the results into machine-readable format.
 if test -x "${openssl}"; then
