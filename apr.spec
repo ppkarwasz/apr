@@ -5,8 +5,8 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.3.9
-Release: 3%{?dist}
+Version: 1.4.2
+Release: 1%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -18,6 +18,8 @@ Patch3: apr-1.2.2-libdir.patch
 Patch4: apr-1.2.7-pkgconf.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: autoconf, libtool, libuuid-devel, python
+# To enable SCTP support
+BuildRequires: lksctp-tools-devel
 
 %description
 The mission of the Apache Portable Runtime (APR) is to provide a
@@ -123,6 +125,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Sat Dec  4 2010 Joe Orton <jorton@redhat.com> - 1.4.2-1
+- update to 1.4.2
+- always enable SCTP support (#659815)
+
 * Sun Oct 25 2009 Bojan Smojver <bojan@rexursive.com> - 1.3.9-3
 - remove uuid/crypt libs from pkg-config file (#511522)
 
