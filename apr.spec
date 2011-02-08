@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.4.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -125,6 +125,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Sat Dec  4 2010 Joe Orton <jorton@redhat.com> - 1.4.2-1
 - update to 1.4.2
 - always enable SCTP support (#659815)
