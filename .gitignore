@@ -1,2 +1,6 @@
 apr-1.3.9.tar.bz2
 /apr-1.4.2.tar.bz2
+/*.rpm
+/clog
+/x86_64
+/.build*.log
