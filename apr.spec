@@ -5,8 +5,8 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.4.2
-Release: 3%{?dist}
+Version: 1.4.4
+Release: 1%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -16,8 +16,6 @@ Patch1: apr-0.9.7-deepbind.patch
 Patch2: apr-1.2.2-locktimeout.patch
 Patch3: apr-1.2.2-libdir.patch
 Patch4: apr-1.2.7-pkgconf.patch
-Patch5: apr-1.4.2-pr50190.patch
-Patch6: apr-1.4.2-libtool.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: autoconf, libtool, libuuid-devel, python
 # To enable SCTP support
@@ -47,8 +45,6 @@ C data structures and routines.
 %patch2 -p1 -b .locktimeout
 %patch3 -p1 -b .libdir
 %patch4 -p1 -b .pkgconf
-%patch5 -p1 -b .pr50190
-%patch6 -p1 -b .libtool
 
 %build
 # regenerate configure script etc.
@@ -129,6 +125,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Mon May  9 2011 Bojan Smojver <bojan@rexursive.com> - 1.4.4-1
+- bump up to 1.4.4
+
 * Wed Mar  2 2011 Joe Orton <jorton@redhat.com> - 1.4.2-3
 - work around alising issue in ring macros (upstream PR 50190)
 - fix buildconf with newer libtool (#670621)
