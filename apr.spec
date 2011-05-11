@@ -132,6 +132,7 @@ rm -rf $RPM_BUILD_ROOT
 
 * Mon May  9 2011 Bojan Smojver <bojan@rexursive.com> - 1.4.4-1
 - bump up to 1.4.4
+- CVE-2011-0419
 
 * Wed Mar  2 2011 Joe Orton <jorton@redhat.com> - 1.4.2-3
 - work around alising issue in ring macros (upstream PR 50190)
