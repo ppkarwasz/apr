@@ -6,13 +6,12 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.4.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
 Source0: http://www.apache.org/dist/apr/%{name}-%{version}.tar.bz2
 Source1: apr-wrapper.h
-Patch1: apr-0.9.7-deepbind.patch
 Patch2: apr-1.2.2-locktimeout.patch
 Patch3: apr-1.2.2-libdir.patch
 Patch4: apr-1.2.7-pkgconf.patch
@@ -41,7 +40,6 @@ C data structures and routines.
 
 %prep
 %setup -q
-%patch1 -p1 -b .deepbind
 %patch2 -p1 -b .locktimeout
 %patch3 -p1 -b .libdir
 %patch4 -p1 -b .pkgconf
@@ -125,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Thu Oct 13 2011 Joe Orton <jorton@redhat.com> - 1.4.5-2
+- remove deepbind patch, should no longer be necessary
+
 * Fri May 20 2011 Bojan Smojver <bojan@rexursive.com> - 1.4.5-1
 - bump up to 1.4.5
 
