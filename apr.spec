@@ -5,8 +5,8 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.4.5
-Release: 3%{?dist}
+Version: 1.4.6
+Release: 1%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -123,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Tue Feb 14 2012 Bojan Smojver <bojan@rexursive.com> - 1.4.6-1
+- bump up to 1.4.6
+
 * Thu Jan 12 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
