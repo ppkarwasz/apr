@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.4.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -15,6 +15,7 @@ Source1: apr-wrapper.h
 Patch2: apr-1.2.2-locktimeout.patch
 Patch3: apr-1.2.2-libdir.patch
 Patch4: apr-1.2.7-pkgconf.patch
+Patch5: apr-1.4.6-r1309386.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: autoconf, libtool, libuuid-devel, python
 # To enable SCTP support
@@ -43,6 +44,7 @@ C data structures and routines.
 %patch2 -p1 -b .locktimeout
 %patch3 -p1 -b .libdir
 %patch4 -p1 -b .pkgconf
+%patch5 -p1 -b .r1309386
 
 %build
 # regenerate configure script etc.
@@ -123,6 +125,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Fri Jul  6 2012 Joe Orton <jorton@redhat.com> - 1.4.6-2
+- pull fix for apr_mcast_hops from upstream
+
 * Tue Feb 14 2012 Bojan Smojver <bojan@rexursive.com> - 1.4.6-1
 - bump up to 1.4.6
 
