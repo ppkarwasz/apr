@@ -6,8 +6,14 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.4.6
-Release: 3%{?dist}
-License: ASL 2.0
+Release: 4%{?dist}
+# ASL 2.0: everything
+# ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
+# BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
+#                   include/apr_fnmatch.h, misc/unix/getopt.c,
+#                   file_io/unix/mktemp.c, strings/apr_strings.c
+# BSD (3-clause): strings/apr_strnatcmp.c, include/apr_strings.h
+License: ASL 2.0 and BSD with advertising and ISC and BSD
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
 Source0: http://www.apache.org/dist/apr/%{name}-%{version}.tar.bz2
@@ -125,6 +131,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Thu Nov 22 2012 Joe Orton <jorton@redhat.com> - 1.4.6-4
+- update license
+
 * Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
