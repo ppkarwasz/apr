@@ -5,8 +5,8 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.4.6
-Release: 7%{?dist}
+Version: 1.4.8
+Release: 1%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -21,10 +21,6 @@ Source1: apr-wrapper.h
 Patch2: apr-1.2.2-locktimeout.patch
 Patch3: apr-1.2.2-libdir.patch
 Patch4: apr-1.2.7-pkgconf.patch
-Patch5: apr-1.4.6-r1309386.patch
-Patch6: apr-1.4.6-strict-aliasing.patch
-Patch7: apr-1.4.6-unused-code.patch
-Patch8: apr-1.4.6-aarch64.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: autoconf, libtool, libuuid-devel, python
 # To enable SCTP support
@@ -53,10 +49,6 @@ C data structures and routines.
 %patch2 -p1 -b .locktimeout
 %patch3 -p1 -b .libdir
 %patch4 -p1 -b .pkgconf
-%patch5 -p1 -b .r1309386
-%patch6 -p1 -b .strictaliasing
-%patch7 -p1 -b .unusedcode
-%patch8 -p1 -b .aarch64
 
 %build
 # regenerate configure script etc.
@@ -137,6 +129,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Mon Jun 24 2013 Joe Orton <jorton@redhat.com> - 1.4.8-1
+- update to 1.4.8 (#976972)
+
 * Wed May 29 2013 Joe Orton <jorton@redhat.com> - 1.4.6-7
 - update config.* for aarch64 (#925009)
 
