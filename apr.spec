@@ -5,7 +5,7 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.4.8
+Version: 1.5.0
 Release: 2%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
@@ -129,6 +129,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Tue Nov 26 2013 Joe Orton <jorton@redhat.com> - 1.5.0-2
+- update to 1.5.0
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
