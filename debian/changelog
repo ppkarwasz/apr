@@ -1,8 +1,8 @@
-apr (1.5.1-1) UNRELEASED; urgency=low
+apr (1.5.1-1) unstable; urgency=low
 
   * New upstream version
 
- -- Stefan Fritsch <sf@debian.org>  Thu, 01 May 2014 10:34:32 +0200
+ -- Stefan Fritsch <sf@debian.org>  Thu, 01 May 2014 10:37:50 +0200
 
 apr (1.5.0-1) unstable; urgency=low
 
