@@ -6,4 +6,3 @@ fix_doxygen.patch
 omit_extra_libs.patch
 hurd_shm_flock.patch
 dont_override_external_buildflags
-upstream_svn_r1552863
