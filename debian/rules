@@ -14,7 +14,7 @@ DEB_HOST_MULTIARCH  ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 # The 'build' target needs special handling because there there is a directory
 # named 'build'.
 .PHONY: build
-build %:
+%:
 	dh $@ -B$(BUILDDIR) --parallel --with autotools_dev
 
 #
