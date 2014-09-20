@@ -7,3 +7,4 @@ omit_extra_libs.patch
 hurd_shm_flock.patch
 dont_override_external_buildflags
 buildfix_r1589984
+libtoolize_check.patch
