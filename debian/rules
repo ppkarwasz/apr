@@ -105,6 +105,7 @@ endif
 
 override_dh_auto_build:
 	$(MAKE) -j$(NUMJOBS) -C $(BUILDDIR) all dox
+	find debian/build/docs/dox/html -name \*.md5 -delete
 
 #
 # test
