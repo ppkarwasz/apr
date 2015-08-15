@@ -1,6 +1,7 @@
 apr (1.5.2-1) UNRELEASED; urgency=medium
 
   * New upstream version
+  * Bump Standards-Version (no changes)
 
  -- Stefan Fritsch <sf@debian.org>  Sat, 15 Aug 2015 13:10:09 +0200
 
