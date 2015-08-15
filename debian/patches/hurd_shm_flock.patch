@@ -8,11 +8,9 @@ Bug: #656880
 # upstream inclusion. (As you can guess, ideally all of those
 # non-working methods should be ideally fixed in Hurd...)
 
-Index: apr/configure.in
-===================================================================
 --- apr.orig/configure.in
 +++ apr/configure.in
-@@ -1188,6 +1188,13 @@
+@@ -1213,6 +1213,13 @@ case $host in
          APR_DECISION_OVERRIDE(USE_SHMEM_SHMGET_ANON)
          ;;
  esac
@@ -26,7 +24,7 @@ Index: apr/configure.in
  APR_END_DECISION
  AC_DEFINE_UNQUOTED($ac_decision)
  
-@@ -1256,6 +1263,13 @@
+@@ -1286,6 +1293,13 @@ case $host in
          fi
          ;;
  esac
@@ -40,7 +38,7 @@ Index: apr/configure.in
  APR_END_DECISION
  AC_DEFINE_UNQUOTED($ac_decision)
  
-@@ -2215,6 +2229,12 @@
+@@ -2262,6 +2276,12 @@ APR_IFALLYES(header:OS.h func:create_sem
  if test "x$apr_lock_method" != "x"; then
      APR_DECISION_FORCE($apr_lock_method)
  fi
