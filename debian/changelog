@@ -1,6 +1,9 @@
 apr (1.5.2-2) UNRELEASED; urgency=medium
 
   * Remove the buildhost's hostname from libtool for reproducible builds.
+  * Fix ipv6 address comparison in apr_mcast_interface/apr_mcast_join.
+    Thanks to Andre Naujoks <nautsch2 gmail com> for the patch.
+    Closes: #759534
 
  -- Stefan Fritsch <sf@debian.org>  Sun, 16 Aug 2015 09:28:50 +0200
 
