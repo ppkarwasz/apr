@@ -1,5 +1,8 @@
 apr (1.5.2-3) UNRELEASED; urgency=medium
 
+  * Use flock for apr_file_lock()/_unlock(). This has the advantage that
+    the lock is per FD and not per process. On the other hand, locking over
+    NFS may not work any more for non-Linux kernels. Closes: #752872
   * Add debug output for strange test failure on reproducible.debian.net.
 
  -- Stefan Fritsch <sf@debian.org>  Thu, 20 Aug 2015 09:13:40 +0200
