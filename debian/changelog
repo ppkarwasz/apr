@@ -1,3 +1,9 @@
+apr (1.5.2-3) UNRELEASED; urgency=medium
+
+  * Add debug output for strange test failure on reproducible.debian.net.
+
+ -- Stefan Fritsch <sf@debian.org>  Thu, 20 Aug 2015 09:13:40 +0200
+
 apr (1.5.2-2) unstable; urgency=medium
 
   * Remove the buildhost's hostname from libtool for reproducible builds.
