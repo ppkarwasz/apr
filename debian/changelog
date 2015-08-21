@@ -5,6 +5,7 @@ apr (1.5.2-3) UNRELEASED; urgency=medium
 
   [ Jean-Michel Vourgère ]
   * Update Vcs-Browser: address.
+  * d/watch: Check gpg signature of upstream source.
 
  -- Stefan Fritsch <sf@debian.org>  Thu, 20 Aug 2015 09:13:40 +0200
 
