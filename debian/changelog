@@ -1,6 +1,10 @@
 apr (1.5.2-3) UNRELEASED; urgency=medium
 
+  [ Stefan Fritsch ]
   * Add debug output for strange test failure on reproducible.debian.net.
+
+  [ Jean-Michel Vourgère ]
+  * Update Vcs-Browser: address.
 
  -- Stefan Fritsch <sf@debian.org>  Thu, 20 Aug 2015 09:13:40 +0200
 
