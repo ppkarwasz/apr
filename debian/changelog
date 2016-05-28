@@ -4,6 +4,9 @@ apr (1.5.2-4) UNRELEASED; urgency=medium
   * Update Vcs-Browser: address.
   * d/watch: Check gpg signature of upstream source.
 
+  [ Stefan Fritsch ]
+  * Run buildconf with LC_ALL=C to fix some reproducible build issues.
+
  -- Stefan Fritsch <sf@debian.org>  Fri, 21 Aug 2015 20:00:57 +0200
 
 apr (1.5.2-3) unstable; urgency=medium

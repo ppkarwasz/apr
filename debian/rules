@@ -75,7 +75,7 @@ SAVE_FILES := configure build/libtool.m4 build/ltmain.sh
 override_dh_auto_configure:
 	mkdir -p $(BUILDDIR)/docs
 	for f in $(SAVE_FILES) ; do [ -e $$f.dr-orig ] || cp -p $$f $$f.dr-orig ; done
-	./buildconf
+	LC_ALL=C ./buildconf
 	# We need to force the use of bash here. Otherwise, if apr is built with
 	# /bin/sh -> /bin/bash, the resulting libtool will not work on systems
 	# where /bin/sh -> /bin/dash.
