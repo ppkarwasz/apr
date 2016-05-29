@@ -1,4 +1,4 @@
-apr (1.5.2-4) UNRELEASED; urgency=medium
+apr (1.5.2-4) unstable; urgency=medium
 
   [ Jean-Michel Vourgère ]
   * Update Vcs-Browser: address.
@@ -8,7 +8,7 @@ apr (1.5.2-4) UNRELEASED; urgency=medium
   * Run buildconf with LC_ALL=C to fix some reproducible build issues.
   * Bump Standards-Version (no changes)
 
- -- Stefan Fritsch <sf@debian.org>  Fri, 21 Aug 2015 20:00:57 +0200
+ -- Stefan Fritsch <sf@debian.org>  Sun, 29 May 2016 15:44:28 +0200
 
 apr (1.5.2-3) unstable; urgency=medium
 
