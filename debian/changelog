@@ -1,10 +1,11 @@
-apr (1.5.2-4.1) UNRELEASED; urgency=medium
+apr (1.5.2-5) unstable; urgency=medium
 
+  [ Helmut Grohne ]
   * Fix FTCBFS: (Closes: #840891)
     + Annotate Build-Depends: python with :any
     + cross.patch: Build gen_test_char with the build arch compiler
 
- -- Helmut Grohne <helmut@subdivi.de>  Sat, 15 Oct 2016 19:45:34 +0200
+ -- Stefan Fritsch <sf@debian.org>  Sat, 10 Dec 2016 17:41:09 +0100
 
 apr (1.5.2-4) unstable; urgency=medium
 
