@@ -1,6 +1,8 @@
 apr (1.6.2-1) UNRELEASED; urgency=medium
 
   * New upstream version
+  * Remove Peter Samuelson from uploaders. Thanks for your work in the past.
+    Closes: #852222
 
  -- Stefan Fritsch <sf@debian.org>  Fri, 04 Aug 2017 16:14:23 +0200
 
