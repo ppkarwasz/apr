@@ -1,11 +1,9 @@
 From: Helmut Grohne <helmut@subdivi.de>
 Subject: compile gen_test_char with the build architecture compiler
 
-Index: apr-1.5.2/Makefile.in
-===================================================================
---- apr-1.5.2.orig/Makefile.in
-+++ apr-1.5.2/Makefile.in
-@@ -8,6 +8,7 @@
+--- apr.orig/Makefile.in
++++ apr/Makefile.in
+@@ -8,6 +8,7 @@ top_blddir=@apr_builddir@
  # APR (Apache Portable Runtime) library Makefile.
  #
  CPP = @CPP@
@@ -13,7 +11,7 @@ Index: apr-1.5.2/Makefile.in
  
  # get substituted into some targets
  APR_MAJOR_VERSION=@APR_MAJOR_VERSION@
-@@ -46,7 +47,6 @@
+@@ -46,7 +47,6 @@ LT_VERSION = @LT_VERSION@
  
  CLEAN_TARGETS = apr-config.out apr.exp exports.c export_vars.c .make.dirs \
  	build/apr_rules.out tools/gen_test_char@EXEEXT@ \
@@ -21,7 +19,7 @@ Index: apr-1.5.2/Makefile.in
  	include/private/apr_escape_test_char.h
  DISTCLEAN_TARGETS = config.cache config.log config.status \
  	include/apr.h include/arch/unix/apr_private.h \
-@@ -138,13 +138,9 @@
+@@ -140,13 +140,9 @@ check: $(TARGET_LIB)
  etags:
  	etags `find . -name '*.[ch]'`
  

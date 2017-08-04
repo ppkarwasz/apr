@@ -7,7 +7,6 @@ omit_extra_libs.patch
 hurd_shm_flock.patch
 dont_override_external_buildflags
 libtoolize_check.patch
-apr_mcast_v6.patch
 debug_testpoll_failure.patch
 use_fcntl_locking.patch
 cross.patch
