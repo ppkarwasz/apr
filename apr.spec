@@ -103,7 +103,7 @@ fi
 pushd test
   make %{?_smp_mflags}
   ./testall -v -q
-popd test
+popd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
