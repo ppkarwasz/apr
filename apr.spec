@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.6.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -100,6 +100,10 @@ if grep 'define SIZEOF_VOIDP 4' include/apr.h \
   : LFS support not present in 32-bit build
   exit 1
 fi
+pushd test
+  make %{?_smp_mflags}
+  ./testall -v -q
+popd test
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -129,6 +133,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Tue Sep 19 2017 Joe Orton <jorton@redhat.com> - 1.6.2-4
+- re-enable test suite
+
 * Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
