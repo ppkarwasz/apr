@@ -5,8 +5,8 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.6.2
-Release: 4%{?dist}
+Version: 1.6.3
+Release: 1%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -133,6 +133,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Wed Oct 25 2017 Luboš Uhliarik <luhliari@redhat.com> - 1.6.3-1
+- new version 1.6.3
+
 * Tue Sep 19 2017 Joe Orton <jorton@redhat.com> - 1.6.2-4
 - re-enable test suite
 
