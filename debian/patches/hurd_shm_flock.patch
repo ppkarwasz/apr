@@ -10,7 +10,7 @@ Bug: #656880
 
 --- apr.orig/configure.in
 +++ apr/configure.in
-@@ -1239,6 +1239,13 @@ case $host in
+@@ -1244,6 +1244,13 @@ case $host in
          APR_DECISION_OVERRIDE(USE_SHMEM_SHMGET_ANON)
          ;;
  esac
@@ -24,7 +24,7 @@ Bug: #656880
  APR_END_DECISION
  AC_DEFINE_UNQUOTED($ac_decision)
  
-@@ -1312,6 +1319,13 @@ case $host in
+@@ -1317,6 +1324,13 @@ case $host in
          fi
          ;;
  esac
@@ -38,7 +38,7 @@ Bug: #656880
  APR_END_DECISION
  AC_DEFINE_UNQUOTED($ac_decision)
  
-@@ -2309,6 +2323,12 @@ APR_IFALLYES(header:OS.h func:create_sem
+@@ -2314,6 +2328,12 @@ APR_IFALLYES(header:OS.h func:create_sem
  if test "x$apr_lock_method" != "x"; then
      APR_DECISION_FORCE($apr_lock_method)
  fi
