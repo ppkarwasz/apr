@@ -36,7 +36,6 @@ Description: Apache Portable Runtime Library - Development Headers
 Package: libapr1-dbg
 Architecture: any
 Section: debug
-Priority: extra
 Multi-Arch: same
 Depends: libapr1 (= ${binary:Version}), ${misc:Depends}
 Description: Apache Portable Runtime Library - Debugging Symbols
