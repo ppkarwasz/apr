@@ -18496,6 +18496,31 @@ if test "${enable_maintainer_mode+set}" = set; then :
     done
   fi
 
+      case `($CC --version) 2>/dev/null` in
+        *clang-900* | *"clang version 5.0.0"*)
+
+  if test "x$CFLAGS" = "x"; then
+    test "x$silent" != "xyes" && echo "  setting CFLAGS to \"-Wno-error=strict-prototypes\""
+    CFLAGS="-Wno-error=strict-prototypes"
+  else
+    apr_addto_bugger="-Wno-error=strict-prototypes"
+    for i in $apr_addto_bugger; do
+      apr_addto_duplicate="0"
+      for j in $CFLAGS; do
+        if test "x$i" = "x$j"; then
+          apr_addto_duplicate="1"
+          break
+        fi
+      done
+      if test $apr_addto_duplicate = "0"; then
+        test "x$silent" != "xyes" && echo "  adding \"$i\" to CFLAGS"
+        CFLAGS="$CFLAGS $i"
+      fi
+    done
+  fi
+
+          ;;
+      esac
    elif test "$AIX_XLC" = "yes"; then
 
   if test "x$CFLAGS" = "x"; then
