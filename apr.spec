@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.6.3
-Release: 3%{?dist}
+Release: 4%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -21,6 +21,7 @@ Source1: apr-wrapper.h
 Patch2: apr-1.2.2-locktimeout.patch
 Patch3: apr-1.2.2-libdir.patch
 Patch4: apr-1.2.7-pkgconf.patch
+Patch5: apr-rh1539844.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: autoconf, libtool, libuuid-devel, python
 # To enable SCTP support
@@ -49,6 +50,7 @@ C data structures and routines.
 %patch2 -p1 -b .locktimeout
 %patch3 -p1 -b .libdir
 %patch4 -p1 -b .pkgconf
+%patch5 -p1 -b .rh1539844
 
 %build
 # regenerate configure script etc.
@@ -133,6 +135,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Mon Jan 29 2018 Florian Weimer <fweimer@redhat.com> - 1.6.3-4
+- Fix FTBFS in test/teststr.c with GCC 8 (#1539844)
+
 * Mon Jan 29 2018 Florian Weimer <fweimer@redhat.com> - 1.6.3-3
 - Rebuild with new redhat-rpm-config build flags
 
