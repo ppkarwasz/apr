@@ -6,6 +6,7 @@ apr (1.6.3-2) UNRELEASED; urgency=medium
     patch.
   * Switch to debhelper compat level 11 and use dh_autoreconf.
   * Include NOTICE file in packages, as required by license.
+  * Bump Standards-Version (no changes).
 
  -- Stefan Fritsch <sf@debian.org>  Sun, 25 Feb 2018 16:01:56 +0100
 
