@@ -14,6 +14,10 @@ DEB_HOST_MULTIARCH  ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 # The 'build' target needs special handling because there there is a directory
 # named 'build'.
 .PHONY: build
+# The build target must not be empty.  Sadly because of how make
+# works, we have do duplicate the target in this case.
+build:
+	dh $@ -B$(BUILDDIR) --parallel --with autotools_dev
 %:
 	dh $@ -B$(BUILDDIR) --parallel --with autotools_dev
 
