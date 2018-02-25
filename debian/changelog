@@ -2,6 +2,8 @@ apr (1.6.3-2) UNRELEASED; urgency=medium
 
   * Avoid empty build target, fixes FTBFS. Thanks to Niels Thykier for the
     patch. Closes: #888593
+  * Drop deprecated autotools-dev sequence. Thanks to Niels Thykier for the
+    patch.
 
  -- Stefan Fritsch <sf@debian.org>  Sun, 25 Feb 2018 16:01:56 +0100
 
