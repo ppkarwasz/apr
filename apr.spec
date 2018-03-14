@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.6.3
-Release: 6%{?dist}
+Release: 7%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -22,7 +22,7 @@ Patch2: apr-1.2.2-locktimeout.patch
 Patch3: apr-1.2.2-libdir.patch
 Patch4: apr-1.2.7-pkgconf.patch
 Patch5: apr-rh1539844.patch
-BuildRequires: gcc, autoconf, libtool, libuuid-devel, python
+BuildRequires: gcc, autoconf, libtool, libuuid-devel, python2
 # To enable SCTP support
 BuildRequires: lksctp-tools-devel
 
@@ -131,6 +131,10 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Wed Mar 14 2018 Iryna Shcherbina <ishcherb@redhat.com> - 1.6.3-7
+- Update Python 2 dependency declarations to new packaging standards
+  (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
+
 * Wed Feb 21 2018 Joe Orton <jorton@redhat.com> - 1.6.3-6
 - BuildRequires: gcc
 
