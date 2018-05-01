@@ -1,3 +1,9 @@
+apr (1.6.3-3) UNRELEASED; urgency=medium
+
+  * Migrate from alioth to salsa
+
+ -- Stefan Fritsch <sf@debian.org>  Tue, 01 May 2018 10:29:59 +0200
+
 apr (1.6.3-2) unstable; urgency=medium
 
   * Avoid empty build target, fixes FTBFS. Thanks to Niels Thykier for the
