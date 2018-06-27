@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.6.3
-Release: 7%{?dist}
+Release: 8%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -18,11 +18,12 @@ Group: System Environment/Libraries
 URL: http://apr.apache.org/
 Source0: http://www.apache.org/dist/apr/%{name}-%{version}.tar.bz2
 Source1: apr-wrapper.h
+Patch1: apr-1.6.3-r1834495.patch
 Patch2: apr-1.2.2-locktimeout.patch
 Patch3: apr-1.2.2-libdir.patch
 Patch4: apr-1.2.7-pkgconf.patch
 Patch5: apr-rh1539844.patch
-BuildRequires: gcc, autoconf, libtool, libuuid-devel, python2
+BuildRequires: gcc, autoconf, libtool, libuuid-devel, python3
 # To enable SCTP support
 BuildRequires: lksctp-tools-devel
 
@@ -46,6 +47,7 @@ C data structures and routines.
 
 %prep
 %setup -q
+%patch1 -p1 -b .r1834495
 %patch2 -p1 -b .locktimeout
 %patch3 -p1 -b .libdir
 %patch4 -p1 -b .pkgconf
@@ -131,6 +133,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Wed Jun 27 2018 Joe Orton <jorton@redhat.com> - 1.6.3-8
+- update to use Python 3 at build time
+
 * Wed Mar 14 2018 Iryna Shcherbina <ishcherb@redhat.com> - 1.6.3-7
 - Update Python 2 dependency declarations to new packaging standards
   (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
