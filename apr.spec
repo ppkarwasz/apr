@@ -113,12 +113,10 @@ popd
 %postun -p /sbin/ldconfig
 
 %files
-%defattr(-,root,root,-)
 %doc CHANGES LICENSE NOTICE
 %{_libdir}/libapr-%{aprver}.so.*
 
 %files devel
-%defattr(-,root,root,-)
 %doc docs/APRDesign.html docs/canonical_filenames.html
 %doc docs/incomplete_types docs/non_apr_programs
 %{_bindir}/apr-%{aprver}-config
