@@ -1,10 +1,10 @@
-apr (1.6.3-4) UNRELEASED; urgency=medium
+apr (1.6.3-3) unstable; urgency=medium
 
   * Backport fix for undefined behavior in teststr from upstream 1.7.
     Fixes FTBFS with gcc 8. Closes: #897705
   * Migrate from alioth to salsa
 
- -- Stefan Fritsch <sf@debian.org>  Tue, 17 Jul 2018 21:10:16 +0200
+ -- Stefan Fritsch <sf@debian.org>  Tue, 17 Jul 2018 21:17:00 +0200
 
 apr (1.6.3-2) unstable; urgency=medium
 
