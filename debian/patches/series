@@ -10,3 +10,4 @@ libtoolize_check.patch
 debug_testpoll_failure.patch
 use_fcntl_locking.patch
 cross.patch
+gcc8-test-undefined-behavior
