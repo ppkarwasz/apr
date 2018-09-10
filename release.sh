@@ -157,16 +157,17 @@ sha1="`which sha1 2> /dev/null | head -1`"
 
 set -- ${dirname}.tar.gz ${dirname}.tar.bz2 ${dirname}-win32-src.zip
 # if found we use openssl for generating the checksums
-# and convert the results into machine-readable format.
 if test -x "${openssl}"; then
   for file; do
     if test -f "${file}"; then
       echo "openssl: creating md5 checksum file for ${file} ..."
-      ${openssl} md5 ${file} |\
-          sed -e 's#^MD5(\(.*\))= \([0-9a-f]*\)$#\2 *\1#' > ${file}.md5
+      ${openssl} md5 -r ${file} > ${file}.md5
       echo "openssl: creating sha1 checksum file for ${file} ..."
-      ${openssl} sha1 ${file} |\
-          sed -e 's#^SHA1(\(.*\))= \([0-9a-f]*\)$#\2 *\1#' > ${file}.sha1
+      ${openssl} sha1 -r ${file} > ${file}.sha1
+      echo "openssl: creating sha256 checksum file for ${file} ..."
+      ${openssl} sha256 -r ${file} > ${file}.sha256
+      echo "openssl: creating sha512 checksum file for ${file} ..."
+      ${openssl} sha512 -r ${file} > ${file}.sha512
     fi
   done
 # no openssl found - check if we have gpg
