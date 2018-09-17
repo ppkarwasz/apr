@@ -5,8 +5,8 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.6.3
-Release: 9%{?dist}
+Version: 1.6.5
+Release: 1%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -22,7 +22,6 @@ Patch1: apr-1.6.3-r1834495.patch
 Patch2: apr-1.2.2-locktimeout.patch
 Patch3: apr-1.2.2-libdir.patch
 Patch4: apr-1.2.7-pkgconf.patch
-Patch5: apr-rh1539844.patch
 BuildRequires: gcc, autoconf, libtool, libuuid-devel, python3
 # To enable SCTP support
 BuildRequires: lksctp-tools-devel
@@ -51,7 +50,6 @@ C data structures and routines.
 %patch2 -p1 -b .locktimeout
 %patch3 -p1 -b .libdir
 %patch4 -p1 -b .pkgconf
-%patch5 -p1 -b .rh1539844
 
 %build
 # regenerate configure script etc.
@@ -131,6 +129,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Mon Sep 17 2018 Joe Orton <jorton@redhat.com> - 1.6.5-1
+- update to 1.6.5 (#1628934)
+
 * Thu Jul 12 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.3-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
