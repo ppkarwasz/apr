@@ -143,84 +143,34 @@ mv ${dirname}-unix ${dirname}
 
 echo $split
 echo ""
-echo "Generating MD5/SHA1 checksum files ..."
+echo "Generating SHA256 checksum files ..."
 echo ""
 
 # check for executables
 gpg="`which gpg 2> /dev/null | head -1`"
 pgp="`which pgp 2> /dev/null | head -1`"
 openssl="`which openssl 2> /dev/null | head -1`"
-md5sum="`which md5sum 2> /dev/null | head -1`"
-sha1sum="`which sha1sum 2> /dev/null | head -1`"
-md5="`which md5 2> /dev/null | head -1`"
-sha1="`which sha1 2> /dev/null | head -1`"
 
 set -- ${dirname}.tar.gz ${dirname}.tar.bz2 ${dirname}-win32-src.zip
 # if found we use openssl for generating the checksums
 if test -x "${openssl}"; then
   for file; do
     if test -f "${file}"; then
-      echo "openssl: creating md5 checksum file for ${file} ..."
-      ${openssl} md5 -r ${file} > ${file}.md5
-      echo "openssl: creating sha1 checksum file for ${file} ..."
-      ${openssl} sha1 -r ${file} > ${file}.sha1
       echo "openssl: creating sha256 checksum file for ${file} ..."
       ${openssl} sha256 -r ${file} > ${file}.sha256
-      echo "openssl: creating sha512 checksum file for ${file} ..."
-      ${openssl} sha512 -r ${file} > ${file}.sha512
     fi
   done
-# no openssl found - check if we have gpg
+# no openssl found - fall back on gpg
 elif test -x "${gpg}"; then
   for file; do
     if test -f "${file}"; then
-      echo "gpg: creating md5 checksum file for ${file} ..."
-      ${gpg} --print-md md5 ${file} |\
+      echo "gpg: creating sha256 checksum file for ${file} ..."
+      ${gpg} --print-md sha256 ${file} |\
           sed -e '{N;s#\n##;}' |\
           sed -e 's#\(.*\): \(.*\)#\2::\1#;s#[\r\n]##g;s# ##g' \
-              -e 'y#ABCDEF#abcdef#;s#::# *#' > ${file}.md5
-      echo "gpg: creating sha1 checksum file for ${file} ..."
-      ${gpg} --print-md sha1 ${file} |\
-          sed -e '{N;s#\n##;}' |\
-          sed -e 's#\(.*\): \(.*\)#\2::\1#;s#[\r\n]##g;s# ##g' \
-              -e 'y#ABCDEF#abcdef#;s#::# *#' > ${file}.sha1
+              -e 'y#ABCDEF#abcdef#;s#::# *#' > ${file}.sha256
     fi
   done
-else
-  # no openssl or gpg found - check for md5sum
-  if test -x "${md5sum}"; then
-    for file; do
-      if test -f "${file}"; then
-        echo "md5sum: creating md5 checksum file for ${file} ..."
-        ${md5sum} -b ${file} > ${file}.md5
-      fi
-    done
-  # no openssl or gpg found - check for md5
-  elif test -x "${md5}"; then
-    for file; do
-      if test -f "${file}"; then
-        echo "md5: creating md5 checksum file for ${file} ..."
-        ${md5} -r ${file} | sed -e 's# # *#' > ${file}.md5
-      fi
-    done
-  fi
-  # no openssl or gpg found - check for sha1sum
-  if test -x "${sha1sum}"; then
-    for file; do
-      if test -f "${file}"; then
-        echo "sha1sum: creating sha1 checksum file for ${file} ..."
-        ${sha1sum} -b ${file} > ${file}.sha1
-      fi
-    done
-  # no openssl or gpg found - check for sha1
-  elif test -x "${sha1}"; then
-    for file; do
-      if test -f "${file}"; then
-        echo "sha1: creating sha1 checksum file for ${file} ..."
-        ${sha1} -r ${file} | sed -e 's# # *#' > ${file}.sha1
-      fi
-    done
-  fi
 fi
 
 echo $split
