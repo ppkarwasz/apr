@@ -1592,7 +1592,7 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
   --with-sysroot[=DIR]    Search for dependent libraries within DIR (or the
                           compiler's sysroot if not specified).
-  --with-installbuilddir=DIR location to store APR build files (defaults to '${datadir}/build')
+  --with-installbuilddir=DIR location to store APR build files
   --without-libtool       avoid using libtool to link the library
   --with-efence[=DIR]     path to Electric Fence installation
   --with-valgrind[=DIR]   Enable code to teach valgrind about apr pools
@@ -18297,8 +18297,6 @@ esac
 # Check whether --with-installbuilddir was given.
 if test "${with_installbuilddir+set}" = set; then :
   withval=$with_installbuilddir;  installbuilddir=$withval
-else
-   installbuilddir="${datadir}/build-${APR_MAJOR_VERSION}"
 fi
 
 
@@ -21578,13 +21576,32 @@ case $host in
 #endif";;
 esac
 
-for ac_header in sys/types.h sys/mman.h sys/ipc.h sys/mutex.h sys/shm.h sys/file.h kernel/OS.h os2.h windows.h
+for ac_header in sys/types.h sys/mman.h sys/ipc.h sys/mutex.h \
+                  sys/shm.h sys/file.h sys/socket.h kernel/OS.h os2.h windows.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
 if eval test \"x\$"$as_ac_Header"\" = x"yes"; then :
   cat >>confdefs.h <<_ACEOF
 #define `$as_echo "HAVE_$ac_header" | $as_tr_cpp` 1
+_ACEOF
+
+fi
+
+done
+
+for ac_header in net/if.h
+do :
+  ac_fn_c_check_header_compile "$LINENO" "net/if.h" "ac_cv_header_net_if_h" "
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#include <net/if.h>
+
+"
+if test "x$ac_cv_header_net_if_h" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_NET_IF_H 1
 _ACEOF
 
 fi

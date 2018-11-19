@@ -38,7 +38,7 @@
  */
 
 
-#define APR_COPYRIGHT "Copyright (c) 2000-2017 The Apache Software " \
+#define APR_COPYRIGHT "Copyright (c) 2000-2018 The Apache Software " \
                       "Foundation or its licensors, as applicable."
 
 /* The numeric compile-time version constants. These constants are the
@@ -62,7 +62,7 @@
  * The Patch Level never includes API changes, simply bug fixes.
  * Reset to 0 when upgrading APR_MINOR_VERSION
  */
-#define APR_PATCH_VERSION       3
+#define APR_PATCH_VERSION       5
 
 /** 
  * The symbol APR_IS_DEV_VERSION is only defined for internal,
