@@ -1,9 +1,9 @@
-apr (1.6.5-1) UNRELEASED; urgency=medium
+apr (1.6.5-1) unstable; urgency=medium
 
   * New upstream release
   * Bump Standards-Version (no changes).
 
- -- Stefan Fritsch <sf@debian.org>  Mon, 19 Nov 2018 13:16:31 +0100
+ -- Stefan Fritsch <sf@debian.org>  Mon, 19 Nov 2018 13:28:03 +0100
 
 apr (1.6.3-3) unstable; urgency=medium
 
