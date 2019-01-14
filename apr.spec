@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.6.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -129,6 +129,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Mon Jan 14 2019 Björn Esser <besser82@fedoraproject.org> - 1.6.5-2
+- Rebuilt for libcrypt.so.2 (#1666033)
+
 * Mon Sep 17 2018 Joe Orton <jorton@redhat.com> - 1.6.5-1
 - update to 1.6.5 (#1628934)
 
