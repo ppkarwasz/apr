@@ -106,9 +106,7 @@ pushd test
   ./testall -v -q
 popd
 
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
+%ldconfig_scriptlets
 
 %files
 %doc CHANGES LICENSE NOTICE
