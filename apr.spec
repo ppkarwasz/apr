@@ -14,7 +14,6 @@ Release: 2%{?dist}
 #                   file_io/unix/mktemp.c, strings/apr_strings.c
 # BSD (3-clause): strings/apr_strnatcmp.c, include/apr_strings.h
 License: ASL 2.0 and BSD with advertising and ISC and BSD
-Group: System Environment/Libraries
 URL: http://apr.apache.org/
 Source0: http://www.apache.org/dist/apr/%{name}-%{version}.tar.bz2
 Source1: apr-wrapper.h
@@ -33,7 +32,6 @@ portability layer to as many operating systems as possible,
 including Unices, MS Win32, BeOS and OS/2.
 
 %package devel
-Group: Development/Libraries
 Summary: APR library development kit
 Conflicts: subversion-devel < 0.20.1-2
 Requires: apr = %{version}-%{release}, pkgconfig
