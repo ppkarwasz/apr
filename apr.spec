@@ -5,8 +5,8 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.6.5
-Release: 3%{?dist}
+Version: 1.7.0
+Release: 1%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -17,10 +17,8 @@ License: ASL 2.0 and BSD with advertising and ISC and BSD
 URL: http://apr.apache.org/
 Source0: http://www.apache.org/dist/apr/%{name}-%{version}.tar.bz2
 Source1: apr-wrapper.h
-Patch1: apr-1.6.3-r1834495.patch
-Patch2: apr-1.2.2-locktimeout.patch
-Patch3: apr-1.2.2-libdir.patch
-Patch4: apr-1.2.7-pkgconf.patch
+Patch1: apr-1.2.2-libdir.patch
+Patch2: apr-1.2.7-pkgconf.patch
 BuildRequires: gcc, autoconf, libtool, libuuid-devel, python3
 # To enable SCTP support
 BuildRequires: lksctp-tools-devel
@@ -44,10 +42,8 @@ C data structures and routines.
 
 %prep
 %setup -q
-%patch1 -p1 -b .r1834495
-%patch2 -p1 -b .locktimeout
-%patch3 -p1 -b .libdir
-%patch4 -p1 -b .pkgconf
+%patch1 -p1 -b .libdir
+%patch2 -p1 -b .pkgconf
 
 %build
 # regenerate configure script etc.
@@ -125,6 +121,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Tue Apr 16 2019 Lubos Uhliarik <luhliari@redhat.com> - 1.7.0-1
+- update to 1.7.0 (#1696401)
+
 * Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.6.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
