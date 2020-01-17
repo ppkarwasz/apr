@@ -14,8 +14,8 @@ Release: 2%{?dist}
 #                   file_io/unix/mktemp.c, strings/apr_strings.c
 # BSD (3-clause): strings/apr_strnatcmp.c, include/apr_strings.h
 License: ASL 2.0 and BSD with advertising and ISC and BSD
-URL: http://apr.apache.org/
-Source0: http://www.apache.org/dist/apr/%{name}-%{version}.tar.bz2
+URL: https://apr.apache.org/
+Source0: https://www.apache.org/dist/apr/%{name}-%{version}.tar.bz2
 Source1: apr-wrapper.h
 Patch1: apr-1.2.2-libdir.patch
 Patch2: apr-1.2.7-pkgconf.patch
