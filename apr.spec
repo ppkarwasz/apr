@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.7.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -19,6 +19,7 @@ Source0: https://www.apache.org/dist/apr/%{name}-%{version}.tar.bz2
 Source1: apr-wrapper.h
 Patch1: apr-1.2.2-libdir.patch
 Patch2: apr-1.2.7-pkgconf.patch
+Patch3: apr-1.7.0-deepbind.patch
 BuildRequires: gcc, autoconf, libtool, libuuid-devel, python3
 # To enable SCTP support
 BuildRequires: lksctp-tools-devel
@@ -44,6 +45,7 @@ C data structures and routines.
 %setup -q
 %patch1 -p1 -b .libdir
 %patch2 -p1 -b .pkgconf
+%patch3 -p1 -b .deepbind
 
 %build
 # regenerate configure script etc.
@@ -121,6 +123,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Wed Mar  4 2020 Joe Orton <jorton@redhat.com> - 1.7.0-4
+- re-enable RTLD_DEEPBIND (#1739287)
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
