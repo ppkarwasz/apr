@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.7.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -123,6 +123,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Tue Jun 16 2020 Joe Orton <jorton@redhat.com> - 1.7.0-5
+- only enable RTLD_DEEPBIND if $APR_DEEPBIND is set
+
 * Wed Mar  4 2020 Joe Orton <jorton@redhat.com> - 1.7.0-4
 - re-enable RTLD_DEEPBIND (#1739287)
 
