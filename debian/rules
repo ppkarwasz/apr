@@ -73,6 +73,13 @@ ifneq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
   endif
 endif
 
+# Set several variables to make build reproducible even when built on
+# usrmerge system
+CONFFLAGS += SED=/bin/sed
+CONFFLAGS += GREP=/bin/grep
+CONFFLAGS += EGREP="/bin/grep -E"
+CONFFLAGS += FGREP="/bin/grep -F"
+
 override_dh_autoreconf:
 	LC_ALL=C dh_autoreconf ./buildconf
 
