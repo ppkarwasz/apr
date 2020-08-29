@@ -1,9 +1,9 @@
-apr (1.7.0-2) UNRELEASED; urgency=medium
+apr (1.7.0-2) unstable; urgency=medium
 
   * Use generic 64bit atomics on mipsel as gcc lacks the 64bit built-ins.
     Fixes FTBFS on mipsel.
 
- -- Stefan Fritsch <sf@debian.org>  Sat, 29 Aug 2020 15:11:59 +0200
+ -- Stefan Fritsch <sf@debian.org>  Sat, 29 Aug 2020 18:13:56 +0200
 
 apr (1.7.0-1) unstable; urgency=medium
 
