@@ -2,6 +2,8 @@ apr (1.7.0-1) UNRELEASED; urgency=medium
 
   * New upstream release
   * Switch build-depends to python3. Closes: #936128, #969065
+    Make apr1-dev depend on python3, so that apr-util does not have to.
+    See #936129
 
  -- Stefan Fritsch <sf@debian.org>  Sat, 29 Aug 2020 11:10:02 +0200
 
