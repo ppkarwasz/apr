@@ -3,7 +3,7 @@ Section: libs
 Priority: optional
 Maintainer: Debian Apache Maintainers <debian-apache@lists.debian.org>
 Uploaders: Stefan Fritsch <sf@debian.org>
-Build-Depends: debhelper (>= 11), autoconf, mawk, uuid-dev, doxygen, netbase, net-tools, libtool (>= 2), python:any, libsctp-dev [linux-any]
+Build-Depends: debhelper (>= 11), autoconf, mawk, uuid-dev, doxygen, netbase, net-tools, libtool (>= 2), python3:any, libsctp-dev [linux-any]
 Standards-Version: 4.2.1
 Vcs-Browser: https://salsa.debian.org/apache-team/apr
 Vcs-Git: https://salsa.debian.org/apache-team/apr.git
@@ -24,7 +24,7 @@ Package: libapr1-dev
 Architecture: any
 Section: libdevel
 Depends: libapr1 (= ${binary:Version}), uuid-dev, ${misc:Depends}, libsctp-dev [linux-any]
-Suggests: python
+Suggests: python3
 Conflicts: libapr1.0-dev, libapr0-dev
 Description: Apache Portable Runtime Library - Development Headers
  APR is Apache's Portable Runtime Library, designed to be a support library 
