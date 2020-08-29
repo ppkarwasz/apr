@@ -27,15 +27,23 @@ libapr-1.so.0 libapr1 #MINVER#
  apr_array_push@Base 1.2.7
  apr_atoi64@Base 1.2.7
  apr_atomic_add32@Base 1.2.7
+ apr_atomic_add64@Base 1.7.0
  apr_atomic_cas32@Base 1.2.7
+ apr_atomic_cas64@Base 1.7.0
  apr_atomic_casptr@Base 1.2.7
  apr_atomic_dec32@Base 1.2.7
+ apr_atomic_dec64@Base 1.7.0
  apr_atomic_inc32@Base 1.2.7
+ apr_atomic_inc64@Base 1.7.0
  apr_atomic_init@Base 1.2.7
  apr_atomic_read32@Base 1.2.7
+ apr_atomic_read64@Base 1.7.0
  apr_atomic_set32@Base 1.2.7
+ apr_atomic_set64@Base 1.7.0
  apr_atomic_sub32@Base 1.2.7
+ apr_atomic_sub64@Base 1.7.0
  apr_atomic_xchg32@Base 1.2.7
+ apr_atomic_xchg64@Base 1.7.0
  apr_atomic_xchgptr@Base 1.3.2
  apr_collapse_spaces@Base 1.2.7
  apr_cpystrn@Base 1.2.7
@@ -57,6 +65,12 @@ libapr-1.so.0 libapr1 #MINVER#
  apr_cstr_tokenize@Base 1.6.2
  apr_ctime@Base 1.2.7
  apr_day_snames@Base 1.2.7
+ apr_decode_base16@Base 1.7.0
+ apr_decode_base16_binary@Base 1.7.0
+ apr_decode_base32@Base 1.7.0
+ apr_decode_base32_binary@Base 1.7.0
+ apr_decode_base64@Base 1.7.0
+ apr_decode_base64_binary@Base 1.7.0
  apr_dir_close@Base 1.2.7
  apr_dir_make@Base 1.2.7
  apr_dir_make_recursive@Base 1.2.7
@@ -68,6 +82,12 @@ libapr-1.so.0 libapr1 #MINVER#
  apr_dso_load@Base 1.2.7
  apr_dso_sym@Base 1.2.7
  apr_dso_unload@Base 1.2.7
+ apr_encode_base16@Base 1.7.0
+ apr_encode_base16_binary@Base 1.7.0
+ apr_encode_base32@Base 1.7.0
+ apr_encode_base32_binary@Base 1.7.0
+ apr_encode_base64@Base 1.7.0
+ apr_encode_base64_binary@Base 1.7.0
  apr_env_delete@Base 1.2.7
  apr_env_get@Base 1.2.7
  apr_env_set@Base 1.2.7
@@ -167,6 +187,7 @@ libapr-1.so.0 libapr1 #MINVER#
  apr_global_mutex_name@Base 1.4.2
  apr_global_mutex_perms_set@Base 1.6.2
  apr_global_mutex_pool_get@Base 1.2.7
+ apr_global_mutex_timedlock@Base 1.7.0
  apr_global_mutex_trylock@Base 1.2.7
  apr_global_mutex_unlock@Base 1.2.7
  apr_hash_clear@Base 1.3.2
@@ -245,6 +266,18 @@ libapr-1.so.0 libapr1 #MINVER#
  apr_password_get@Base 1.2.7
  apr_pcalloc@Base 1.2.7
  apr_pcalloc_debug@Base 1.2.7
+ apr_pdecode_base16@Base 1.7.0
+ apr_pdecode_base16_binary@Base 1.7.0
+ apr_pdecode_base32@Base 1.7.0
+ apr_pdecode_base32_binary@Base 1.7.0
+ apr_pdecode_base64@Base 1.7.0
+ apr_pdecode_base64_binary@Base 1.7.0
+ apr_pencode_base16@Base 1.7.0
+ apr_pencode_base16_binary@Base 1.7.0
+ apr_pencode_base32@Base 1.7.0
+ apr_pencode_base32_binary@Base 1.7.0
+ apr_pencode_base64@Base 1.7.0
+ apr_pencode_base64_binary@Base 1.7.0
  apr_pescape_echo@Base 1.5.0
  apr_pescape_entity@Base 1.5.0
  apr_pescape_hex@Base 1.5.0
@@ -321,6 +354,7 @@ libapr-1.so.0 libapr1 #MINVER#
  apr_proc_mutex_name@Base 1.2.7
  apr_proc_mutex_perms_set@Base 1.6.2
  apr_proc_mutex_pool_get@Base 1.2.7
+ apr_proc_mutex_timedlock@Base 1.7.0
  apr_proc_mutex_trylock@Base 1.2.7
  apr_proc_mutex_unix_setup_lock@Base 1.2.7
  apr_proc_mutex_unlock@Base 1.2.7
@@ -425,6 +459,8 @@ libapr-1.so.0 libapr1 #MINVER#
  apr_sockaddr_ip_getbuf@Base 1.3.2
  apr_sockaddr_is_wildcard@Base 1.5.0
  apr_sockaddr_vars_set@Base 1.2.7
+ apr_sockaddr_zone_get@Base 1.7.0
+ apr_sockaddr_zone_set@Base 1.7.0
  apr_socket_accept@Base 1.2.7
  apr_socket_addr_get@Base 1.2.7
  apr_socket_atmark@Base 1.2.7
@@ -500,6 +536,7 @@ libapr-1.so.0 libapr1 #MINVER#
  apr_thread_mutex_destroy@Base 1.2.7
  apr_thread_mutex_lock@Base 1.2.7
  apr_thread_mutex_pool_get@Base 1.2.7
+ apr_thread_mutex_timedlock@Base 1.7.0
  apr_thread_mutex_trylock@Base 1.2.7
  apr_thread_mutex_unlock@Base 1.2.7
  apr_thread_once@Base 1.2.7
