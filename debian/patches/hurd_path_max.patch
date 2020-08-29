@@ -7,7 +7,7 @@ Subject: #349418
 
 --- apr.orig/include/apr.h.in
 +++ apr/include/apr.h.in
-@@ -611,7 +611,8 @@ typedef int apr_wait_t;
+@@ -629,7 +629,8 @@ typedef int apr_wait_t;
  #elif defined(_POSIX_PATH_MAX)
  #define APR_PATH_MAX       _POSIX_PATH_MAX
  #else

@@ -1,3 +1,9 @@
+apr (1.7.0-1) UNRELEASED; urgency=medium
+
+  * New upstream release
+
+ -- Stefan Fritsch <sf@debian.org>  Sat, 29 Aug 2020 11:10:02 +0200
+
 apr (1.6.5-1) unstable; urgency=medium
 
   * New upstream release

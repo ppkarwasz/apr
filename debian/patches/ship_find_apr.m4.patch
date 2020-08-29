@@ -7,9 +7,9 @@ Subject: Install a set of random build files too
 
 --- apr.orig/Makefile.in
 +++ apr/Makefile.in
-@@ -95,6 +95,15 @@ install: $(TARGETS)
- 	$(INSTALL_DATA) $(top_srcdir)/build/apr_common.m4 $(DESTDIR)$(installbuilddir)
- 	$(INSTALL_DATA) $(top_srcdir)/build/find_apr.m4 $(DESTDIR)$(installbuilddir)
+@@ -94,6 +94,15 @@ install: $(TARGETS)
+ 	done
+ 	$(INSTALL_DATA) build/apr_rules.out $(DESTDIR)$(installbuilddir)/apr_rules.mk
  	$(INSTALL) -m 755 apr-config.out $(DESTDIR)$(bindir)/$(APR_CONFIG)
 +
 +	if [ ! -d $(DESTDIR)$(installbuilddir) ]; then \

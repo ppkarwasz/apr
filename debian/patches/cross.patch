@@ -19,7 +19,7 @@ Subject: compile gen_test_char with the build architecture compiler
  	include/private/apr_escape_test_char.h
  DISTCLEAN_TARGETS = config.cache config.log config.status \
  	include/apr.h include/arch/unix/apr_private.h \
-@@ -141,13 +141,9 @@ check: $(TARGET_LIB)
+@@ -140,13 +140,9 @@ check: $(TARGET_LIB)
  etags:
  	etags `find . -name '*.[ch]'`
  
