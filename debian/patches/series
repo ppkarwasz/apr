@@ -1,3 +1,4 @@
+mipsel-64bit-atomics.patch
 fix_apr-config.patch
 ship_find_apr.m4.patch
 fix-apr.pc.patch
