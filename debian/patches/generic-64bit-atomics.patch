@@ -7,7 +7,7 @@
  /* noop */
  #elif HAVE_ATOMIC_BUILTINS
  #   define USE_ATOMICS_BUILTINS
-+#   if defined(__MIPSEL__)
++#   if (__INTPTR_WIDTH__ == 32) && ( defined(__MIPSEL__) || defined(__powerpc__) )
 +#       define NEED_ATOMICS_GENERIC64
 +#   endif
  #elif defined(SOLARIS2) && SOLARIS2 >= 10
@@ -24,3 +24,17 @@
  
  APR_DECLARE(apr_uint64_t) apr_atomic_read64(volatile apr_uint64_t *mem)
  {
+--- apr.orig/atomic/unix/builtins.c
++++ apr/atomic/unix/builtins.c
+@@ -20,7 +20,11 @@
+ 
+ APR_DECLARE(apr_status_t) apr_atomic_init(apr_pool_t *p)
+ {
++#if defined (NEED_ATOMICS_GENERIC64)
++    return apr__atomic_generic64_init(p);
++#else
+     return APR_SUCCESS;
++#endif
+ }
+ 
+ APR_DECLARE(apr_uint32_t) apr_atomic_read32(volatile apr_uint32_t *mem)
