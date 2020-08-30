@@ -1,4 +1,4 @@
-apr (1.7.0-3) UNRELEASED; urgency=medium
+apr (1.7.0-3) unstable; urgency=medium
 
   * Bump Standards-Version (no changes).
   * Fixes for 64bit atomics work-around:
@@ -6,7 +6,7 @@ apr (1.7.0-3) UNRELEASED; urgency=medium
     - don't use on mips64el
     - use on powerpc
 
- -- Stefan Fritsch <sf@debian.org>  Sun, 30 Aug 2020 16:32:52 +0200
+ -- Stefan Fritsch <sf@debian.org>  Sun, 30 Aug 2020 21:15:21 +0200
 
 apr (1.7.0-2) unstable; urgency=medium
 
