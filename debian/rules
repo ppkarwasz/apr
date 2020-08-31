@@ -148,7 +148,7 @@ override_dh_auto_install:
 	fi
 
 override_dh_strip:
-	dh_strip --dbg-package=libapr1-dbg
+	dh_strip --dbgsym-migration='libapr1-dbg (<< 1.7.0-4~)'
 
 override_dh_makeshlibs:
 	dh_makeshlibs -- -Idebian/symbols.$(DEB_HOST_ARCH_OS)

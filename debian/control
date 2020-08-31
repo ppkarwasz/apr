@@ -31,15 +31,3 @@ Description: Apache Portable Runtime Library - Development Headers
  platform-specific implementations.
  .
  This package contains development headers for APR.
-
-Package: libapr1-dbg
-Architecture: any
-Section: debug
-Multi-Arch: same
-Depends: libapr1 (= ${binary:Version}), ${misc:Depends}
-Description: Apache Portable Runtime Library - Debugging Symbols
- APR is Apache's Portable Runtime Library, designed to be a support library
- that provides a predictable and consistent interface to underlying
- platform-specific implementations.
- .
- This package contains the debugging symbols for APR.
