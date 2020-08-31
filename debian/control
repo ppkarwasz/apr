@@ -16,9 +16,9 @@ Pre-Depends: ${misc:Pre-Depends}
 Multi-Arch: same
 Conflicts: libapr1.0
 Description: Apache Portable Runtime Library
- APR is Apache's Portable Runtime Library, designed to be a support library 
- that provides a predictable and consistent interface to underlying 
- platform-specific implementations. 
+ APR is Apache's Portable Runtime Library, designed to be a support library
+ that provides a predictable and consistent interface to underlying
+ platform-specific implementations.
 
 Package: libapr1-dev
 Architecture: any
@@ -26,9 +26,9 @@ Section: libdevel
 Depends: libapr1 (= ${binary:Version}), uuid-dev, ${misc:Depends}, libsctp-dev [linux-any], python3:any
 Conflicts: libapr1.0-dev, libapr0-dev
 Description: Apache Portable Runtime Library - Development Headers
- APR is Apache's Portable Runtime Library, designed to be a support library 
- that provides a predictable and consistent interface to underlying 
- platform-specific implementations. 
+ APR is Apache's Portable Runtime Library, designed to be a support library
+ that provides a predictable and consistent interface to underlying
+ platform-specific implementations.
  .
  This package contains development headers for APR.
 
@@ -38,8 +38,8 @@ Section: debug
 Multi-Arch: same
 Depends: libapr1 (= ${binary:Version}), ${misc:Depends}
 Description: Apache Portable Runtime Library - Debugging Symbols
- APR is Apache's Portable Runtime Library, designed to be a support library 
- that provides a predictable and consistent interface to underlying 
- platform-specific implementations. 
+ APR is Apache's Portable Runtime Library, designed to be a support library
+ that provides a predictable and consistent interface to underlying
+ platform-specific implementations.
  .
  This package contains the debugging symbols for APR.
