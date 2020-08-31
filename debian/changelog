@@ -3,6 +3,7 @@ apr (1.7.0-4) UNRELEASED; urgency=low
   * Trim trailing whitespace.
   * Transition to automatic debug package (from: libapr1-dbg).
   * Use secure URI in Homepage field.
+  * Bump debhelper from old 11 to 12.
 
  -- Debian Janitor <janitor@jelmer.uk>  Mon, 31 Aug 2020 02:11:09 -0000
 
