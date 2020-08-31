@@ -7,7 +7,7 @@ Build-Depends: debhelper (>= 11), autoconf, mawk, uuid-dev, doxygen, netbase, ne
 Standards-Version: 4.5.0
 Vcs-Browser: https://salsa.debian.org/apache-team/apr
 Vcs-Git: https://salsa.debian.org/apache-team/apr.git
-Homepage: http://apr.apache.org/
+Homepage: https://apr.apache.org/
 
 Package: libapr1
 Architecture: any
