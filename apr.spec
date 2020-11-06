@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.7.0
-Release: 6%{?dist}
+Release: 7%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -58,7 +58,8 @@ export ac_cv_search_shm_open=no
 %configure \
         --includedir=%{_includedir}/apr-%{aprver} \
         --with-installbuilddir=%{_libdir}/apr-%{aprver}/build \
-        --with-devrandom=/dev/urandom
+        --with-devrandom=/dev/urandom \
+        --disable-static
 make %{?_smp_mflags}
 
 %install
@@ -123,6 +124,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Fri Nov  6 2020 Joe Orton <jorton@redhat.com> - 1.7.0-7
+- disable static build in libtool
+
 * Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
