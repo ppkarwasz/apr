@@ -1,4 +1,4 @@
-apr (1.7.0-4) UNRELEASED; urgency=low
+apr (1.7.0-4) unstable; urgency=low
 
   [ Debian Janitor ]
   * Trim trailing whitespace.
@@ -12,7 +12,7 @@ apr (1.7.0-4) UNRELEASED; urgency=low
     the patch. Closes: #916829
   * Bump Standards-Version (no changes).
 
- -- Debian Janitor <janitor@jelmer.uk>  Mon, 31 Aug 2020 02:11:09 -0000
+ -- Stefan Fritsch <sf@debian.org>  Sat, 21 Nov 2020 21:06:09 +0100
 
 apr (1.7.0-3) unstable; urgency=medium
 
