@@ -79,6 +79,7 @@ CONFFLAGS += SED=/bin/sed
 CONFFLAGS += GREP=/bin/grep
 CONFFLAGS += EGREP="/bin/grep -E"
 CONFFLAGS += FGREP="/bin/grep -F"
+CONFFLAGS += ac_cv_path_lt_DD=/bin/dd
 
 override_dh_autoreconf:
 	LC_ALL=C dh_autoreconf ./buildconf
@@ -149,8 +150,6 @@ override_dh_auto_install:
 	perl -p -i -e "s,^dependency_libs=.*,dependency_libs=''," debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/libapr-1.la
 	# Remove hostname to make build reproducible
 	perl -p -i -e 's/Libtool was configured on host.*//' debian/tmp/usr/share/apr-1.0/build/libtool
-	# Consistantly use /bin/dd to make build reproducible
-	perl -p -i -e 's/lt_truncate_bin=.*.bin.dd /lt_truncate_bin=\/bin\/dd /' debian/tmp/usr/share/apr-1.0/build/libtool
 	# Replace variable build path with BUILDDIR
 	perl -p -i -e "s,$(CURDIR),BUILDDIR/," debian/tmp/usr/bin/apr-1-config
 	perl -p -i -e "s,$(CURDIR),BUILDDIR/," debian/tmp/usr/share/apr-1.0/build/apr_rules.mk
