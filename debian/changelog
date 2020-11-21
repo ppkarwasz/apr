@@ -10,6 +10,7 @@ apr (1.7.0-4) UNRELEASED; urgency=low
   [ Stefan Fritsch ]
   * Fix apr libtool on unmerged /usr. Thanks to Vagrant Cascadian for
     the patch. Closes: #916829
+  * Bump Standards-Version (no changes).
 
  -- Debian Janitor <janitor@jelmer.uk>  Mon, 31 Aug 2020 02:11:09 -0000
 
@@ -17,7 +18,7 @@ apr (1.7.0-3) unstable; urgency=medium
 
   * Bump Standards-Version (no changes).
   * Fixes for 64bit atomics work-around:
-    - call the required initalization
+    - call the required initialization
     - don't use on mips64el
     - use on powerpc
 
