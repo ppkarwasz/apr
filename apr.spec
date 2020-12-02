@@ -60,11 +60,11 @@ export ac_cv_search_shm_open=no
         --with-installbuilddir=%{_libdir}/apr-%{aprver}/build \
         --with-devrandom=/dev/urandom \
         --disable-static
-make %{?_smp_mflags}
+%{make_build}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
+%{make_install}
 
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/aclocal
 install -m 644 build/find_apr.m4 $RPM_BUILD_ROOT/%{_datadir}/aclocal
