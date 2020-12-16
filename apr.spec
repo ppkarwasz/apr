@@ -23,6 +23,7 @@ Patch3: apr-1.7.0-deepbind.patch
 BuildRequires: gcc, autoconf, libtool, libuuid-devel, python3
 # To enable SCTP support
 BuildRequires: lksctp-tools-devel
+BuildRequires: make
 
 %description
 The mission of the Apache Portable Runtime (APR) is to provide a
