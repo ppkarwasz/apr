@@ -40,7 +40,8 @@ apr (1.7.0-2) unstable; urgency=medium
 
 apr (1.7.0-1) unstable; urgency=medium
 
-  * New upstream release
+  * New upstream release.
+    The minimal required linux kernel version is now 3.17.
   * Switch build-depends to python3. Closes: #936128, #969065
     Make apr1-dev depend on python3, so that apr-util does not have to.
     See #936129
