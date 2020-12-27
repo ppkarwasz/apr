@@ -588,4 +588,4 @@ libapr-1.so.0 libapr1 #MINVER#
  apr_vformatter@Base 1.2.7
  apr_vsnprintf@Base 1.2.7
  apr_wait_for_io_or_timeout@Base 1.2.7
- (arch=mipsel powerpc)apr__atomic_generic64_init@Base 1.7.0-3~
+ (arch=mipsel m68k powerpc sh3 sh4)apr__atomic_generic64_init@Base 1.7.0-3~
