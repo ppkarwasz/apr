@@ -1,9 +1,9 @@
-apr (1.7.0-5) unstable; urgency=medium
+apr (1.7.0-6) unstable; urgency=medium
 
   [ John Paul Adrian Glaubitz ]
   * Fix atomics for m68k, sh3 and sh4. Closes: #978018
 
- -- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>  Thu, 24 Dec 2020 18:01:15 +0100
+ -- Stefan Fritsch <sf@debian.org>  Sun, 27 Dec 2020 17:28:47 +0100
 
 apr (1.7.0-4) unstable; urgency=low
 
