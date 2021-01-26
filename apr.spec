@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.7.0
-Release: 7%{?dist}
+Release: 8%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -125,6 +125,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Fri Nov  6 2020 Joe Orton <jorton@redhat.com> - 1.7.0-7
 - disable static build in libtool
 
