@@ -3,7 +3,16 @@ Section: libs
 Priority: optional
 Maintainer: Debian Apache Maintainers <debian-apache@lists.debian.org>
 Uploaders: Stefan Fritsch <sf@debian.org>
-Build-Depends: debhelper-compat (= 12), autoconf, mawk, uuid-dev, doxygen, netbase, net-tools, libtool (>= 2), python3:any, libsctp-dev [linux-any]
+Build-Depends: debhelper-compat (= 12),
+ autoconf,
+ mawk,
+ uuid-dev,
+ doxygen,
+ netbase <!nocheck>,
+ net-tools <!nocheck>,
+ libtool (>= 2),
+ python3:any,
+ libsctp-dev [linux-any]
 Standards-Version: 4.5.1
 Vcs-Browser: https://salsa.debian.org/apache-team/apr
 Vcs-Git: https://salsa.debian.org/apache-team/apr.git
