@@ -1,0 +1,19 @@
+--- a/build/apr_common.m4	2021/03/06 18:45:02	1887278
++++ b/build/apr_common.m4	2021/03/06 22:20:59	1887279
+@@ -467,13 +467,9 @@
+    CFLAGS="$CFLAGS -Werror"
+  fi
+  AC_COMPILE_IFELSE(
+-  [AC_LANG_SOURCE(
+-   [#include "confdefs.h"
+-   ]
+-   [[$1]]
+-   [int main(int argc, const char *const *argv) {]
++  [AC_LANG_PROGRAM(
++   [[$1]],
+    [[$2]]
+-   [   return 0; }]
+   )], [CFLAGS=$apr_save_CFLAGS
+ $3],  [CFLAGS=$apr_save_CFLAGS
+ $4])
+
