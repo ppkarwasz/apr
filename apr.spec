@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.7.0
-Release: 10%{?dist}
+Release: 11%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -92,6 +92,12 @@ install -c -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_includedir}/apr-%{aprver}/apr.h
 rm -f $RPM_BUILD_ROOT%{_libdir}/apr.exp \
       $RPM_BUILD_ROOT%{_libdir}/libapr-*.a
 
+# Additionally packaged (see https://bugzilla.redhat.com/1669589) --
+sed -i '1s,/.*,/usr/bin/python3,' build/gen-build.py
+for f in build/gen-build.py build/install.sh build/config.*; do
+    install -c -m755 $f $RPM_BUILD_ROOT%{_libdir}/apr-%{aprver}/build
+done
+
 %check
 # Fail if LFS support isn't present in a 32-bit build, since this
 # breaks ABI and the soname doesn't change: see #254241
@@ -127,6 +133,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Fri Jun 18 2021 Joe Orton <jorton@redhat.com> - 1.7.0-11
+- package additional build/* files in apr-devel (#1945078)
+
 * Fri Jun 18 2021 Joe Orton <jorton@redhat.com> - 1.7.0-10
 - document APR_DEEPBIND and use secure_getenv() (thanks to mturk)
 
