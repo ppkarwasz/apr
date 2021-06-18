@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.7.0
-Release: 9%{?dist}
+Release: 10%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -109,7 +109,7 @@ popd
 %ldconfig_scriptlets
 
 %files
-%doc CHANGES LICENSE NOTICE
+%doc CHANGES LICENSE NOTICE README*
 %{_libdir}/libapr-%{aprver}.so.*
 
 %files devel
@@ -127,6 +127,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Fri Jun 18 2021 Joe Orton <jorton@redhat.com> - 1.7.0-10
+- document APR_DEEPBIND and use secure_getenv() (thanks to mturk)
+
 * Mon Apr 12 2021 Lubos Uhliarik <luhliari@redhat.com> - 1.7.0-9
 - Resolves: #1942985 - apr: FTBFS with upcoming autoconf-2.71
 
