@@ -6,7 +6,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.7.0
-Release: 12%{?dist}
+Release: 13%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -22,8 +22,6 @@ Patch2: apr-1.2.7-pkgconf.patch
 Patch3: apr-1.7.0-deepbind.patch
 Patch4: apr-1.7.0-autoconf.patch
 BuildRequires: gcc, autoconf, libtool, libuuid-devel, python3
-# To enable SCTP support
-BuildRequires: lksctp-tools-devel
 BuildRequires: make
 
 %description
@@ -57,6 +55,9 @@ C data structures and routines.
 # Forcibly prevent detection of shm_open (which then picks up but
 # does not use -lrt).
 export ac_cv_search_shm_open=no
+
+# Forcibly disable sctp protocol support
+export apr_cv_sctp=no
 
 %configure \
         --includedir=%{_includedir}/apr-%{aprver} \
@@ -133,6 +134,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Wed Aug 04 2021 Luboš Uhliarik <luhliari@redhat.com> - 1.7.0-13
+- disable sctp protocol support by default
+
 * Wed Jul 21 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
