@@ -13,3 +13,4 @@ cross.patch
 python3-hashbang.patch
 generic-64bit-atomics.patch
 CVE-2021-35940.patch
+build-apr_common.m4-avoid-explicit-inclusion-of-conf.patch
