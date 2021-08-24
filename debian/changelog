@@ -1,3 +1,9 @@
+apr (1.7.0-8) UNRELEASED; urgency=medium
+
+  * build/apr_common.m4: avoid explicit inclusion of "confdefs.h"
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Tue, 24 Aug 2021 10:12:09 +0200
+
 apr (1.7.0-7) unstable; urgency=medium
 
   * Team upload
