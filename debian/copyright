@@ -1,9 +1,9 @@
 This package was debianized by Thom May <thom@debian.org> on
 Wed, 17 Nov 2004 11:27:14 -0800
 
-It was downloaded from http://httpd.apache.org/download.cgi
+It was downloaded from https://httpd.apache.org/download.cgi
 
-Upstream Authors: The Apache Software Foundation - http://apr.apache.org/
+Upstream Authors: The Apache Software Foundation - https://apr.apache.org/
 
 Copyright:
 
@@ -12,7 +12,7 @@ license agreements. The ASF licenses this work to You under the Apache License,
 Version 2.0 (the "License"); you may not use this work except in compliance
 with the License.  You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+    https://www.apache.org/licenses/LICENSE-2.0
 
 On a Debian system, the license can be found at
 /usr/share/common-licenses/Apache-2.0 .
@@ -118,7 +118,7 @@ From test/CuTest.c, test/CuTest.h:
  * 
  * This library is released under the zlib/libpng license as described at
  * 
- * http://www.opensource.org/licenses/zlib-license.html
+ * https://www.opensource.org/licenses/zlib-license.html
  * 
  * Here is the statement of the license:
  * 
