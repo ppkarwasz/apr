@@ -1,7 +1,12 @@
 apr (1.7.0-7) UNRELEASED; urgency=medium
 
+  [ Helmut Grohne ]
   * Annotate test dependencies netbase and net-tools <!nocheck>.
     Closes: #981738
+
+  [ Salvatore Bonaccorso ]
+  * Out-of-bounds array dereference in apr_time_exp*() functions
+    (CVE-2021-35940) (Closes: #992789)
 
  -- Helmut Grohne <helmut@subdivi.de>  Wed, 03 Feb 2021 13:17:53 +0100
 
