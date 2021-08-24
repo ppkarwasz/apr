@@ -3,7 +3,7 @@ Section: libs
 Priority: optional
 Maintainer: Debian Apache Maintainers <debian-apache@lists.debian.org>
 Uploaders: Stefan Fritsch <sf@debian.org>
-Build-Depends: debhelper-compat (= 12),
+Build-Depends: debhelper-compat (= 13),
  autoconf,
  mawk,
  uuid-dev,
