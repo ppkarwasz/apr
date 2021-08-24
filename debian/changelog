@@ -1,6 +1,7 @@
 apr (1.7.0-9) UNRELEASED; urgency=medium
 
   * Bump debhelper from old 12 to 13.
+  * Re-export upstream signing key without extra signatures.
 
  -- lintian-brush <yadd@debian.org>  Tue, 24 Aug 2021 10:58:32 -0000
 
