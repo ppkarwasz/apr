@@ -3,10 +3,13 @@
 # Arches on which the multilib apr.h hack is needed:
 %define multilib_arches %{ix86} ia64 ppc ppc64 s390 s390x x86_64
 
+# Similar issue to https://bugzilla.redhat.com/show_bug.cgi?id=2043092
+%undefine _package_note_flags
+
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.7.0
-Release: 15%{?dist}
+Release: 16%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -136,6 +139,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Fri Jan 28 2022 Joe Orton <jorton@redhat.com> - 1.7.0-16
+- disable package notes
+
 * Wed Jan 19 2022 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.0-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
