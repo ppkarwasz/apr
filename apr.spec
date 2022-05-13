@@ -9,7 +9,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.7.0
-Release: 16%{?dist}
+Release: 17%{?dist}
 # ASL 2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD with advertising: strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -76,7 +76,9 @@ rm -rf $RPM_BUILD_ROOT
 %{make_install}
 
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/aclocal
-install -m 644 build/find_apr.m4 $RPM_BUILD_ROOT/%{_datadir}/aclocal
+for f in find_apr.m4 apr_common.m4; do
+ install -p -m 644 build/$f $RPM_BUILD_ROOT/%{_datadir}/aclocal
+done
 
 # Trim exported dependecies
 sed -ri '/^dependency_libs/{s,-l(uuid|crypt) ,,g}' \
@@ -139,6 +141,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Fri May 13 2022 Joe Orton <jorton@redhat.com> - 1.7.0-17
+- ship apr_common.m4 in -devel as well
+
 * Fri Jan 28 2022 Joe Orton <jorton@redhat.com> - 1.7.0-16
 - disable package notes
 
