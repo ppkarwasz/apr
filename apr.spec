@@ -6,6 +6,9 @@
 # Similar issue to https://bugzilla.redhat.com/show_bug.cgi?id=2043092
 %undefine _package_note_flags
 
+# Disable .la file removal since the .la file is exported via apr-config.
+%global __brp_remove_la_files %nil
+
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.7.0
@@ -130,7 +133,7 @@ popd
 %doc docs/APRDesign.html docs/canonical_filenames.html
 %doc docs/incomplete_types docs/non_apr_programs
 %{_bindir}/apr-%{aprver}-config
-%{_libdir}/libapr-%{aprver}.*a
+%{_libdir}/libapr-%{aprver}.la
 %{_libdir}/libapr-%{aprver}.so
 %{_libdir}/pkgconfig/*.pc
 %dir %{_libdir}/apr-%{aprver}
@@ -143,6 +146,7 @@ popd
 %changelog
 * Fri May 13 2022 Joe Orton <jorton@redhat.com> - 1.7.0-17
 - ship apr_common.m4 in -devel as well
+- disable .la file removal
 
 * Fri Jan 28 2022 Joe Orton <jorton@redhat.com> - 1.7.0-16
 - disable package notes
