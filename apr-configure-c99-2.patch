@@ -1,0 +1,26 @@
+------------------------------------------------------------------------
+r1906349 | jorton | 2023-01-03 09:51:28 +0100 (Tue, 03 Jan 2023) | 8 lines
+
+Merge r1906347 from trunk:
+
+Fix configure for compilers which don't accept implicit
+int (no longer part of C since C99).
+
+Submitted by: Florian Weimer <fweimer redhat.com>
+PR: 66396
+
+------------------------------------------------------------------------
+
+diff --git a/build/apr_common.m4 b/build/apr_common.m4
+index b8c14b977cfc422b..2cb366c39b78380e 100644
+--- a/build/apr_common.m4
++++ b/build/apr_common.m4
+@@ -528,7 +528,7 @@ AC_TRY_RUN([
+ #include <string.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+-main()
++int main(void)
+ {
+   char buf[1024];
+   if (strerror_r(ERANGE, buf, sizeof buf) < 1) {
