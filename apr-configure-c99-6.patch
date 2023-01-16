@@ -2,7 +2,7 @@ Avoid an implicit int in the definition of the main function.
 Avoids build problems with future C compilers which will not
 support them by default.
 
-Submitted upstream: <https://bz.apache.org/bugzilla/show_bug.cgi?id=66396>
+Submitted upstream: <https://bz.apache.org/bugzilla/show_bug.cgi?id=66426>
 
 diff --git a/configure.in b/configure.in
 index d858951af97f3a1b..6346d8026e7a251d 100644
