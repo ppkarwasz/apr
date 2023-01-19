@@ -6,7 +6,12 @@
 #
 #   The project is either 'apr', 'apr-util' or 'apr-iconv'
 #
-#   The TAG is the CVS tag that will be pulled when retreiving the source.
+#   The TAG is the CVS tag that will be pulled when retreiving the source. If the tag has an -rcX suffix, the packages will too.
+#
+#   To prep the tag:
+#      1. Check copyrights as in apr-trunk r1898794
+#      2. Comment out APR_IS_DEV_VERSION is in apr-1.7.x r1906812
+#      3. Copy it with e.g. svn cp -m "tag 1.7.1-rc1" https://svn.apache.org/repos/asf/apr/apr/branches/1.7.x@1906812 https://svn.apache.org/repos/asf/apr/apr/tags/1.7.1-rc1
 #
 #   The RELEASE-VERSION is the name that will be given to the tarball.
 #   Eg. if RELEASE-VERSION is 5.6.7 then the tarball will be apr-5.6.7.tar.gz
@@ -21,6 +26,14 @@
 #   This script will run the appropriate commands to prepare and construct the
 #   tarball. The subdirectory will be cleaned up upon exit.
 #
+#   What comes after the script?
+#   1. Add the generated tarballs, sigs, checksums, etc to checkout of https://dist.apache.org/repos/dist/dev/apr
+#   2. Announce the vote w/ the links to dist/dev/apr
+#   3. Wait for results and repeat or release
+#   4. To release:
+#      1. rename the tag to drop the -rcX suffix
+#      2. rename the files to drop the -rxX suffix
+#      3. svn mv them from dist/dev/ to dist/release
 
 if test "$#" != 2 && test "$#" != 3 && test "$#" != 4; then
   echo "USAGE: $0 PROJECT TAG [SIGNING-USER] [APR-SOURCE]" >&2
