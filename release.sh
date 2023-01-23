@@ -34,6 +34,22 @@
 #      1. rename the tag to drop the -rcX suffix
 #      2. rename the files to drop the -rxX suffix
 #      3. svn mv them from dist/dev/ to dist/release
+#         - update the Announcement txt and htmp on dist/dev and copy it.
+#      4. Add any CVE details if applicable to the CHANGES and commit.
+#      5. Update CHANGES-* on dist/release/apr
+#         e.g. https://www.apache.org/dist/apr/CHANGES-APR-1.7
+#      5. Send announce emails to apr and announce@
+#         # Process the CVEs that have been part of the release:
+#      6. set CVEs to READY on the cveprocess site
+#         - Fill in a 'reference' tag 'vendor-advisory' with the URL to your public post about
+#           this issue.  A link to https://httpd.apache.org/security/vulnerabilities_24.html is sufficient.
+#         - Use the 'OSS/ASF Emails' tab for the emails you should send to oss-security
+#           and to Apache lists.
+#         - ASF Security will be notified and will submit to the CVE
+#           project and then set state to 'PUBLIC'.
+#      7. Clean up prior release artifacts
+#      8. restore {APR|APU}_IS_DEV_VERSION define in headers and bump versions.
+#   
 
 if test "$#" != 2 && test "$#" != 3 && test "$#" != 4; then
   echo "USAGE: $0 PROJECT TAG [SIGNING-USER] [APR-SOURCE]" >&2
