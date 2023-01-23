@@ -42,7 +42,7 @@
 #         # Process the CVEs that have been part of the release:
 #      6. set CVEs to READY on the cveprocess site
 #         - Fill in a 'reference' tag 'vendor-advisory' with the URL to your public post about
-#           this issue.  A link to https://httpd.apache.org/security/vulnerabilities_24.html is sufficient.
+#           this issue.  A link to CHANGES doc updated above is sufficient.
 #         - Use the 'OSS/ASF Emails' tab for the emails you should send to oss-security
 #           and to Apache lists.
 #         - ASF Security will be notified and will submit to the CVE
