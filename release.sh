@@ -34,7 +34,9 @@
 #      1. rename the tag to drop the -rcX suffix
 #      2. rename the files to drop the -rxX suffix
 #      3. svn mv them from dist/dev/ to dist/release
-#         - update the Announcement txt and htmp on dist/dev and copy it.
+#         - wait for dlcdn links (immediate) and directory listings (up to 2 hours) to show the new files.
+#         - update the Announcement txt and html on dist/dev and copy it.
+#         - update the download and index xdocs/ as in r1840948
 #      4. Add any CVE details if applicable to the CHANGES and commit.
 #      5. Update CHANGES-* on dist/release/apr
 #         e.g. https://www.apache.org/dist/apr/CHANGES-APR-1.7
