@@ -98,7 +98,7 @@ echo ""
 counter=0
 for rcpt in ${ANNOUNCE_LISTS}; do
     MID="<`perl -e 'print time . ".";@chars=("A".."Z",0..0);print $chars[rand @chars] for 1..8;'`@apr.apache.org>"
-    mail_file="${DIST_DIR}/mail_announce_${VERSION}-${counter}.txt"
+    mail_file="${DIST_DIR}/mail_announce_${PROJECT}_${VERSION}-${counter}.txt"
     cat <<EOF > "$mail_file"
 From: ${asf_id} <$email>
 To: $rcpt
@@ -122,7 +122,7 @@ EOF
 done
 
 
-CVES_MENTIONED=`fgrep CVE- dist/apache.org-dist/release/apr/${CHANGES_FILE}-${v_major}-${v_minor}`
+CVES_MENTIONED=`fgrep CVE- dist/apache.org-dist/release/apr/${CHANGES_FILE}-${v_major}.${v_minor}`
 if test -n "${CVES_MENTIONED}"; then
   cat << EOF
 Then set the following CVEs mentioned to READY on the ASF cveprocess site (and send the emails from the OSS/ASF tab):
