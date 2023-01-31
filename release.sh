@@ -88,6 +88,8 @@ case "$PROJECT" in
 esac
 
 dirname="${repos_name}-${TAG}"
+# remove -rcX
+dirname="$(echo $dirname | sed -E -e 's/-rc[0-9]+//')"
 
 echo "       Tag name: $TAG"
 echo "      Directory: $dirname"
