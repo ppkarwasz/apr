@@ -48,7 +48,7 @@
 #           this issue (the same emails ent in the preceding sub-bullet(
 #         - ASF Security will be notified and will submit to the CVE
 #           project and then set state to 'PUBLIC'.
-#      7. Add any CVE details if applicable to the CHANGES and commit.
+#      7. Add any CVE details if applicable to the CHANGES and commit and copy to dist/apr
 #      8. Clean up prior release artifacts
 #      9. restore {APR|APU}_IS_DEV_VERSION define in headers and bump versions.
 #   
