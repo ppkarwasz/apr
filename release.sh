@@ -40,13 +40,13 @@
 #      4. Add any CVE details if applicable to the CHANGES and commit.
 #      5. Update CHANGES-* on dist/release/apr
 #         e.g. https://www.apache.org/dist/apr/CHANGES-APR-1.7
-#      5. Send announce emails to apr and announce@
+#      5. Send announce emails to apr and announce@ (see r6-announce.sh in this dir)
 #         # Process the CVEs that have been part of the release:
 #      6. set CVEs to READY on the cveprocess site
-#         - Fill in a 'reference' tag 'vendor-advisory' with the URL to your public post about
-#           this issue.  A link to CHANGES doc updated above is sufficient.
 #         - Use the 'OSS/ASF Emails' tab for the emails you should send to oss-security
 #           and to Apache lists.
+#         - Fill in a 'reference' tag 'vendor-advisory' with the URL to your public post about
+#           this issue (the same emails ent in the preceding sub-bullet(
 #         - ASF Security will be notified and will submit to the CVE
 #           project and then set state to 'PUBLIC'.
 #      7. Clean up prior release artifacts
