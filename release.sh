@@ -88,6 +88,7 @@ case "$PROJECT" in
 esac
 
 dirname="${repos_name}-${TAG}"
+filename="${dirname}"
 # remove -rcX
 dirname="$(echo $dirname | sed -E -e 's/-rc[0-9]+//')"
 
@@ -158,10 +159,10 @@ echo ""
 echo "Building the tarball, .gz and .bz2 files ..."
 echo ""
 
-tar cf ${dirname}.tar ${dirname}
-gzip -9 --to-stdout ${dirname}.tar > ${dirname}.tar.gz
-bzip2 -9 -c ${dirname}.tar > ${dirname}.tar.bz2
-rm ${dirname}.tar
+tar cf ${filename}.tar ${dirname}
+gzip -9 --to-stdout ${filename}.tar > ${filename}.tar.gz
+bzip2 -9 -c ${filename}.tar > ${filename}.tar.bz2
+rm ${filename}.tar
 
 echo $split
 echo ""
@@ -169,7 +170,7 @@ echo "Building the windows zip file ..."
 echo ""
 mv ${dirname} ${dirname}-unix
 mv ${dirname}-win32 ${dirname}
-zip -9 -r ${dirname}-win32-src.zip ${dirname}
+zip -9 -r ${filename}-win32-src.zip ${dirname}
 mv ${dirname} ${dirname}-win32
 mv ${dirname}-unix ${dirname}
 
@@ -184,7 +185,7 @@ gpg="`which gpg 2> /dev/null | head -1`"
 pgp="`which pgp 2> /dev/null | head -1`"
 openssl="`which openssl 2> /dev/null | head -1`"
 
-set -- ${dirname}.tar.gz ${dirname}.tar.bz2 ${dirname}-win32-src.zip
+set -- ${filename}.tar.gz ${filename}.tar.bz2 ${filename}-win32-src.zip
 # if found we use openssl for generating the checksums
 if test -x "${openssl}"; then
   for file; do
