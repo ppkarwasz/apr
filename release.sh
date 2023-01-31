@@ -50,8 +50,7 @@
 #           project and then set state to 'PUBLIC'.
 #      7. Add any CVE details if applicable to the CHANGES and commit and copy to dist/apr
 #      8. Clean up prior release artifacts
-#      9. restore {APR|APU}_IS_DEV_VERSION define in headers and bump versions.
-#   
+#      9. restore {APR|APU}_IS_DEV_VERSION define in headers and bump versions.  Add a new CHANGES banner
 
 if test "$#" != 2 && test "$#" != 3 && test "$#" != 4; then
   echo "USAGE: $0 PROJECT TAG [SIGNING-USER] [APR-SOURCE]" >&2
