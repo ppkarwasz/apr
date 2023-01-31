@@ -37,8 +37,7 @@
 #         - wait for dlcdn links (immediate) and directory listings (up to 2 hours) to show the new files.
 #         - update the Announcement txt and html on dist/dev and copy it.
 #         - update the download and index xdocs/ as in r1840948
-#      4. Add any CVE details if applicable to the CHANGES and commit.
-#      5. Update CHANGES-* on dist/release/apr
+#      4. Update CHANGES-* on dist/release/apr
 #         e.g. https://www.apache.org/dist/apr/CHANGES-APR-1.7
 #      5. Send announce emails to apr and announce@ (see r6-announce.sh in this dir)
 #         # Process the CVEs that have been part of the release:
@@ -49,8 +48,9 @@
 #           this issue (the same emails ent in the preceding sub-bullet(
 #         - ASF Security will be notified and will submit to the CVE
 #           project and then set state to 'PUBLIC'.
-#      7. Clean up prior release artifacts
-#      8. restore {APR|APU}_IS_DEV_VERSION define in headers and bump versions.
+#      7. Add any CVE details if applicable to the CHANGES and commit.
+#      8. Clean up prior release artifacts
+#      9. restore {APR|APU}_IS_DEV_VERSION define in headers and bump versions.
 #   
 
 if test "$#" != 2 && test "$#" != 3 && test "$#" != 4; then
