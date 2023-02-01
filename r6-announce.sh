@@ -54,10 +54,12 @@ v_minor=`echo $VERSION| cut -d "." -f 2`
 
 PROJECT_SUBJECT="Apache Portable Runtime"
 CHANGES_FILE="CHANGES-APR"
+ANNOUNCEMENT="Announcement${v_major}.x.txt"
 case ${PROJECT} in
     apr) ;;
     apr-util) PROJECT_SUBJECT="Apache Portable Runtime Utility"
               CHANGES_FILE="CHANGES-APR-UTIL"
+              ANNOUNCEMENT="Announcement-aprutil-${v_major}.x.txt"
         ;;
     *) echo "Teach me about ${PROJECT}"
        exit 1
@@ -68,7 +70,6 @@ AO_DIST_PATH="dist/apache.org-dist"
 AO_DIST_RELEASE_PATH="${AO_DIST_PATH}/release/apr"
 
 TAR_BASENAME="${PROJECT}-${VERSION}"
-ANNOUNCEMENT="Announcement${v_major}.x.txt"
 ANNOUNCE_LISTS="announce@apache.org announce@apr.apache.org"
 
 # SVN repository is huge, carefully check out only what we need
