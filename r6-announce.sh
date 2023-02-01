@@ -70,7 +70,7 @@ AO_DIST_PATH="dist/apache.org-dist"
 AO_DIST_RELEASE_PATH="${AO_DIST_PATH}/release/apr"
 
 TAR_BASENAME="${PROJECT}-${VERSION}"
-ANNOUNCE_LISTS="announce@apache.org announce@apr.apache.org"
+ANNOUNCE_LISTS="announce@apache.org dev@apr.apache.org"
 
 # SVN repository is huge, carefully check out only what we need
 rm -rf "${AO_DIST_PATH}"
