@@ -10,7 +10,7 @@ Build-Depends: debhelper-compat (= 13),
  doxygen,
  netbase <!nocheck>,
  net-tools <!nocheck>,
- libtool (>= 2),
+ libtool,
  python3:any,
  libsctp-dev [linux-any]
 Standards-Version: 4.6.0
