@@ -1,9 +1,15 @@
 apr (1.7.0-9) UNRELEASED; urgency=medium
 
+  [ Debian Janitor ]
   * Bump debhelper from old 12 to 13.
   * Re-export upstream signing key without extra signatures.
   * Remove constraints unnecessary since buster:
     + Build-Depends: Drop versioned constraint on libtool.
+
+  [ Yadd ]
+  * Bump standards version
+  * Modernize debian/watch
+  * Add "Rules-Requires-Root: no"
 
  -- Debian Janitor <janitor@jelmer.uk>  Sun, 29 Aug 2021 13:56:04 -0000
 
