@@ -9,8 +9,4 @@ dont_override_external_buildflags
 libtoolize_check.patch
 debug_testpoll_failure.patch
 use_fcntl_locking.patch
-cross.patch
 python3-hashbang.patch
-generic-64bit-atomics.patch
-CVE-2021-35940.patch
-build-apr_common.m4-avoid-explicit-inclusion-of-conf.patch

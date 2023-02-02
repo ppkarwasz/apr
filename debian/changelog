@@ -1,4 +1,9 @@
-apr (1.7.0-9) UNRELEASED; urgency=medium
+apr (1.7.2-1) UNRELEASED; urgency=medium
+
+  [ Stefan Fritsch ]
+  * New upstream version
+    - CVE-2022-24963: Integer Overflow or Wraparound vulnerability
+      in apr_encode functions
 
   [ Debian Janitor ]
   * Bump debhelper from old 12 to 13.
