@@ -1,4 +1,4 @@
-apr (1.7.2-1) UNRELEASED; urgency=medium
+apr (1.7.2-1) unstable; urgency=medium
 
   [ Stefan Fritsch ]
   * New upstream version
@@ -17,7 +17,7 @@ apr (1.7.2-1) UNRELEASED; urgency=medium
   * Modernize debian/watch
   * Add "Rules-Requires-Root: no"
 
- -- Debian Janitor <janitor@jelmer.uk>  Sun, 29 Aug 2021 13:56:04 -0000
+ -- Stefan Fritsch <sf@debian.org>  Thu, 02 Feb 2023 23:55:35 +0100
 
 apr (1.7.0-8) unstable; urgency=medium
 
