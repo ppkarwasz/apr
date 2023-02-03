@@ -1,9 +1,8 @@
-
-- avoid adding %{_libdir} to --link-ld output
-
---- apr-1.2.2/apr-config.in.libdir
-+++ apr-1.2.2/apr-config.in
-@@ -181,8 +181,10 @@
+diff --git a/apr-config.in b/apr-config.in
+index bed47ca..d4bf4d8 100644
+--- a/apr-config.in
++++ b/apr-config.in
+@@ -198,8 +198,10 @@ while test $# -gt 0; do
      ;;
      --link-ld)
      if test "$location" = "installed"; then
@@ -13,6 +12,6 @@
 +            flags="$flags -L$libdir"
 +        fi
 +        flags="$flags -l${APR_LIBNAME}"
+     elif test "$location" = "crosscompile"; then
+         flags="$flags -L$APR_TARGET_DIR/$libdir -l${APR_LIBNAME}"
      else
-         ### this surely can't work since the library is in .libs?
-         flags="$flags -L$APR_BUILD_DIR -l${APR_LIBNAME}"
