@@ -1,3 +1,10 @@
+apr (1.7.2-3) UNRELEASED; urgency=medium
+
+  * Add more fixes for atomics from upstream, in particular for
+    32 bit archs with weak memory ordering.
+
+ -- Stefan Fritsch <sf@debian.org>  Sun, 26 Feb 2023 21:06:51 +0100
+
 apr (1.7.2-2) unstable; urgency=medium
 
   * Fix 64bit atomics on powerpc and armel.
