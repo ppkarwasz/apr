@@ -1,3 +1,4 @@
+# upstream trunk commits r1907442, r1907441
 --- apr.orig/atomic/unix/builtins.c
 +++ apr/atomic/unix/builtins.c
 @@ -26,7 +26,11 @@
