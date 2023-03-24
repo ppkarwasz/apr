@@ -10,7 +10,7 @@
 #
 #   To prep the tag:
 #      1. Check copyrights as in apr-trunk r1898794
-#      2. Comment out APR_IS_DEV_VERSION is in apr-1.7.x r1906812
+#      2. Comment out APR_IS_DEV_VERSION as in apr-1.7.x r1906812
 #      3. Copy it with e.g. svn cp -m "tag 1.7.1-rc1" https://svn.apache.org/repos/asf/apr/apr/branches/1.7.x@1906812 https://svn.apache.org/repos/asf/apr/apr/tags/1.7.1-rc1
 #
 #   The RELEASE-VERSION is the name that will be given to the tarball.
