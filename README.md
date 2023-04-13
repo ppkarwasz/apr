@@ -1,7 +1,7 @@
 # APR/APU release process
 
 ## 1) Release basics
-1. set APR_DEV_TOOLS to the parent directory of this readme, e.g. APR_DEV_TOOLS=$HOME/SRC/apr-site/tools
+1. set APR_DEV_TOOLS to the parent directory of this readme, e.g. APR_DEV_TOOLS=$HOME/SRC/apr-site/release
 2. set your working directory to a clean checkout of the project you're releasing
 3. Tag an rc:
 
