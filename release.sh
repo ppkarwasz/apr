@@ -6,12 +6,8 @@
 #
 #   The project is either 'apr', 'apr-util' or 'apr-iconv'
 #
-#   The TAG is the CVS tag that will be pulled when retreiving the source. If the tag has an -rcX suffix, the packages will too.
-#
-#   To prep the tag:
-#      1. Check copyrights as in apr-trunk r1898794
-#      2. Comment out APR_IS_DEV_VERSION as in apr-1.7.x r1906812
-#      3. Copy it with e.g. svn cp -m "tag 1.7.1-rc1" https://svn.apache.org/repos/asf/apr/apr/branches/1.7.x@1906812 https://svn.apache.org/repos/asf/apr/apr/tags/1.7.1-rc1
+#   The TAG is the SVN tag that will be pulled when retreiving the source. If the tag has an -rcX suffix, the packages will too.
+#   See README.md and r0-make-candidate.sh in this directory.
 #
 #   The RELEASE-VERSION is the name that will be given to the tarball.
 #   Eg. if RELEASE-VERSION is 5.6.7 then the tarball will be apr-5.6.7.tar.gz
@@ -22,39 +18,9 @@
 #   The APR-SOURCE is an optional path to the local APR source directory 
 #   required for apr-util's buildconf to find the required files.
 #
-#
 #   This script will run the appropriate commands to prepare and construct the
 #   tarball. The subdirectory will be cleaned up upon exit.
 #
-#   What comes after the script?
-#   1. Add the generated tarballs, sigs, checksums, etc to checkout of https://dist.apache.org/repos/dist/dev/apr
-#   2. Announce the vote w/ the links to dist/dev/apr
-#   3. Wait for results and repeat or release
-#   4. To release:
-#      1. rename the tag to drop the -rcX suffix
-#      2. rename the files to drop the -rxX suffix
-#      3. svn mv them from dist/dev/ to dist/release
-#         - wait for dlcdn links (immediate) and directory listings (up to 2 hours) to show the new files.
-#         - update the Announcement txt and html on dist/dev and copy it.
-#         - update the download and index xdocs/ as in r1840948
-#      4. Update CHANGES-* on dist/release/apr
-#         e.g. https://www.apache.org/dist/apr/CHANGES-APR-1.7
-#      5. Send announce emails to apr and announce@ (see r6-announce.sh in this dir)
-#         # Process the CVEs that have been part of the release:
-#      6. set CVEs to READY on the cveprocess site
-#         - Use the 'OSS/ASF Emails' tab for the emails you should send to oss-security
-#           and to Apache lists.
-#         - Fill in a 'reference' tag 'vendor-advisory' with the URL to your public post about
-#           this issue (the same emails ent in the preceding sub-bullet(
-#         - ASF Security will be notified and will submit to the CVE
-#           project and then set state to 'PUBLIC'.
-#      7. Add any CVE details if applicable to the CHANGES and commit and copy to dist/apr
-#      8. Clean up prior release artifacts
-#      9. restore {APR|APU}_IS_DEV_VERSION define in headers and bump versions.  Add a new CHANGES banner
-#      10. Add releases to reporter.apache.org and bz.apache.org
-#          https://reporter.apache.org/addrelease.html?apr
-#          https://bz.apache.org/bugzilla/editproducts.cgi?action=edit&product=APR
-
 if test "$#" != 2 && test "$#" != 3 && test "$#" != 4; then
   echo "USAGE: $0 PROJECT TAG [SIGNING-USER] [APR-SOURCE]" >&2
   echo "  see the comments in this script for more info."      >&2

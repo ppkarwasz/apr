@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 #Make sure English is used when formating dates and other things
 export LANG=en_US.UTF-8
@@ -106,15 +106,28 @@ detect_version() {
     # did we record it already?
     if test -f "${DIST_DIR}/VERSION"; then
       source "${DIST_DIR}/VERSION"
-    elif test -f include/ap_release.h; then
+    elif test -f include/apr_version.h; then
       # determine version from local files
-      v_major=`grep -E '#define\sAP_SERVER_MAJORVERSION_NUMBER' include/ap_release.h | awk '{print $3}'`
-      v_minor=`grep -E '#define\sAP_SERVER_MINORVERSION_NUMBER' include/ap_release.h | awk '{print $3}'`
-      v_patch=`grep -E '#define\sAP_SERVER_PATCHLEVEL_NUMBER'   include/ap_release.h | awk '{print $3}'`
+      v_major=`grep -E '#define\sAPR_MAJOR_VERSION' include/apr_version.h | awk '{print $3}'`
+      v_minor=`grep -E '#define\sAPR_MINOR_VERSION' include/apr_version.h | awk '{print $3}'`
+      v_patch=`grep -E '#define\sAPR_PATCH_VERSION' include/apr_version.h | awk '{print $3}'`
+      is_apr=1
+    elif test -f include/apu_version.h; then
+      # determine version from local files
+      v_major=`grep -E '#define\sAPU_MAJOR_VERSION' include/apu_version.h | awk '{print $3}'`
+      v_minor=`grep -E '#define\sAPU_MINOR_VERSION' include/apu_version.h | awk '{print $3}'`
+      v_patch=`grep -E '#define\sAPU_PATCH_VERSION' include/apu_version.h | awk '{print $3}'`
+      is_apr=0
     else
       fail "unable to determine version in local checkout"
     fi
   else
+    if test -f include/apr_version.h; then
+      is_apr=1
+    elif test -f include/apu_version.h; then
+      is_apr=0
+    fi
+
     v_major=`echo $version | cut -d "." -f 1`
     v_minor=`echo $version | cut -d "." -f 2`
     #Not currently used in this script, but make it available. Support -alpha, -beta -rcX names here
@@ -130,11 +143,17 @@ detect_version() {
   is_int ${v_patch} || fail "version patch '${v_patch}' is not a number"
 
   # double check that our checkout matches the version we detected
-  if test -f include/ap_release.h; then
-    svn_v_major=`grep -E '#define\sAP_SERVER_MAJORVERSION_NUMBER' include/ap_release.h | awk '{print $3}'`
-    svn_v_minor=`grep -E '#define\sAP_SERVER_MINORVERSION_NUMBER' include/ap_release.h | awk '{print $3}'`
+  if [ $is_apr -eq 1 ]; then
+      svn_v_major=`grep -E '#define\sAPR_MAJOR_VERSION' include/apr_version.h | awk '{print $3}'`
+      svn_v_minor=`grep -E '#define\sAPR_MINOR_VERSION' include/apr_version.h | awk '{print $3}'`
+      if test "$v_major" != "$svn_v_major" -o "$v_minor" != "$svn_v_minor"; then
+          fail "detect version ${v_major}.${v_minor} does not match checkout verison ${svn_v_major}.${svn_v_minor}"
+      fi
+  else
+    svn_v_major=`grep -E '#define\sAPU_MAJOR_VERSION' include/apu_version.h | awk '{print $3}'`
+    svn_v_minor=`grep -E '#define\sAPU_MINOR_VERSION' include/apu_version.h | awk '{print $3}'`
     if test "$v_major" != "$svn_v_major" -o "$v_minor" != "$svn_v_minor"; then
-      fail "detect version ${v_major}.${v_minor} does not match checkout verison ${svn_v_major}.${svn_v_minor}"
+        fail "detect version ${v_major}.${v_minor} does not match checkout verison ${svn_v_major}.${svn_v_minor}"
     fi
   fi
   VERSION="${v_major}.${v_minor}.${v_patch}"
@@ -150,6 +169,7 @@ v_major="${v_major}"
 v_minor="${v_minor}"
 v_patch="${v_patch}"
 v_suffix="${v_suffix}"
+is_apr="${is_apr}"
 EOF
 }
 
