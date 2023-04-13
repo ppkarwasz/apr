@@ -21,6 +21,7 @@
 
    ```
    $APR_DEV_TOOLS/r2-prep-vote.sh
+   ```
 6. Announce the vote w/ the output produced from the above
 7. Wait for results and repeat or release
 8. If unsuccessful, cleanup https://dist.apache.org/repos/dist/dev/apr and repeat with a later rcX.
