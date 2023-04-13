@@ -4,13 +4,12 @@
 #
 # USAGE: release.sh PROJECT TAG [SIGNING-USER] [APR-SOURCE]
 #
+#   example: $APR_DEV_TOOLS/release.sh  apr 1.7.4-rc1-candidate covener@apache.org
+#
 #   The project is either 'apr', 'apr-util' or 'apr-iconv'
 #
 #   The TAG is the SVN tag that will be pulled when retreiving the source. If the tag has an -rcX suffix, the packages will too.
 #   See README.md and r0-make-candidate.sh in this directory.
-#
-#   The RELEASE-VERSION is the name that will be given to the tarball.
-#   Eg. if RELEASE-VERSION is 5.6.7 then the tarball will be apr-5.6.7.tar.gz
 #
 #   The SIGNING-USER is an optional name of the key that you'll be signing the
 #   release with.
@@ -56,11 +55,11 @@ case "$PROJECT" in
 esac
 
 dirname="${repos_name}-${TAG}"
-filename="${dirname}"
-# remove -rcX
-dirname="$(echo $dirname | sed -E -e 's/-rc[0-9]+//')"
+filename="${repos_name}-${TAG}"
+# remove -rcX-candidate
+dirname="$(echo $dirname | sed -E -e 's/-rc[0-9]+(-candidate)?//')"
 
-echo "       Tag name: $TAG"
+echo "      Tag name : $TAG"
 echo "      Directory: $dirname"
 
 if test -d ${dirname}; then
@@ -208,3 +207,5 @@ elif test -x "${gpg}"; then
 else
   echo "PGP or GnuPG not found!  Not signing release!"
 fi
+
+mv ${filename}* dist/

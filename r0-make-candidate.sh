@@ -49,7 +49,7 @@ assure_clean_checkout
 detect_version $1
 
 SVN_DEST="tags/${FULL_VERSION}-candidate"
-DEST_DIR="${DIST_DIR}/${FULL_VERSION}-candidate"
+DEST_DIR="${DIST_DIR}/${PROJECT}-${FULL_VERSION}-candidate"
 
 # find out which CVEs are ready and will be reporting in this candidate
 calc_ready_CVE_DIRS "${DIST_DIR}/pmc"

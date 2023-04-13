@@ -1,23 +1,32 @@
 # APR/APU release process
 
+## 0) prep
+
+1. Remind yourself of your GPG password
+2. Make sure your key is in the KEYS file of the project and has some useful signatures.
+
 ## 1) Release basics
+
 1. set APR_DEV_TOOLS to the parent directory of this readme, e.g. APR_DEV_TOOLS=$HOME/SRC/apr-site/release
 2. set your working directory to a clean checkout of the project you're releasing
-3. Tag an rc:
+3. Tag an rc (the version is taken from include/apX_version.h)
 
    ```
     $APR_DEV_TOOLS/r0-make-candidate.sh rc1
    ```
-4. cd $APR_DEV_TOOLS and read/run release.sh pointing to the tag created
+4. From the same project directory, run `$APR_DEV_TOOLS/release.sh` pointing to the tag created
    by r0-make-candidate.sh.
-5. Add the generated tarballs, sigs, checksums, etc to checkout of https://dist.apache.org/repos/dist/dev/apr
-   - XXX: Need to borrow automation from httpd-dev-tools/release
-6. Announce the vote w/ the links to dist/dev/apr
+5. Review the generated tarballs in the dist/ subdirectory. If they look reasonable, run the following
+   to add the generated tarballs, sigs, checksums, etc to checkout of https://dist.apache.org/repos/dist/dev/apr
+
+   ```
+   $APR_DEV_TOOLS/r2-prep-vote.sh
+6. Announce the vote w/ the output produced from the above
 7. Wait for results and repeat or release
 8. If unsuccessful, cleanup https://dist.apache.org/repos/dist/dev/apr and repeat with a later rcX.
-9. On successful release
+9. On successful vote:
    1. rename the tag to drop the -rcX-candidate suffix
-   2. rename the files to drop the -rxX suffix
+   2. rename the files to drop the -rcX-candidate suffix
    3. svn mv them from dist/dev/ to dist/release
       - wait for dlcdn links (immediate) and directory listings (up to 2 hours) to show the new files.
       - update the Announcement txt and html on dist/dev and copy it.
