@@ -76,12 +76,11 @@ DIST_SITEPATH="${DIST_DIR}/site"
 
 TAR_BASENAME="${PROJECT}-${VERSION}"
 
-# we should only keep on release in our dist repository,
+# we should only keep one release in our dist repository,
 # remove the previous one if it exists
 prev_patch=`expr ${v_patch} - 1`
 PREV_VERSION="${v_major}.${v_minor}.${prev_patch}"
-for i in "${AO_DIST_DEV_PATH}/${PROJECT}-${PREV_VERSION}".tar.* \
-         "${AO_DIST_DEV_PATH}/CHANGES_${v_major}.${prev_patch}"; do
+for i in "${AO_DIST_PATH}/${PROJECT}-${PREV_VERSION}".* do
   test -f "$i" && svn rm "$i"
 done
 
