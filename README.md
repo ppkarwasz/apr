@@ -27,9 +27,10 @@
 8. If unsuccessful, cleanup https://dist.apache.org/repos/dist/dev/apr and repeat with a later rcX.
 9. On successful vote:
    1. Run `$APR_DEV_TOOLS/r3-push-release-tars.sh` from your APR checkout to fixup and move the artifacts from dev/ to release
-   2. Wait for dlcdn links (immediate) and directory listings (up to 2 hours) to show the new files.
-      - update the download and index xdocs/ as in r1840948
-   3. Send announce emails to apr and announce@ (see r6-announce.sh in this dir)
+   2. Run `$APR_DEV_TOOLS/r4-stage-release.sh` to stage an update to the project checkout and website.  Review the changes.
+   3. Wait for dlcdn links (immediate) and directory listings (up to 2 hours) to show the new files.
+   4. Run `$APR_DEV_TOOLS/r5-commit-staged-release.sh` to update the website and dev tree
+   5. Run r6-announce.sh from this dir to generate announce emails (output will tell you what to do)
 
 ## 2) If there were CVES
 
