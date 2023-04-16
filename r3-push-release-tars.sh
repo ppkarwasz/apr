@@ -91,11 +91,12 @@ perl -pi -e "s/^   (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*/   $relea
 echo "moving voted tars ${AO_DIST_DEV_PATH}/${PROJECT}-${FULL_VERSION}-candidate.tar.*"
 #Do an SVN move of the files to retain history
 svn mv "${AO_DIST_DEV_PATH}/${PROJECT}-${FULL_VERSION}-candidate".tar.* "${AO_DIST_RELEASE_PATH}"/
+svn mv "${AO_DIST_DEV_PATH}/${PROJECT}-${FULL_VERSION}-candidate"*.zip "${AO_DIST_RELEASE_PATH}"/
 svn mv "${AO_DIST_DEV_PATH}/${PROJECT}-${FULL_VERSION}-candidate"*.zip.* "${AO_DIST_RELEASE_PATH}"/
 if test "${VERSION}" != "${FULL_VERSION}"; then
   # releasing a version with a suffix, e.g. -rc1. rename to just version
   echo "renaming ${FULL_VERSION} files to ${VERSION}"
-  for file in "${AO_DIST_RELEASE_PATH}/${PROJECT}-${FULL_VERSION}-candidate".tar.* "${AO_DIST_RELEASE_PATH}/${PROJECT}-${FULL_VERSION}-candidate"*.zip.*; do
+  for file in "${AO_DIST_RELEASE_PATH}/${PROJECT}-${FULL_VERSION}-candidate".tar.* "${AO_DIST_RELEASE_PATH}/${PROJECT}-${FULL_VERSION}-candidate"*.zip "${AO_DIST_RELEASE_PATH}/${PROJECT}-${FULL_VERSION}-candidate"*.zip.*; do
     dest=`echo $file | sed -e "s/${FULL_VERSION}-candidate/${VERSION}/"`
     svn mv "$file" "$dest"
   done
