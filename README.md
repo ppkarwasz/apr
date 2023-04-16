@@ -45,8 +45,7 @@
 
 ## 3) Cleanup
 
-1. Clean up prior release artifacts on dist (it's checked out in the dist/ subdir of your apr working dir)
-2. Add a new CHANGES banner
-3. Add releases to reporter.apache.org and bz.apache.org
+1. Add releases to reporter.apache.org and bz.apache.org
        https://reporter.apache.org/addrelease.html?apr
        https://bz.apache.org/bugzilla/editproducts.cgi?action=edit&product=APR
+2. Update doap.rdf in apr-site
