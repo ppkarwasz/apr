@@ -80,7 +80,7 @@ TAR_BASENAME="${PROJECT}-${VERSION}"
 # remove the previous one if it exists
 prev_patch=`expr ${v_patch} - 1`
 PREV_VERSION="${v_major}.${v_minor}.${prev_patch}"
-for i in "${AO_DIST_PATH}/${PROJECT}-${PREV_VERSION}".* do
+for i in "${AO_DIST_RELEASE_PATH}/${PROJECT}-${PREV_VERSION}".* do
   test -f "$i" && svn rm "$i"
 done
 
