@@ -26,15 +26,10 @@
 7. Wait for results and repeat or release
 8. If unsuccessful, cleanup https://dist.apache.org/repos/dist/dev/apr and repeat with a later rcX.
 9. On successful vote:
-   1. rename the tag to drop the -rcX-candidate suffix
-   2. rename the files to drop the -rcX-candidate suffix
-   3. svn mv them from dist/dev/ to dist/release
-      - wait for dlcdn links (immediate) and directory listings (up to 2 hours) to show the new files.
-      - update the Announcement txt and html on dist/dev and copy it.
+   1. Run `$APR_DEV_TOOLS/r3-push-release-tars.sh` from your APR checkout to fixup and move the artifacts from dev/ to release
+   2. Wait for dlcdn links (immediate) and directory listings (up to 2 hours) to show the new files.
       - update the download and index xdocs/ as in r1840948
-   4. Update CHANGES-* on dist/release/apr
-      e.g. https://www.apache.org/dist/apr/CHANGES-APR-1.7
-   5. Send announce emails to apr and announce@ (see r6-announce.sh in this dir)
+   3. Send announce emails to apr and announce@ (see r6-announce.sh in this dir)
 
 ## 2) If there were CVES
 
@@ -49,7 +44,7 @@
 
 ## 3) Cleanup
 
-1. Clean up prior release artifacts on dist
+1. Clean up prior release artifacts on dist (it's checked out in the dist/ subdir of your apr working dir)
 2. Add a new CHANGES banner
 3. Add releases to reporter.apache.org and bz.apache.org
        https://reporter.apache.org/addrelease.html?apr
