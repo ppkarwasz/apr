@@ -121,7 +121,7 @@ fi
 
 
 # Ensure the Copyright date reflects the current year
-for src in NOTICE include/apr_version.h; do
+for src in NOTICE include/ap*_version.h; do
   current_year=`date +%Y`
   if test -f "$src"; then
       perl -pi -e "s/\d+ The Apache Software/$current_year The Apache Software/g" "$src"

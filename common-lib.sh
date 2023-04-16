@@ -445,64 +445,40 @@ stage_checkout_release() {
   is_int ${v_patch} || fail "version patch '${v_patch}' is not a number"
   next_patch=`expr ${v_patch} + 1`
   NEXT_VERSION="${v_major}.${v_minor}.${next_patch}"
+  if [ $is_apr -eq 1 ]; then
+    PROJNAME=APR
+    PROJHEADER=apr_version.h
+  else
+    PROJNAME=APR-UTIL
+    PROJHEADER=apu_version.h
+  fi
 
   # Add the corresponding version placeholder in CHANGES.
-  perl -pi -e "s{(.*coding: utf-8.*)}{\$1\nChanges with Apache ${NEXT_VERSION}\n}" CHANGES
+  perl -pi -e "s{(.*coding: utf-8.*)}{\$1\nChanges for ${PROJNAME} ${NEXT_VERSION}\n}" CHANGES
   # Note the tag date in the STATUS file.
   if test -f STATUS; then
     date_string=`date '+%B %d, %Y'`
-    perl -pi -e '
-      if(/^(\s+)('${VERSION}'\s+):/){
-        $size = length $2;
-        $newline1 = sprintf("${1}%-${size}s", "'${NEXT_VERSION}'") . ": In development\n";
-        $newline2 = sprintf("${1}%-${size}s", "'${VERSION}'") . ": Released on '"${date_string}"'\n";
-        $_="${newline1}${newline2}";
-      }
-      ' STATUS
+    perl -pi -e "s/${VERSION}     : in maintenance/${NEXT_VERSION}     : in maintenance\n    ${VERSION}     : released ${date_string}/" STATUS
   fi
 
   # set the patch number of the next version
-  if test -f include/ap_release.h; then
-    echo "setting patch number in include/ap_release.h"
-    perl -pi -e 's/(#define\s+AP_SERVER_PATCHLEVEL_NUMBER\s+)\d*/${1}'${next_patch}'/g' include/ap_release.h
-    if ! grep -e "^#define *AP_SERVER_PATCHLEVEL_NUMBER *${next_patch}\$" include/ap_release.h >/dev/null 2>&1;then
-      fail "setting of AP_SERVER_PATCHLEVEL_NUMBER did not return expected value of ${next_patch}"
+  if test -f include/$PROJHEADER; then
+    echo "setting patch number in $PROJHEADER"
+    perl -pi -e 's/(#define\s+AP[RU]_PATCH_VERSION\s+)\d*/${1}'${next_patch}'/g' include/${PROJHEADER}
+    if ! grep -e "^#define *AP[RU]_PATCH_VERSION.*${next_patch}\$" include/${PROJHEADER} >/dev/null 2>&1;then
+      fail "setting of PATCH_VERSION did not return expected value of ${next_patch}"
     fi
   fi
 
   # Ensure the Copyright date reflects the current year
   current_year=`date +%Y`
-  for src in NOTICE docs/manual/style/xsl/common.xsl; do
+
+  # Ensure the Copyright date reflects the current year
+  for src in NOTICE include/apr_version.h; do
     if test -f "$src"; then
-      perl -pi -e "s/Copyright \d+ The Apache Software Foundation./Copyright $current_year The Apache Software Foundation./g" "$src"
+      perl -pi -e "s/\d+ The Apache Software/$current_year The Apache Software/g" "$src"
     fi
   done
-
-  if test -d docs/manual; then
-    if test -f docs/manual/style/version.ent; then
-      # Set ENTITY httpd.patch in docs/manual/style/version.ent.
-      echo "setting patch version in docs/manual/style/version.ent"
-      perl -pi -e 's/(.*ENTITY httpd.patch ")(\d+)(.*)/${1}'${next_patch}'${3}/g' docs/manual/style/version.ent
-      if ! grep -e "ENTITY *httpd.patch *\"${next_patch}\"" docs/manual/style/version.ent >/dev/null 2>&1;then
-        fail "setting of ENTITY httpd.patch did not return expected value of ${next_patch}"
-      fi
-    fi
-
-    echo "rebuilding manuals"
-    pushd docs/manual >/dev/null
-    #See http://httpd.apache.org/docs-project/docsformat.html for these instructions
-    if test -d build; then
-      svn update build
-    else
-      svn checkout "${SVN_DOCS_BUILD_URL}/trunk" build
-    fi
-    pushd build >/dev/null
-    ./build.sh all convmap
-    ./build.sh validate-xml
-    ./build.sh validate-xhtml
-    popd >/dev/null
-    popd >/dev/null
-  fi
 }
 
 checkout_pmc() {
