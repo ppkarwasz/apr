@@ -106,7 +106,10 @@ echo "updating site content for ${PROJECT}-${VERSION}"
 date_string=`date '+%B %d, %Y'`
 #Modify the home page by replacing the date and the version string
 perl -pi -e "s/($HTML_REGEX)${v_major}\.${v_minor}\.\d+/\${1}${VERSION}/g" "${DIST_SITEPATH}/xdocs/download.xml" "${DIST_SITEPATH}/xdocs/index.xml"
+perl -pi -e "s/${v_major}\.${v_minor}\.\d+ of the ($HTML_REGEX)/\${VERSION} of the \$1/g" "${DIST_SITEPATH}/xdocs/download.xml" "${DIST_SITEPATH}/xdocs/index.xml"
 perl -pi -e "s/${VERSION}, released [^<]+/${VERSION}, released ${date_string}/" "${DIST_SITEPATH}/xdocs/index.xml"
+(cd ${DIST_SITEPATH} && ./build.sh)
+
 
 echo "adding site changes"
 stage_checkout_release
