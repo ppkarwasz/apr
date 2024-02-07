@@ -30,7 +30,6 @@ Patch1: apr-1.7.2-libdir.patch
 Patch2: apr-1.2.7-pkgconf.patch
 Patch3: apr-1.7.0-deepbind.patch
 Patch4: apr-1.7.2-autoconf.patch
-Patch5: apr-1.7.3-lmdb-support.patch
 BuildRequires: gcc, autoconf, libtool, libuuid-devel, python3
 BuildRequires: make
 
@@ -57,7 +56,6 @@ C data structures and routines.
 %patch2 -p1 -b .pkgconf
 %patch3 -p1 -b .deepbind
 %patch4 -p1 -b .autoconf-2-71
-%patch5 -p1 -b .lmdb-support
 
 %build
 # regenerate configure script etc.
@@ -75,7 +73,6 @@ export apr_cv_sctp=no
         --with-installbuilddir=%{_libdir}/apr-%{aprver}/build \
         --with-devrandom=/dev/urandom \
         --disable-static
-        --enable-maintainer-mode --with-lmdb --with-dbm=lmdb
 %{make_build}
 
 %install
