@@ -61,14 +61,12 @@ C data structures and routines.
 # does not use -lrt).
 export ac_cv_search_shm_open=no
 
-# Forcibly disable sctp protocol support
-export apr_cv_sctp=no
-
 %configure \
         --includedir=%{_includedir}/apr-%{aprver} \
         --with-installbuilddir=%{_libdir}/apr-%{aprver}/build \
         --with-devrandom=/dev/urandom \
-        --disable-static
+        --disable-static \
+        --disable-sctp
 %{make_build}
 
 %install
@@ -143,6 +141,7 @@ popd
 %changelog
 * Thu Feb  8 2024 Joe Orton <jorton@redhat.com> - 1.7.3-8
 - use autosetup
+- always disable SCTP support at build time
 
 * Mon Jan 29 2024 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.3-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_40_Mass_Rebuild
