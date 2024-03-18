@@ -1,3 +1,10 @@
+apr (1.7.2-3.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Rename libraries for 64-bit time_t transition.  Closes: #1061894
+
+ -- Steve Langasek <vorlon@debian.org>  Wed, 28 Feb 2024 01:17:18 +0000
+
 apr (1.7.2-3) unstable; urgency=medium
 
   * Add more fixes for atomics from upstream, in particular for
