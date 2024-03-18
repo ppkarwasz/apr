@@ -1,4 +1,4 @@
-libapr-1.so.0 libapr1 #MINVER#
+libapr-1.so.0 libapr1t64 #MINVER#
  apr__SHA256_Data@Base 1.2.7
  apr__SHA256_End@Base 1.2.7
  apr__SHA256_Final@Base 1.2.7
