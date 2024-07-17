@@ -12,7 +12,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.7.3
-Release: 8%{?dist}
+Release: 9%{?dist}
 # Apache-2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD-4-Clause-UC:  strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -139,6 +139,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Wed Jul 17 2024 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_41_Mass_Rebuild
+
 * Thu Feb  8 2024 Joe Orton <jorton@redhat.com> - 1.7.3-8
 - use autosetup
 - always disable SCTP support at build time
