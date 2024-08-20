@@ -81,7 +81,7 @@ if ls "${AO_DIST_DEV_PATH}"/${EXP_DIRNAME}.* >/dev/null 2>&1;then
   svn rm "${AO_DIST_DEV_PATH}"/${EXP_DIRNAME}.*
 fi
 cp "${TAR_PATH}"*.tar.* "${AO_DIST_DEV_PATH}"/
-cp "${TAR_PATH}"*.zip.* "${AO_DIST_DEV_PATH}"/
+cp "${TAR_PATH}"*.zip* "${AO_DIST_DEV_PATH}"/
 svn add "${AO_DIST_DEV_PATH}"/${TAR_BASENAME}*.tar.* "${AO_DIST_DEV_PATH}"/${TAR_BASENAME}*.zip.* >/dev/null
 
 echo "updating Announcement${v_major}.${v_minor}.*"
