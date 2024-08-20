@@ -97,7 +97,7 @@ perl -pi -e "s/^   (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*/   $relea
 #Push changes up to dev
 echo "changes ready for commit in ${AO_DIST_DEV_PATH}"
 svn stat "${AO_DIST_DEV_PATH}"
-svn diff "${AO_DIST_DEV_PATH}"/dev/apr/Announcement1*
+svn diff "${AO_DIST_DEV_PATH}"/Announcement1*
 if ask_yes_no "Do you want to commit these?"; then
   svn commit -m "Add $FULL_VERSION files" "${AO_DIST_DEV_PATH}"
 fi

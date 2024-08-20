@@ -70,6 +70,7 @@ fi
 cat <<EOF
 creating release candidate:
   PROJECT: $PROJECT
+  TAG: ${FULL_VERSION}-candidate
   VERSION: $FULL_VERSION
   URL: $SVN_URL
   SOURCE: $SVN_SRC@$SVN_REV

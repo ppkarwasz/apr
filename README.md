@@ -8,7 +8,7 @@
 ## 1) Release basics
 
 1. set APR_DEV_TOOLS to the parent directory of this readme, e.g. APR_DEV_TOOLS=$HOME/SRC/apr-site/release
-2. set your working directory to a clean checkout of the project you're releasing
+2. set your working directory to a clean checkout of the project you're releasing (`svn cleanup . --remove-unversioned`)
 3. Tag an rc (the version is taken from include/apX_version.h)
 
    ```
@@ -16,6 +16,9 @@
    ```
 4. From the same project directory, run `$APR_DEV_TOOLS/release.sh` pointing to the tag created
    by r0-make-candidate.sh.
+
+   The PROJECT and TAG parms are printed after the text "creating release candidate:" of the preceding step.
+
 5. Review the generated tarballs in the dist/ subdirectory. If they look reasonable, run the following
    to add the generated tarballs, sigs, checksums, etc to checkout of https://dist.apache.org/repos/dist/dev/apr
 
