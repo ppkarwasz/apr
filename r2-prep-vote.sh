@@ -44,8 +44,10 @@ SVN_DEST="tags/${FULL_VERSION}-candidate"
 if [ -f include/apr_version.h ]; then
     is_apr=1
     ANNOUNCEFILE=Announcement1.x
+    CHANGES=CHANGES-APR
 else
     ANNOUNCEFILE=Announcement-aprutil-1.x
+    CHANGES=CHANGES-APR-UTIL
     is_apr=0
 fi
 
@@ -83,6 +85,10 @@ fi
 cp "${TAR_PATH}"*.tar.* "${AO_DIST_DEV_PATH}"/
 cp "${TAR_PATH}"*.zip* "${AO_DIST_DEV_PATH}"/
 svn add "${AO_DIST_DEV_PATH}"/${TAR_BASENAME}*.tar.* "${AO_DIST_DEV_PATH}"/${TAR_BASENAME}*.zip.* >/dev/null
+
+cp "${DIST_DIR}/${TAR_BASENAME}"/CHANGES "${AO_DIST_DEV_PATH}"/${CHANGES}-${v_major}-${v_minor}
+# maybe already added
+svn add "${AO_DIST_DEV_PATH}"/${CHANGES}-${v_major}-${v_minor} >/dev/null 2>/dev/null || true
 
 echo "updating Announcement${v_major}.${v_minor}.*"
 #Prep announcement files with latest version

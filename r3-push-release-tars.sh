@@ -107,8 +107,7 @@ if test "${VERSION}" != "${FULL_VERSION}"; then
   done
 fi
 
-# We did not stage a CHANGES file, grab from ${EXP_PATH}/CHANGES. Should have been done in r0!
-cp "${DIST_DIR}/${PROJECT}-${FULL_VERSION}-candidate/CHANGES" "${AO_DIST_RELEASE_PATH}/${CHANGES}-${v_major}.${v_minor}"
+svn mv "${AO_DIST_DEV_PATH}/${PROJECT}-${FULL_VERSION}-candidate/{CHANGES}-${v_major}.${v_minor} "${AO_DIST_RELEASE_PATH}"/
 
 echo ""
 echo "changes ready for commit in: ${AO_DIST_PATH}"
