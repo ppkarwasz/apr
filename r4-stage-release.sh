@@ -120,6 +120,9 @@ perl -pi -e "s/${VERSION}, released [^<]+/${VERSION}, released ${date_string}/" 
 echo "adding src tree changes"
 stage_checkout_release
 
+
+# XXX: r0-make-candidate.sh doesn't differentiate between APR and APU if both have ready CVES.
+
 # checkout/update pmc and get dir dir names that have
 # been recorded there for this release
 get_version_CVE_DIRS "${DIST_DIR}/pmc"

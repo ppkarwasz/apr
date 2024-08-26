@@ -51,6 +51,9 @@ detect_version $1
 SVN_DEST="tags/${FULL_VERSION}-candidate"
 DEST_DIR="${DIST_DIR}/${PROJECT}-${FULL_VERSION}-candidate"
 
+
+# XXX: This currently doesn't differentiate betwen APR and APU if both have ready CVES.
+#
 # find out which CVEs are ready and will be reporting in this candidate
 calc_ready_CVE_DIRS "${DIST_DIR}/pmc"
 
