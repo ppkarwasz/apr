@@ -123,7 +123,15 @@ EOF
 done
 
 
-CVES_MENTIONED=`fgrep CVE- dist/apache.org-dist/release/apr/${CHANGES_FILE}-${v_major}.${v_minor}`
+# the candidate
+detect_version
+echo $FULLVERSION
+
+get_version_CVE_DIRS "${DIST_DIR}/pmc"
+for CVE_DIR in $CVE_DIRS; do
+    CVES_MENTIONED="${CVES_MENTIONED} $(jq -r .cveMetadata.cveId ${DIST_DIR}/pmc/SECURITY/${PROJECT}-${FULL_VERSION}/${CVE_DIR}/CVE.json)"
+done
+
 if test -n "${CVES_MENTIONED}"; then
   cat << EOF
 Then set the following CVEs mentioned to READY on the ASF cveprocess site (and send the emails from the OSS/ASF tab):
