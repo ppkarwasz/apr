@@ -432,7 +432,7 @@ EOF
 add_changes_entry() {
   ABS_CHANGES="$1"
   CVE_JSON="$2"
-  test -f "${CHANGES}" || fail "add_changes_entry: changes ${ABS_CHANGES} not found"
+  test -f "${ABS_CHANGES}" || fail "add_changes_entry: changes ${ABS_CHANGES} not found"
 
   cp "${ABS_CHANGES}" "${ABS_CHANGES}.tmp" ;
   cve_changes "${CVE_JSON}" > "${ABS_CHANGES}.entry.tmp"
