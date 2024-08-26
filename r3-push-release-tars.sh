@@ -107,7 +107,7 @@ if test "${VERSION}" != "${FULL_VERSION}"; then
   done
 fi
 
-svn mv "${AO_DIST_DEV_PATH}/${PROJECT}-${FULL_VERSION}-candidate/{CHANGES}-${v_major}.${v_minor} "${AO_DIST_RELEASE_PATH}"/
+cp "${AO_DIST_DEV_PATH}/${CHANGES}-${v_major}.${v_minor}" "${AO_DIST_RELEASE_PATH}"/
 
 echo ""
 echo "changes ready for commit in: ${AO_DIST_PATH}"
