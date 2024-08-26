@@ -117,8 +117,22 @@ perl -pi -e "s/${VERSION}, released [^<]+/${VERSION}, released ${date_string}/" 
 (cd ${DIST_SITEPATH} && ./build.sh)
 
 
-echo "adding site changes"
+echo "adding src tree changes"
 stage_checkout_release
+
+
+# checkout/update pmc and get dir dir names that have
+# been recorded there for this release
+get_version_CVE_DIRS "${DIST_DIR}/pmc"
+if test -n "${CVE_DIRS}"; then
+  echo "adding CVEs: ${CVE_DIRS}"
+  for changes in CHANGES \
+    "${AO_DIST_RELEASE_PATH}/${CHANGES}-${v_major}.${v_minor}"; do
+    for CVE in $CVE_DIRS; do
+      add_changes_entry "$changes" "${DIST_DIR}/pmc/SECURITY/${CVE}/CVE.json"
+    done
+  done
+fi
 
 echo
 echo "PENDING REPOSITORY CHANGES"
