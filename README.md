@@ -39,17 +39,22 @@
 
 ## 2) If there were CVES
 
-0.  If you are a moderator for announce@apr.a.o or announce@a.o moderate your own announcement. 
-    at https://webmod.apache.org/?action=frontpage .  Or wait so you can link to them in the steps below.
-1. set CVEs to READY on the cveprocess site
-   - Use the 'OSS/ASF Emails' tab for the emails you should send to oss-security
-     and to Apache lists.
+0. Wait for either the dev@apr or announce@a.o emails to be visible.
+1. Process the CVEs on the cveprocess site
+   - Set the CVE to `READY`
+   - Find the revision[s] used to backport the security fix and:
+     - amend the commit messages to mention the CVE number (you can append the entire CHANGES entry)
+       `svn propedit --revprop -r... svn:log`
+     - add a timeline entry to the CVE 
+       > fixed by rXXX in 1.7.x
+   - Use the 'OSS/ASF Emails' tab to send the emails to oss-security and to Apache lists.
+   - Find the CVE email to dev@apr on lists.apache.org and grab a permalink
    - Fill in a 'reference' tag 'vendor-advisory' with the URL to your public post about
-     this issue (the same emails sent in the preceding sub-bullet)
-   - ASF Security will be notified and will submit to the CVE
-     project and then set state to 'PUBLIC'.
+     this issue (the permalink to dev@apr ANNOUNCEMENT)a
+   - Save the CVE entry.
+   - ASF Security will be notified and will submit to the CVE project and then set state to 'PUBLIC'.
 2. Add any CVE details if applicable to the CHANGES and commit and copy to dist/apr
-3. Edit the CVE info into the revisions that fixed them in the backport, e.g. `svn propedit --revprop -r... svn:log`
+3. Edit the CVE info into the revisions that fixed them in the backport, e.g. 
 4. Add the release to bugzilla: https://bz.apache.org/bugzilla/editversions.cgi?action=add&product=apr
 
 ## 3) Cleanup
