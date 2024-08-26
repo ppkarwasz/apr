@@ -84,6 +84,10 @@ assure_clean_checkout() {
   out=`svn stat`
   test -z "$out" || fail "local checkout is not clean.\n$out"
 }
+assure_clean_checkout_sans_dist() {
+  out=`svn stat|grep -v '?       dist'`||true
+  test -z "$out" || fail "local checkout is not clean.\n$out"
+}
 
 # given the version input (possibly empty),
 # detect/check the version components and set variabels

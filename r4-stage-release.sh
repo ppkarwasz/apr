@@ -60,7 +60,9 @@ source `dirname $0`/common-lib.sh
 source `dirname $0`/env.sh
 
 detect_checkout
-assure_clean_checkout
+
+# The dist/ dir should still be there from prior steps.
+assure_clean_checkout_sans_dist
 
 detect_version $1
 
@@ -76,14 +78,18 @@ DIST_SITEPATH="${DIST_DIR}/site"
 
 TAR_BASENAME="${PROJECT}-${VERSION}"
 
+
+
+test -d "${AO_DIST_PATH}" ||
+  fail "dist.apache.org checkout not in working dir ${AO_DIST_PATH} from prior stage"
+
 # we should only keep one release in our dist repository,
 # remove the previous one if it exists
 prev_patch=`expr ${v_patch} - 1`
 PREV_VERSION="${v_major}.${v_minor}.${prev_patch}"
-for i in "${AO_DIST_RELEASE_PATH}/${PROJECT}-${PREV_VERSION}".* do
+for i in "${AO_DIST_RELEASE_PATH}/${PROJECT}-${PREV_VERSION}".*; do
   test -f "$i" && svn rm "$i"
 done
-
 
 ########################################
 # checkout and patch the project website
@@ -106,7 +112,7 @@ echo "updating site content for ${PROJECT}-${VERSION}"
 date_string=`date '+%B %d, %Y'`
 #Modify the home page by replacing the date and the version string
 perl -pi -e "s/($HTML_REGEX)${v_major}\.${v_minor}\.\d+/\${1}${VERSION}/g" "${DIST_SITEPATH}/xdocs/download.xml" "${DIST_SITEPATH}/xdocs/index.xml"
-perl -pi -e "s/${v_major}\.${v_minor}\.\d+ of the ($HTML_REGEX)/\${VERSION} of the \$1/g" "${DIST_SITEPATH}/xdocs/download.xml" "${DIST_SITEPATH}/xdocs/index.xml"
+perl -pi -e "s/${v_major}\.${v_minor}\.\d+ of the ($HTML_REGEX)/${VERSION} of the \$1/g" "${DIST_SITEPATH}/xdocs/download.xml" "${DIST_SITEPATH}/xdocs/index.xml"
 perl -pi -e "s/${VERSION}, released [^<]+/${VERSION}, released ${date_string}/" "${DIST_SITEPATH}/xdocs/index.xml"
 (cd ${DIST_SITEPATH} && ./build.sh)
 
@@ -119,9 +125,6 @@ echo "PENDING REPOSITORY CHANGES"
 echo "--------"
 echo "SVN changes staged for ${SVN_DIST_URL}"
 svn stat "${AO_DIST_RELEASE_PATH}"
-echo "--------"
-echo "SVN changes staged in pmc/${PROJECT}"
-svn stat "${DIST_DIR}/pmc"
 echo "--------"
 echo "svn changes staged in ${DIST_SITEPATH}"
 (cd "${DIST_SITEPATH}" && svn stat)
