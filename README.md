@@ -53,9 +53,7 @@
      this issue (the permalink to dev@apr ANNOUNCEMENT)a
    - Save the CVE entry.
    - ASF Security will be notified and will submit to the CVE project and then set state to 'PUBLIC'.
-2. Add any CVE details if applicable to the CHANGES and commit and copy to dist/apr
-3. Edit the CVE info into the revisions that fixed them in the backport, e.g. 
-4. Add the release to bugzilla: https://bz.apache.org/bugzilla/editversions.cgi?action=add&product=apr
+2. Add the release to bugzilla: https://bz.apache.org/bugzilla/editversions.cgi?action=add&product=apr
 
 ## 3) Cleanup
 
