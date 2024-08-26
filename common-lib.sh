@@ -115,12 +115,16 @@ detect_version() {
       v_major=`grep -E '#define\sAPR_MAJOR_VERSION' include/apr_version.h | awk '{print $3}'`
       v_minor=`grep -E '#define\sAPR_MINOR_VERSION' include/apr_version.h | awk '{print $3}'`
       v_patch=`grep -E '#define\sAPR_PATCH_VERSION' include/apr_version.h | awk '{print $3}'`
+      ANNOUNCEFILE=Announcement1.x
+      CHANGES=CHANGES-APR
       is_apr=1
     elif test -f include/apu_version.h; then
       # determine version from local files
       v_major=`grep -E '#define\sAPU_MAJOR_VERSION' include/apu_version.h | awk '{print $3}'`
       v_minor=`grep -E '#define\sAPU_MINOR_VERSION' include/apu_version.h | awk '{print $3}'`
       v_patch=`grep -E '#define\sAPU_PATCH_VERSION' include/apu_version.h | awk '{print $3}'`
+      ANNOUNCEFILE=Announcement-aprutil-1.x
+      CHANGES=CHANGES-APR-UTIL
       is_apr=0
     else
       fail "unable to determine version in local checkout"
@@ -174,6 +178,8 @@ v_minor="${v_minor}"
 v_patch="${v_patch}"
 v_suffix="${v_suffix}"
 is_apr="${is_apr}"
+ANNOUNCEFILE="${ANNOUNCEFILE}"
+CHANGES="${CHANGES}"
 EOF
 }
 
@@ -431,9 +437,9 @@ add_changes_entry() {
   cp "${CHANGES}" "${CHANGES}.tmp" ;
   cve_changes "${CVE_JSON}" > "${CHANGES}.entry.tmp"
   awk -v fname="${CHANGES}.entry.tmp" \
-    'BEGIN{done = 0; active = 0} done == 0 && active == 0 && /^Changes with Apache /{
+    'BEGIN{done = 0; active = 0} done == 0 && active == 0 && /^Changes for APR/{
         active = 1; print; next};
-      /^( *\*|Changes with Apache )/ && active == 1 && done == 0 {
+      /^( *\*|Changes for APR)/ && active == 1 && done == 0 {
         rec=$0; while(getline<fname) {
           if (! ($0 ~ /^ *$/)){print}
         }

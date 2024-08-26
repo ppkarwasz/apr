@@ -68,16 +68,6 @@ svn update --set-depth immediates --parents "${AO_DIST_DEV_PATH}" >/dev/null
 echo "checking out ${AO_DIST_RELEASE_PATH} ..."
 svn update --set-depth immediates --parents "${AO_DIST_RELEASE_PATH}" >/dev/null
 
-if [ -f include/apr_version.h ]; then
-    is_apr=1
-    ANNOUNCEFILE=Announcement1.x
-    CHANGES=CHANGES-APR
-else
-    is_apr=0
-    ANNOUNCEFILE=Announcement-aprutil-1.x
-    CHANGES=CHANGES-APR-UTIL
-fi
-
 echo "updating ${ANNOUNCEFILE}.*"
 #Prep announcement files with latest version
 perl -pi -e "s/$v_major\.$v_minor\.\d+ (Released|of the)/$VERSION \1/g" \

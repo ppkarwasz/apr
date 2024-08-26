@@ -41,16 +41,6 @@ detect_version $1
 
 SVN_DEST="tags/${FULL_VERSION}-candidate"
 
-if [ -f include/apr_version.h ]; then
-    is_apr=1
-    ANNOUNCEFILE=Announcement1.x
-    CHANGES=CHANGES-APR
-else
-    ANNOUNCEFILE=Announcement-aprutil-1.x
-    CHANGES=CHANGES-APR-UTIL
-    is_apr=0
-fi
-
 EXP_DIRNAME="${PROJECT}-${VERSION}"
 EXP_PATH="${DIST_DIR}/"
 # almost the same, except using the full version string
