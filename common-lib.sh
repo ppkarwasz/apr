@@ -430,13 +430,13 @@ EOF
 }
 
 add_changes_entry() {
-  CHANGES="$1"
+  ABS_CHANGES="$1"
   CVE_JSON="$2"
-  test -f "${CHANGES}" || fail "add_changes_entry: changes ${CHANGES} not found"
+  test -f "${CHANGES}" || fail "add_changes_entry: changes ${ABS_CHANGES} not found"
 
-  cp "${CHANGES}" "${CHANGES}.tmp" ;
-  cve_changes "${CVE_JSON}" > "${CHANGES}.entry.tmp"
-  awk -v fname="${CHANGES}.entry.tmp" \
+  cp "${ABS_CHANGES}" "${ABS_CHANGES}.tmp" ;
+  cve_changes "${CVE_JSON}" > "${ABS_CHANGES}.entry.tmp"
+  awk -v fname="${ABS_CHANGES}.entry.tmp" \
     'BEGIN{done = 0; active = 0} done == 0 && active == 0 && /^Changes for APR/{
         active = 1; print; next};
       /^( *\*|Changes for APR)/ && active == 1 && done == 0 {
@@ -444,8 +444,8 @@ add_changes_entry() {
           if (! ($0 ~ /^ *$/)){print}
         }
         printf "\n"; print rec; active = 0; done = 1; next
-      } //;' "${CHANGES}".tmp > "${CHANGES}"
-  rm -f "${CHANGES}".tmp "${CHANGES}.entry.tmp"
+      } //;' "${ABS_CHANGES}".tmp > "${ABS_CHANGES}"
+  rm -f "${ABS_CHANGES}".tmp "${ABS_CHANGES}.entry.tmp"
 }
 
 stage_checkout_release() {
