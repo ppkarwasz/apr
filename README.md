@@ -4,6 +4,8 @@
 
 1. Remind yourself of your GPG password
 2. Make sure your key is in the KEYS file of the project and has some useful signatures.
+3. Check CVE status in https://svn.apache.org/repos/private/pmc/apr checkout and make sure there aren't
+   ready CVE's from both APR and APU.
 
 ## 1) Release basics
 
@@ -61,3 +63,5 @@
        https://reporter.apache.org/addrelease.html?apr
        https://bz.apache.org/bugzilla/editproducts.cgi?action=edit&product=APR
 2. Update doap.rdf in apr-site
+3. In https://svn.apache.org/repos/private/pmc/apr, move resolved CVE's 
+   from SECURITY/CVE-XXXX to security-reports/resolved/
