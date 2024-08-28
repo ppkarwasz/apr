@@ -11,8 +11,8 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.7.3
-Release: 9%{?dist}
+Version: 1.7.5
+Release: 1%{?dist}
 # Apache-2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD-4-Clause-UC:  strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -56,10 +56,6 @@ C data structures and routines.
 %build
 # regenerate configure script etc.
 ./buildconf
-
-# Forcibly prevent detection of shm_open (which then picks up but
-# does not use -lrt).
-export ac_cv_search_shm_open=no
 
 %configure \
         --includedir=%{_includedir}/apr-%{aprver} \
@@ -139,6 +135,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Wed Aug 28 2024 Joe Orton <jorton@redhat.com> - 1.7.5-1
+- update to 1.7.5 (#2307902)
+
 * Wed Jul 17 2024 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.3-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_41_Mass_Rebuild
 
