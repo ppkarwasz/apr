@@ -2,6 +2,7 @@ apr (1.7.5-1) UNRELEASED; urgency=medium
 
   * New usptream version
     - CVE-2023-49582: Unexpected lax shared memory permissions
+      Closes: #1080375
 
  -- Stefan Fritsch <sf@debian.org>  Sat, 07 Sep 2024 10:38:41 +0200
 
