@@ -5,7 +5,7 @@ on:
     branches: [ "*" ]
     tags: [ "*" ]
   pull_request:
-    branches: [ "trunk" ]
+    branches: [ "trunk", "1.7.x" ]
 
 env:
   MARGS: "-j2"
@@ -17,10 +17,18 @@ jobs:
       matrix:
         include: 
           - name: Default
+            # Check default shm decision logic for Linux:
+            config-output: APR_USE_SHMEM_MMAP_SHM APR_USE_SHMEM_MMAP_ANON
           - name: Static
             config: --enable-static
           - name: Maintainer-mode
             config: --enable-maintainer-mode
+          - name: Named SHM - SysV, Maintainer-mode
+            config: --enable-maintainer-mode --enable-sysv-shm
+            config-output: APR_USE_SHMEM_SHMGET
+          - name: Named SHM - Classic mmap, Maintainer-mode
+            config: --enable-maintainer-mode ac_cv_func_shm_open=no ac_cv_func_shmget=no
+            config-output: APR_USE_SHMEM_MMAP_TMP
           - name: Pool-debug
             config: --enable-pool-debug
           - name: Pool-debug, maintainer-mode
@@ -49,12 +57,20 @@ jobs:
     steps:
     - name: Install prerequisites
       run: sudo apt-get install libtool libtool-bin
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+    # https://github.com/actions/runner-images/issues/9491#issuecomment-1989718917
+    - name: Workaround ASAN issue in Ubuntu 22.04 runners
+      run: sudo sysctl vm.mmap_rnd_bits=28
     - name: buildconf
       run: ./buildconf
     - name: configure
-      run: ./configure ${{ matrix.config }}
+      run: ./configure --prefix=/tmp/apr ${{ matrix.config }}
+    - if: ${{ matrix.config-output != '' }}
+      name: check for expected configure output ${{ matrix.config-output }}
+      run: for var in ${{ matrix.config-output }}; do grep "^#define *${var} *1" include/apr.h; done
     - name: make
       run: make $MARGS
-    - name: make check
+    - name: install
+      run: make install
+    - name: check
       run: make check
