@@ -10,7 +10,7 @@ Bug: #656880
 
 --- apr.orig/configure.in
 +++ apr/configure.in
-@@ -1375,6 +1375,13 @@ case $host in
+@@ -1464,6 +1464,13 @@ case $host in
          APR_DECISION_OVERRIDE(USE_SHMEM_SHMGET_ANON)
          ;;
  esac
@@ -24,7 +24,7 @@ Bug: #656880
  APR_END_DECISION
  AC_DEFINE_UNQUOTED($ac_decision)
  
-@@ -1452,6 +1459,13 @@ case $host in
+@@ -1548,6 +1555,13 @@ case $host in
          APR_DECISION_OVERRIDE(USE_SHMEM_SHMGET)
         ;;
  esac
@@ -38,7 +38,7 @@ Bug: #656880
  APR_END_DECISION
  AC_DEFINE_UNQUOTED($ac_decision)
  
-@@ -2511,6 +2525,12 @@ esac
+@@ -2608,6 +2622,12 @@ esac
  if test "x$apr_lock_method" != "x"; then
      APR_DECISION_FORCE($apr_lock_method)
  fi
