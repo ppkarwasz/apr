@@ -18,11 +18,14 @@ jobs:
         os: [ "macos-latest" ]
 
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     env:
       NOTEST_CFLAGS: ${{ matrix.notest-cflags }}
     name: ${{ matrix.name }}
     steps:
-    - uses: actions/checkout@v3
+    - name: Install prerequisites
+      run: brew install libtool autoconf make bash
+    - uses: actions/checkout@v4
     - name: buildconf
       run: ./buildconf
     - name: configure
