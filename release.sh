@@ -148,7 +148,7 @@ echo "Generating SHA256 checksum files ..."
 echo ""
 
 # check for executables
-gpg="`which gpg 2> /dev/null | head -1`"
+gpg="`which gpg gpg2 2> /dev/null | head -1`"
 pgp="`which pgp 2> /dev/null | head -1`"
 openssl="`which openssl 2> /dev/null | head -1`"
 
