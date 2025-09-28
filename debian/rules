@@ -33,6 +33,7 @@ CONFFLAGS := LTFLAGS=--no-silent \
              --libdir=/usr/lib/$(DEB_HOST_MULTIARCH) \
              --enable-nonportable-atomics \
              --enable-allocator-uses-mmap \
+             --enable-sctp \
              ac_cv_prog_AWK=mawk
 
 # apr_cv_mutex_robust_shared causes hangs in procmutex test on arm(el|hf) and alpha
