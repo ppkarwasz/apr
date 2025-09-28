@@ -128,6 +128,7 @@ SET(APR_PUBLIC_HEADERS_STATIC
   include/apr_atomic.h
   include/apr_cstr.h
   include/apr_dso.h
+  include/apr_encode.h
   include/apr_env.h
   include/apr_errno.h
   include/apr_escape.h
@@ -308,7 +309,7 @@ ENDIF()
 IF (APR_BUILD_SHARED)
   ADD_LIBRARY(${apr_libname} SHARED ${APR_SOURCES} ${APR_PUBLIC_HEADERS_GENERATED} libapr.rc)
   LIST(APPEND install_targets ${apr_libname})
-  LIST(APPEND install_bin_pdb ${PROJECT_BINARY_DIR}/${apr_libname}.pdb)
+  LIST(APPEND install_bin_pdb $<TARGET_PDB_FILE:${apr_libname}>)
   TARGET_LINK_LIBRARIES(${apr_libname}
                         PRIVATE ${APR_SYSTEM_LIBS})
   TARGET_COMPILE_DEFINITIONS(${apr_libname}
