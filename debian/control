@@ -5,6 +5,7 @@ Maintainer: Debian Apache Maintainers <debian-apache@lists.debian.org>
 Uploaders: Stefan Fritsch <sf@debian.org>
 Build-Depends: dpkg-dev (>= 1.22.5), debhelper-compat (= 13),
  autoconf,
+ libcrypt-dev,
  mawk,
  uuid-dev,
  doxygen,
@@ -36,7 +37,7 @@ Description: Apache Portable Runtime Library
 Package: libapr1-dev
 Architecture: any
 Section: libdevel
-Depends: libapr1t64 (= ${binary:Version}), uuid-dev, ${misc:Depends}, libsctp-dev [linux-any], python3:any
+Depends: libapr1t64 (= ${binary:Version}), libcrypt-dev, uuid-dev, ${misc:Depends}, libsctp-dev [linux-any], python3:any
 Conflicts: libapr1.0-dev, libapr0-dev
 Description: Apache Portable Runtime Library - Development Headers
  APR is Apache's Portable Runtime Library, designed to be a support library
