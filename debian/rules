@@ -36,14 +36,13 @@ CONFFLAGS := LTFLAGS=--no-silent \
              ac_cv_prog_AWK=mawk
 
 # apr_cv_mutex_robust_shared causes hangs in procmutex test on arm(el|hf) and alpha
-ifneq (,$(findstring armel,$(DEB_HOST_ARCH)))
+ifneq (,$(filter $(DEB_HOST_ARCH),alpha armel armhf))
   CONFFLAGS += apr_cv_mutex_robust_shared=no
+else
+# apr_cv_mutex_robust_shared cannot be detected during cross compilation
+ifneq ($(DEB_BUILD_ARCH),$(DEB_HOST_ARCH))
+  CONFFLAGS += apr_cv_mutex_robust_shared=yes
 endif
-ifneq (,$(findstring armhf,$(DEB_HOST_ARCH)))
-  CONFFLAGS += apr_cv_mutex_robust_shared=no
-endif
-ifneq (,$(findstring alpha,$(DEB_HOST_ARCH)))
-  CONFFLAGS += apr_cv_mutex_robust_shared=no
 endif
 
 # SH4 cannot use proc_pthread.
