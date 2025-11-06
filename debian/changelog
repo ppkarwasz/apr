@@ -1,4 +1,4 @@
-apr (1.7.6-1) UNRELEASED; urgency=medium
+apr (1.7.6-1) unstable; urgency=medium
 
   [ Helmut Grohne ]
   * Explicitly depend on libcrypt-dev. (Closes: #1102909)
@@ -8,7 +8,7 @@ apr (1.7.6-1) UNRELEASED; urgency=medium
   * New upstream version
   * Enable sctp explicitly in configure. Closes: #1104500
 
- -- Stefan Fritsch <sf@debian.org>  Sun, 28 Sep 2025 12:56:36 +0200
+ -- Stefan Fritsch <sf@debian.org>  Wed, 05 Nov 2025 21:59:04 +0100
 
 apr (1.7.5-1) unstable; urgency=medium
 
