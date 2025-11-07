@@ -1,0 +1,13 @@
+Index: apr/Makefile.in
+===================================================================
+--- apr.orig/Makefile.in
++++ apr/Makefile.in
+@@ -142,7 +142,7 @@ etags:
+ 
+ tools/gen_test_char@EXEEXT@: $(top_srcdir)/tools/gen_test_char.c
+ 	$(APR_MKDIR) tools
+-	$(CC_FOR_BUILD) $(CFLAGS_FOR_BUILD) $(top_srcdir)/tools/gen_test_char.c -o $@
++	$(CC_FOR_BUILD) $(CFLAGS_FOR_BUILD) $(CPPFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) $(top_srcdir)/tools/gen_test_char.c -o $@
+ 
+ include/private/apr_escape_test_char.h: tools/gen_test_char@EXEEXT@
+ 	$(APR_MKDIR) include/private

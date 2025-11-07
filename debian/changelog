@@ -1,3 +1,10 @@
+apr (1.7.6-4) UNRELEASED; urgency=medium
+
+  * Pass correct CPPFLAGS and LDFLAGS to CC_FOR_BUILD. This fixes
+    a blhc error and may be relevant for cross-builds.
+
+ -- Stefan Fritsch <sf@debian.org>  Fri, 07 Nov 2025 21:17:18 +0100
+
 apr (1.7.6-3) unstable; urgency=medium
 
   * Don't try to enable sctp on hurd, it's not supported there.
