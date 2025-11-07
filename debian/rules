@@ -33,7 +33,6 @@ CONFFLAGS := LTFLAGS=--no-silent \
              --libdir=/usr/lib/$(DEB_HOST_MULTIARCH) \
              --enable-nonportable-atomics \
              --enable-allocator-uses-mmap \
-             apr_cv_sctp=yes \
              ac_cv_prog_AWK=mawk
 
 # apr_cv_mutex_robust_shared causes hangs in procmutex test on arm(el|hf) and alpha
@@ -44,6 +43,12 @@ else
 ifneq ($(DEB_BUILD_ARCH),$(DEB_HOST_ARCH))
   CONFFLAGS += apr_cv_mutex_robust_shared=yes
 endif
+endif
+
+# On linux, we always want SCTP support, even if the kernel of the build machine
+# has it disabled.
+ifeq (linux,$(DEB_HOST_ARCH_OS))
+  CONFFLAGS += apr_cv_sctp=yes
 endif
 
 # SH4 cannot use proc_pthread.

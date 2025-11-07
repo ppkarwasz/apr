@@ -1,3 +1,9 @@
+apr (1.7.6-3) UNRELEASED; urgency=medium
+
+  * Don't try to enable sctp on hurd, it's not supported there.
+
+ -- Stefan Fritsch <sf@debian.org>  Fri, 07 Nov 2025 20:39:41 +0100
+
 apr (1.7.6-2) unstable; urgency=medium
 
   * Enable sctp differently, the previous variant caused build
