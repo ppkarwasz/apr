@@ -2,6 +2,7 @@ apr (1.7.6-2) UNRELEASED; urgency=medium
 
   * Enable sctp differently, the previous variant caused build
     failures if the kernel did not have sctp enabled.
+  * Bump standards-version (no changes).
 
  -- Stefan Fritsch <sf@debian.org>  Fri, 07 Nov 2025 16:40:07 +0100
 
