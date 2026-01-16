@@ -14,7 +14,7 @@
 Summary: Apache Portable Runtime library
 Name: apr
 Version: 1.7.6
-Release: 4%{?dist}
+Release: 5%{?dist}
 # Apache-2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD-4-Clause-UC:  strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -153,6 +153,9 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Fri Jan 16 2026 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.6-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_44_Mass_Rebuild
+
 * Fri Jan 16 2026 Fedora Release Engineering <releng@fedoraproject.org> - 1.7.6-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_44_Mass_Rebuild
 
