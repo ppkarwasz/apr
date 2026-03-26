@@ -27,9 +27,36 @@ usage: $0 [options] [version]
   Options:
     -h             print usage information
     -y             never ask, always assume yes
+    --i-have-prepared-the-security-dir-to-avoid-apr-apu-confusion
+                   (required) confirm SECURITY dir preparation. 
+                   APR or APU security issues must be moved out of the way
+                   when doing a release for the other project
 EOF
   exit 1
 }
+
+# Parse long options first
+SECURITY_DIR_PREPARED=0
+TEMP_ARGS=()
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --i-have-prepared-the-security-dir-to-avoid-apr-apu-confusion)
+            SECURITY_DIR_PREPARED=1
+            shift
+            ;;
+        *)
+            TEMP_ARGS+=("$1")
+            shift
+            ;;
+    esac
+done
+set -- "${TEMP_ARGS[@]}"
+
+# Check if mandatory flag was provided
+if [ "$SECURITY_DIR_PREPARED" -eq 0 ]; then
+    echo "Error: --i-have-prepared-the-security-dir-to-avoid-apr-apu-confusion flag is required" >&2
+    usage
+fi
 
 while getopts "hy" opt; do
     case $opt in

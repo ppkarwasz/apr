@@ -5,7 +5,8 @@
 1. Remind yourself of your GPG password
 2. Make sure your key is in the KEYS file of the project and has some useful signatures.
 3. Check CVE status in https://svn.apache.org/repos/private/pmc/apr checkout and make sure there aren't
-   ready CVE's from both APR and APU.
+   ready CVE's from both APR and APU.  Move the other projects' stuff into a subdir that doesn't begin with `CVE`
+   so tools/readiness.sh will ignore it.
 
 ## 1) Release basics
 
