@@ -27,23 +27,14 @@ usage: $0 [options] [version]
   Options:
     -h             print usage information
     -y             never ask, always assume yes
-    --i-have-prepared-the-security-dir-to-avoid-apr-apu-confusion
-                   (required) confirm SECURITY dir preparation. 
-                   APR or APU security issues must be moved out of the way
-                   when doing a release for the other project
 EOF
   exit 1
 }
 
 # Parse long options first
-SECURITY_DIR_PREPARED=0
 TEMP_ARGS=()
 while [[ $# -gt 0 ]]; do
     case $1 in
-        --i-have-prepared-the-security-dir-to-avoid-apr-apu-confusion)
-            SECURITY_DIR_PREPARED=1
-            shift
-            ;;
         *)
             TEMP_ARGS+=("$1")
             shift
@@ -51,12 +42,6 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 set -- "${TEMP_ARGS[@]}"
-
-# Check if mandatory flag was provided
-if [ "$SECURITY_DIR_PREPARED" -eq 0 ]; then
-    echo "Error: --i-have-prepared-the-security-dir-to-avoid-apr-apu-confusion flag is required" >&2
-    usage
-fi
 
 while getopts "hy" opt; do
     case $opt in
@@ -97,6 +82,17 @@ EOF
   fail "Please correct this and try again."
 fi
 
+# Format CVE list with newlines for readability
+if test -n "${CVE_DIRS}"; then
+  CVE_COUNT=$(echo "${CVE_DIRS}" | wc -w | tr -d ' ')
+  CVE_LIST=$(echo "${CVE_DIRS}" | tr ' ' '\n' | sed 's/^/    /')
+  CVE_HEADER="  CVEs (${CVE_COUNT}):"
+else
+  CVE_COUNT=0
+  CVE_LIST="    none"
+  CVE_HEADER="  CVEs:"
+fi
+
 cat <<EOF
 creating release candidate:
   PROJECT: $PROJECT
@@ -106,7 +102,9 @@ creating release candidate:
   SOURCE: $SVN_SRC@$SVN_REV
   DEST: $SVN_DEST
   LOCAL: $DEST_DIR
-  CVEs: ${CVE_DIRS:-none}
+${CVE_HEADER}
+${CVE_LIST}
+
 EOF
 if ! ask_yes_no "Is this as expected?"; then
   exit 1

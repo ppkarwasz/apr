@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/bash -x
 
 #Make sure English is used when formating dates and other things
 export LANG=en_US.UTF-8
@@ -494,16 +494,22 @@ stage_checkout_release() {
 checkout_pmc() {
   dest="$1"
   test -n "${SVN_PMC_URL}" || fail "SVN_PMC_URL not set"
-  echo "checking out pmc/${PROJECT} as ${dest}"
+  local PMC_PROJECT=${PROJECT/apr-util/apr}
+  echo "checking out pmc/${PMC_PROJECT} as ${dest} for project ${PROJECT}"
   rm -rf "${dest}"
-  svn checkout "${SVN_PMC_URL}/${PROJECT}" "${dest}" >/dev/null
+  svn checkout "${SVN_PMC_URL}/${PMC_PROJECT}" "${dest}" >/dev/null
 }
 
 calc_ready_CVE_DIRS() {
   dest="$1"
   checkout_pmc "${dest}"
   pushd "${dest}/SECURITY" >/dev/null
-  CVE_SUBDIRS=`./tools/readiness.sh -n | fgrep '[OK]'| awk '{print $2}' | sort `
+  local project=apr
+  if [ $is_apr -eq 0 ]; then
+    project=aprutil
+  fi
+
+  CVE_SUBDIRS=`./tools/readiness.sh -n -p $project | fgrep '[OK]'| awk '{print $2}' | sort `
   popd >/dev/null
 
   cves_ok=1
