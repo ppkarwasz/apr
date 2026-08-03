@@ -54,8 +54,9 @@ test -f "${TAR_PATH}.tar.gz" ||
 
 #Ensure scratch space is in a state we are ready to work with
 AO_DIST_PATH="dist/apache.org-dist"
-AO_DIST_DEV_PATH="${AO_DIST_PATH}/dev/${PROJECT}"
-AO_DIST_RELEASE_PATH="${AO_DIST_PATH}/release/${PROJECT}"
+# always apr
+AO_DIST_DEV_PATH="${AO_DIST_PATH}/dev/apr"
+AO_DIST_RELEASE_PATH="${AO_DIST_PATH}/release/apr"
 
 # SVN repository is huge, carefully check out only what we need
 rm -rf "${AO_DIST_PATH}"
@@ -109,7 +110,7 @@ Hi all,
 
 Please find below the proposed release tarball and signatures:
 
-${SVN_DIST_URL}dev/${PROJECT}/
+${SVN_DIST_URL}dev/apr/
 
 I would like to call a VOTE over the next few days to release
 this candidate tarball ${PROJECT}-${FULL_VERSION} as $VERSION:

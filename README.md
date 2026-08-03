@@ -22,6 +22,8 @@
 
    The PROJECT and TAG parms are printed after the text "creating release candidate:" of the preceding step.
 
+   example: `$APR_DEV_TOOLS/release.sh apr-util 1.6.4-rc1-candidate covener $HOME/SRC/apr-1.7.x/`
+
 5. Review the generated tarballs in the dist/ subdirectory. If they look reasonable, run the following
    to add the generated tarballs, sigs, checksums, etc to checkout of https://dist.apache.org/repos/dist/dev/apr
 
