@@ -74,5 +74,12 @@
 2. Update doap.rdf in apr-site (https://svn.apache.org/repos/asf/apr/site/trunk)
 3. In https://svn.apache.org/repos/private/pmc/apr, move resolved CVE's 
    from SECURITY/CVE-XXXX to security-reports/resolved/
-4. Next Time: Figure out how to get CVE.json's into apr-site for https://apr.apache.org/security_report.html
-   (new page). If it works well, automate it and automate the vendor-advisory link.
+
+
+## TODOS
+
+- Add timeline entry, either like httpd or while adding the backports revisions
+- Figure out how to get CVE.json's into apr-site for https://apr.apache.org/security_report.html
+  (new page). If it works well, automate it and automate the vendor-advisory link.  
+
+  Requires timeline entry.
