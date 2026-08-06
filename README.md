@@ -59,20 +59,20 @@
      ```
      And run the resulting /tmp/cve.sh from $APR_SECURITY/ answering the many prompts (watch the diff closely!)
 
-   - Use the 'OSS/ASF Emails' tab to send the emails to oss-security and to Apache lists.
+   - Use the 'OSS/ASF Emails' tab to save then send the emails to oss-security and to Apache lists.
    - Find the CVE email to dev@apr on lists.apache.org and grab a permalink
    - Fill in a 'reference' tag 'vendor-advisory' with the URL to your public post about
      this issue (the permalink to dev@apr ANNOUNCEMENT)a
    - Save the CVE entry.
    - ASF Security will be notified and will submit to the CVE project and then set state to 'PUBLIC'.
-2. Add the release to bugzilla: https://bz.apache.org/bugzilla/editversions.cgi?action=add&product=apr
-3. Add the Apache Reporter info https://reporter.apache.org/addrelease.html?apr
 
 ## 3) Cleanup
 
 1. Add releases to reporter.apache.org and bz.apache.org
        https://reporter.apache.org/addrelease.html?apr
        https://bz.apache.org/bugzilla/editproducts.cgi?action=edit&product=APR
-2. Update doap.rdf in apr-site
+2. Update doap.rdf in apr-site (https://svn.apache.org/repos/asf/apr/site/trunk)
 3. In https://svn.apache.org/repos/private/pmc/apr, move resolved CVE's 
    from SECURITY/CVE-XXXX to security-reports/resolved/
+4. Next Time: Figure out how to get CVE.json's into apr-site for https://apr.apache.org/security_report.html
+   (new page). If it works well, automate it and automate the vendor-advisory link.
