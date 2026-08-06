@@ -74,6 +74,7 @@
 2. Update doap.rdf in apr-site (https://svn.apache.org/repos/asf/apr/site/trunk)
 3. In https://svn.apache.org/repos/private/pmc/apr, move resolved CVE's 
    from SECURITY/CVE-XXXX to security-reports/resolved/
+4. svn rm the $project-$version dir under SECURITY/ too (not done by any release script)
 
 
 ## TODOS
