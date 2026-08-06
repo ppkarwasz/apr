@@ -118,6 +118,7 @@ detect_version() {
       ANNOUNCEFILE=Announcement1.x
       CHANGES=CHANGES-APR
       is_apr=1
+      CHANGES_BANNER_PREFIX="Changes for APR"
     elif test -f include/apu_version.h; then
       # determine version from local files
       v_major=`grep -E '#define\sAPU_MAJOR_VERSION' include/apu_version.h | awk '{print $3}'`
@@ -126,6 +127,7 @@ detect_version() {
       ANNOUNCEFILE=Announcement-aprutil-1.x
       CHANGES=CHANGES-APR-UTIL
       is_apr=0
+      CHANGES_BANNER_PREFIX="Changes with APR-util"
     else
       fail "unable to determine version in local checkout"
     fi
@@ -180,6 +182,7 @@ v_suffix="${v_suffix}"
 is_apr="${is_apr}"
 ANNOUNCEFILE="${ANNOUNCEFILE}"
 CHANGES="${CHANGES}"
+CHANGES_BANNER_PREFIX="${CHANGES_BANNER_PREFIX}"
 EOF
 }
 
@@ -437,15 +440,24 @@ add_changes_entry() {
   cp "${ABS_CHANGES}" "${ABS_CHANGES}.tmp" ;
   cve_changes "${CVE_JSON}" > "${ABS_CHANGES}.entry.tmp"
   awk -v fname="${ABS_CHANGES}.entry.tmp" \
-    'BEGIN{done = 0; active = 0} done == 0 && active == 0 && /^Changes for APR/{
-        active = 1; print; next};
-      /^( *\*|Changes for APR)/ && active == 1 && done == 0 {
-        rec=$0; while(getline<fname) {
-          if (! ($0 ~ /^ *$/)){print}
-        }
-        printf "\n"; print rec; active = 0; done = 1; next
-      } //;' "${ABS_CHANGES}".tmp > "${ABS_CHANGES}"
+      'BEGIN{done = 0; active = 0}
+       done == 0 && active == 0 && /^Changes (for|with) APR/{
+         active = 1; print; next
+       }
+       active == 1 && done == 0 && /^$/ {
+         print; done = 1; active = 0
+         while(getline<fname) {
+           if (! ($0 ~ /^ *$/)){print}
+         }
+         printf "\n"; next
+       }
+       //;' "${ABS_CHANGES}".tmp > "${ABS_CHANGES}"
   rm -f "${ABS_CHANGES}".tmp "${ABS_CHANGES}.entry.tmp"
+}
+
+add_next_changes_banner() {
+  # Add the corresponding version placeholder at the top of CHANGES.
+  perl -pi -e "s{(.*coding: utf-8.*)}{\$1\n${CHANGES_BANNER_PREFIX} ${NEXT_VERSION}\n}" CHANGES
 }
 
 stage_checkout_release() {
@@ -463,8 +475,6 @@ stage_checkout_release() {
     PROJHEADER=apu_version.h
   fi
 
-  # Add the corresponding version placeholder in CHANGES.
-  perl -pi -e "s{(.*coding: utf-8.*)}{\$1\nChanges for ${PROJNAME} ${NEXT_VERSION}\n}" CHANGES
   # Note the tag date in the STATUS file.
   if test -f STATUS; then
     date_string=`date '+%B %d, %Y'`

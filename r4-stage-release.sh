@@ -72,7 +72,8 @@ svn ls "$SVN_BASE/$SVN_RELEASE" >/dev/null 2>&1 ||
   fail_not_dry "release does not exist in SVN: $SVN_RELEASE"
 
 AO_DIST_PATH="dist/apache.org-dist"
-AO_DIST_RELEASE_PATH="${AO_DIST_PATH}/release/${PROJECT}"
+# /apr/ even for apr-util
+AO_DIST_RELEASE_PATH="${AO_DIST_PATH}/release/apr"
 
 DIST_SITEPATH="${DIST_DIR}/site"
 
@@ -121,27 +122,26 @@ echo "adding src tree changes"
 stage_checkout_release
 
 
-# XXX: r0-make-candidate.sh doesn't differentiate between APR and APU if both have ready CVES.
-
 # checkout/update pmc and get dir dir names that have
 # been recorded there for this release
 get_version_CVE_DIRS "${DIST_DIR}/pmc"
 if test -n "${CVE_DIRS}"; then
   echo "adding CVEs: ${CVE_DIRS}"
   for changes_file in CHANGES \
-    "${AO_DIST_RELEASE_PATH}/${CHANGES}"; do
+    "${AO_DIST_RELEASE_PATH}/${CHANGES}-${v_major}.${v_minor}"; do
     for CVE in $CVE_DIRS; do
       add_changes_entry "$changes_file" "${DIST_DIR}/pmc/SECURITY/${CVE}/CVE.json"
     done
   done
 fi
+add_next_changes_banner
 
 echo
 echo "PENDING REPOSITORY CHANGES"
 echo "--------"
 echo "SVN changes staged for ${SVN_DIST_URL}"
 svn stat "${AO_DIST_RELEASE_PATH}"
-svn diff "${AO_DIST_RELEASE_PATH}/CHANGES*"
+svn diff "${AO_DIST_RELEASE_PATH}/CHANGES"*
 echo "--------"
 echo "svn changes staged in ${DIST_SITEPATH}"
 (cd "${DIST_SITEPATH}" && svn stat)

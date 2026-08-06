@@ -4,9 +4,8 @@
 
 1. Remind yourself of your GPG password
 2. Make sure your key is in the KEYS file of the project and has some useful signatures.
-3. Check CVE status in https://svn.apache.org/repos/private/pmc/apr checkout and make sure there aren't
-   ready CVE's from both APR and APU.  Move the other projects' stuff into a subdir that doesn't begin with `CVE`
-   so tools/readiness.sh will ignore it.
+3. Check CVE status in https://svn.apache.org/repos/private/pmc/apr checkout and make sure the ready items
+   are what you expect.
 
 ## 1) Release basics
 
@@ -35,23 +34,31 @@
 8. If unsuccessful, cleanup https://dist.apache.org/repos/dist/dev/apr and repeat with a later rcX.
 9. On successful vote:
    1. Run `$APR_DEV_TOOLS/r3-push-release-tars.sh` from your APR checkout to fixup and move the artifacts from dev/ to release
-   2. Run `$APR_DEV_TOOLS/r4-stage-release.sh` to stage an update to the project checkout and website.  Review the changes.
+   2. Run `$APR_DEV_TOOLS/r4-stage-release.sh` to stage an update to the project checkout and website.  
+
+      Review the changes, especially ./CHANGES and dist/apache.org-dist/release/apr/CHANGES-*
+
+      If something goes wrong and you need to re-run, `svn revert CHANGES  NOTICE STATUS include/apu_version.h`
+
    3. Wait for dlcdn links (immediate) and directory listings (up to 2 hours) to show the new files.
       - https://dist.apache.org/repos/dist/release/apr/
       - https://dlcdn.apache.org/apr/
    4. Run `$APR_DEV_TOOLS/r5-commit-staged-release.sh` to update the website and dev tree (and remove n-1 release)
-   5. Run r6-announce.sh from this dir to generate announce emails (output will tell you what to do)
+   5. Run `$APR_DEV_TOOLS/r6-announce.sh` to generate announce emails (output will tell you what to do)
 
 ## 2) If there were CVES
 
-0. Wait for either the dev@apr or announce@a.o emails to be visible.
+1. Wait for either the dev@apr or announce@a.o emails to be visible.
+1. Update
 1. Process the CVEs on the cveprocess site
    - Set the CVE to `READY`
-   - Find the revision[s] used to backport the security fix and:
-     - amend the commit messages to mention the CVE number (you can append the entire CHANGES entry)
-       `svn propedit --revprop -r... svn:log`
-     - add a timeline entry to the CVE 
-       > fixed by rXXX in 1.7.x
+   - Use $APR_SECURITY/tools/update_svn_logs_with_cve.py to add the CVE to the stable releases svn commit messages.
+   - add a timeline entry to the CVEs:
+     ```
+     $APR_SECURITY/tools/update_svn_logs_with_cve.py ~/data/apu164 --cveprocess /tmp/cve.sh
+     ```
+     And run the resulting /tmp/cve.sh from $APR_SECURITY/ answering the many prompts (watch the diff closely!)
+
    - Use the 'OSS/ASF Emails' tab to send the emails to oss-security and to Apache lists.
    - Find the CVE email to dev@apr on lists.apache.org and grab a permalink
    - Fill in a 'reference' tag 'vendor-advisory' with the URL to your public post about
@@ -59,6 +66,7 @@
    - Save the CVE entry.
    - ASF Security will be notified and will submit to the CVE project and then set state to 'PUBLIC'.
 2. Add the release to bugzilla: https://bz.apache.org/bugzilla/editversions.cgi?action=add&product=apr
+3. Add the Apache Reporter info https://reporter.apache.org/addrelease.html?apr
 
 ## 3) Cleanup
 

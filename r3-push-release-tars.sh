@@ -56,8 +56,9 @@ TAR_PATH="${DIST_DIR}/${TAR_BASENAME}"
 
 #Ensure scratch space is in a state we are ready to work with
 AO_DIST_PATH="dist/apache.org-dist"
-AO_DIST_DEV_PATH="${AO_DIST_PATH}/dev/${PROJECT}"
-AO_DIST_RELEASE_PATH="${AO_DIST_PATH}/release/${PROJECT}"
+# /apr/ even for apr-util
+AO_DIST_DEV_PATH="${AO_DIST_PATH}/dev/apr"
+AO_DIST_RELEASE_PATH="${AO_DIST_PATH}/release/apr"
 
 # SVN repository is huge, carefully check out only what we need
 rm -rf "${AO_DIST_PATH}"

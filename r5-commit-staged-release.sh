@@ -42,7 +42,8 @@ detect_checkout
 detect_version $1
 
 AO_DIST_PATH="dist/apache.org-dist"
-AO_DIST_RELEASE_PATH="${AO_DIST_PATH}/release/${PROJECT}"
+# /apr/ even for apr-util
+AO_DIST_RELEASE_PATH="${AO_DIST_PATH}/release/apr"
 
 SVN_SITE_CONTENT_URL="${SVN_SITE_URL}/${PROJECT}/site/trunk/content/"
 DIST_SITEPATH="${DIST_DIR}/site"
