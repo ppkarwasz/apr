@@ -79,7 +79,7 @@ svn add "${AO_DIST_DEV_PATH}"/${TAR_BASENAME}*.tar.* "${AO_DIST_DEV_PATH}"/${TAR
 
 cp "${DIST_DIR}/${TAR_BASENAME}"/CHANGES "${AO_DIST_DEV_PATH}"/${CHANGES}-${v_major}.${v_minor}
 # maybe already added
-svn add "${AO_DIST_DEV_PATH}"/${CHANGES}-${v_major}-${v_minor} >/dev/null 2>/dev/null || true
+svn add "${AO_DIST_DEV_PATH}"/${CHANGES}-${v_major}.${v_minor} >/dev/null 2>/dev/null || true
 
 echo "updating Announcement${v_major}.${v_minor}.*"
 #Prep announcement files with latest version
