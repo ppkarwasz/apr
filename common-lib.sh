@@ -543,9 +543,12 @@ get_version_CVE_DIRS() {
   checkout_pmc "${dest}"
   cve_version_dir="${dest}/SECURITY/${PROJECT}-${FULL_VERSION}"
   if ! test -d "${cve_version_dir}"; then
-    echo "CVE Directory '${cve_version_dir}' does not exist."
-    echo "It should have been created and committed during creation of the candidate."
-    fail "something is wrong with the state of ${cve_version_dir}"
+    echo "No CVE directory '${cve_version_dir}' — no CVEs recorded for this release."
+    if ! ask_yes_no "Confirm: this release intentionally contains no CVE fixes?"; then
+      fail "Aborted. If CVEs are expected, ensure r0 was run correctly and the pmc checkout is up to date."
+    fi
+    CVE_DIRS=""
+    return 0
   fi
   cves_ok=1
   CVE_DIRS=""

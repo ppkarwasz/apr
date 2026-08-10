@@ -60,6 +60,18 @@ detect_checkout
 assure_clean_checkout
 detect_version $1
 
+# If dist/VERSION exists but is from a different release, discard it now
+# so later stage scripts cannot accidentally source stale state.
+if test -f "${DIST_DIR}/VERSION"; then
+  prior_full_version=$(. "${DIST_DIR}/VERSION" 2>/dev/null && \
+    v="${v_major}.${v_minor}.${v_patch}"; \
+    test -n "${v_suffix}" && echo "${v}-${v_suffix}" || echo "${v}")
+  if test "${prior_full_version}" != "${FULL_VERSION}"; then
+    echo "Discarding stale dist/VERSION (was for ${prior_full_version:-unknown}, now ${FULL_VERSION})"
+    rm -f "${DIST_DIR}/VERSION"
+  fi
+fi
+
 SVN_DEST="tags/${FULL_VERSION}-candidate"
 DEST_DIR="${DIST_DIR}/${PROJECT}-${FULL_VERSION}-candidate"
 
