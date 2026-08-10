@@ -16,8 +16,8 @@ usage: $0 [options]
   Options:
     -h             print usage information
     -u user-id     your apache user-id, e.g 'ylavic'
-    -p project (apr, apr-util)
-    -v VERSION (1.7.1)
+    -p project     apr or apr-util (optional if dist/VERSION is present)
+    -v VERSION     e.g. 1.7.1 (optional if dist/VERSION is present)
 EOF
   exit 1
 }
@@ -46,8 +46,27 @@ source `dirname $0`/common-lib.sh
 source `dirname $0`/env.sh
 
 test -n "${asf_id}" || fail "please specify your ASF id as '-u <asf-id>'"
-test -n "${PROJECT}" || fail "please specify your apr or apr-util with -p'"
-test -n "${VERSION}" || fail "please specify your VERSION with -v'"
+
+# Load dist/VERSION if present to fill in PROJECT and/or VERSION.
+if test -f "${DIST_DIR}/VERSION"; then
+  source "${DIST_DIR}/VERSION"
+  if test -z "${PROJECT}"; then
+    if test "${is_apr}" = "1"; then
+      PROJECT="apr"
+    else
+      PROJECT="apr-util"
+    fi
+    echo "Using project '${PROJECT}' from dist/VERSION"
+  fi
+  if test -z "${VERSION}"; then
+    # Never include the rc suffix — by r6 the candidate has been promoted.
+    VERSION="${v_major}.${v_minor}.${v_patch}"
+    echo "Using version '${VERSION}' from dist/VERSION (suffix '${v_suffix}' stripped)"
+  fi
+fi
+
+test -n "${PROJECT}" || fail "please specify project with -p (apr or apr-util)"
+test -n "${VERSION}" || fail "please specify version with -v"
 
 v_major=`echo $VERSION| cut -d "." -f 1`
 v_minor=`echo $VERSION| cut -d "." -f 2`
@@ -61,8 +80,7 @@ case ${PROJECT} in
               CHANGES_FILE="CHANGES-APR-UTIL"
               ANNOUNCEMENT="Announcement-aprutil-${v_major}.x.txt"
         ;;
-    *) echo "Teach me about ${PROJECT}"
-       exit 1
+    *) fail "unknown project '${PROJECT}': expected apr or apr-util"
        ;;
 esac
 
@@ -125,7 +143,7 @@ done
 
 # the candidate
 detect_version
-echo $FULLVERSION
+echo $FULL_VERSION
 
 get_version_CVE_DIRS "${DIST_DIR}/pmc"
 for CVE_DIR in $CVE_DIRS; do
