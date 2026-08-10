@@ -38,7 +38,7 @@
 
       Review the changes, especially ./CHANGES and dist/apache.org-dist/release/apr/CHANGES-*
 
-      If something goes wrong and you need to re-run, `svn revert CHANGES  NOTICE STATUS include/apu_version.h`
+      If something goes wrong and you need to re-run, `svn revert CHANGES NOTICE STATUS include/apu_version.h`
 
    3. Wait for dlcdn links (immediate) and directory listings (up to 2 hours) to show the new files.
       - https://dist.apache.org/repos/dist/release/apr/
@@ -49,7 +49,16 @@
 ## 2) If there were CVES
 
 1. Wait for either the dev@apr or announce@a.o emails to be visible.
-1. Update
+1. Update CVE's with backport info
+
+   Mostly automated, See apr-site/tools/update_svn_logs_with_cve.py.
+
+   If done manually:
+
+   1. vendor-advisory reference of https://apr.apache.org/security_report.html
+   2. timeline entry of "fixed in 1.6.x by rXXXXX" for latest release stream.
+   3. Synch website and CVE.json in SECURITY repo
+
 1. Process the CVEs on the cveprocess site
    - Set the CVE to `READY`
    - Use $APR_SECURITY/tools/update_svn_logs_with_cve.py to add the CVE to the stable releases svn commit messages.
@@ -75,12 +84,13 @@
 3. In https://svn.apache.org/repos/private/pmc/apr, move resolved CVE's 
    from SECURITY/CVE-XXXX to security-reports/resolved/
 4. svn rm the $project-$version dir under SECURITY/ too (not done by any release script)
+5. Copy CVE.json's to security-json/
+
 
 
 ## TODOS
 
 - Add timeline entry, either like httpd or while adding the backports revisions
-- Figure out how to get CVE.json's into apr-site for https://apr.apache.org/security_report.html
-  (new page). If it works well, automate it and automate the vendor-advisory link.  
+- automate copying CVE's to security-json in apr-site
 
   Requires timeline entry.
