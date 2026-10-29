@@ -3,7 +3,7 @@
 # Take generated tarballs and call vor a vote.
 
 #Useful for debugging
-set -x
+#set -x
 
 #Bail when non-zero return codes are encountered
 set -e
