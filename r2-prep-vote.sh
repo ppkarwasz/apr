@@ -100,7 +100,7 @@ if ask_yes_no "Do you want to commit these?"; then
 fi
 
 pushd ${DIST_DIR} > /dev/null
-TAR_SIGS=`grep '^' ${PROJECT}-${FULL_VERSION}.tar.gz.sha* | sed -e 's/.*.tar.gz.//g' -e 's/:/: /g'`
+TAR_SIGS=`grep '^' ${TAR_BASENAME}.tar.gz.sha* | sed -e 's/.*.tar.gz.//g' -e 's/:/: /g'`
 popd >/dev/null
 
 cat <<EOF > "${DIST_DIR}/mail-vote-$FULL_VERSION.txt"
