@@ -30,7 +30,18 @@
    hand; the PROJECT and TAG parms are printed after the text "creating release candidate:" of the
    preceding step.
 
-5. Review the generated tarballs in the dist/ subdirectory. If they look reasonable, run the following
+5. Review the generated tarballs in the dist/ subdirectory. A quick way to do that is to diff the
+   candidate against the latest release of the same project in https://dist.apache.org/repos/dist/release/apr/:
+
+   ```
+   $APR_DEV_TOOLS/r1b-compare-release.sh -q
+   ```
+
+   This downloads and sha256-verifies the latest `m.n.x` release tarball, unpacks both under `dist/compare/`
+   and prints a recursive diff. Generated autotools files are excluded by default (`-g` includes them),
+   `-q` lists only changed files, `-r REL` picks a specific release. Nothing is uploaded or committed.
+
+   If they look reasonable, run the following
    to add the generated tarballs, sigs, checksums, etc to checkout of https://dist.apache.org/repos/dist/dev/apr
 
    ```
