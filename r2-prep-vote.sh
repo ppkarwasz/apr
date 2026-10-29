@@ -12,7 +12,7 @@ usage () {
     cat <<EOF 1>&2
 usage: $0 [options] [version]
   publish the release candidate tarballs in the dist SVN. The tars need
-  to exist in the local 'dist' directory (created by r1-make-tars.sh).
+  to exist in the local 'dist' directory (created by r1-release.sh).
   If no version is given, the current version in the checkout is used.
   Arguments:
     version        as 'm.n.p(-suffix)?', the version to use.
@@ -48,9 +48,9 @@ TAR_BASENAME="${PROJECT}-${FULL_VERSION}-candidate"
 TAR_PATH="${DIST_DIR}/${TAR_BASENAME}"
 
 test -d "${EXP_PATH}" ||
-  fail "export directory ${EXP_PATH} does not exist. Did you run 'make-tars.sh'?"
+  fail "export directory ${EXP_PATH} does not exist. Did you run 'r1-release.sh'?"
 test -f "${TAR_PATH}.tar.gz" ||
-  fail "export tarball ${TAR_PATH}.tar.gz does not exist. Did you run 'make-tars.sh'?"
+  fail "export tarball ${TAR_PATH}.tar.gz does not exist. Did you run 'r1-release.sh'?"
 
 #Ensure scratch space is in a state we are ready to work with
 AO_DIST_PATH="dist/apache.org-dist"

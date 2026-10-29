@@ -16,12 +16,19 @@
    ```
     $APR_DEV_TOOLS/r0-make-candidate.sh rc1
    ```
-4. From the same project directory, run `$APR_DEV_TOOLS/release.sh` pointing to the tag created
-   by r0-make-candidate.sh.
+4. From the same project directory, build the candidate tarballs, checksums and signatures:
 
-   The PROJECT and TAG parms are printed after the text "creating release candidate:" of the preceding step.
+   ```
+    $APR_DEV_TOOLS/r1-release.sh -u covener@apache.org
+   ```
 
-   example: `$APR_DEV_TOOLS/release.sh apr-util 1.6.4-rc1-candidate covener $HOME/SRC/apr-1.7.x/`
+   For apr-util, also pass `-a /path/to/apr-source` (or set `$APR_SOURCE`) so buildconf finds APR,
+   e.g. `$APR_DEV_TOOLS/r1-release.sh -u covener -a $HOME/SRC/apr-1.7.x/`.
+
+   This is a thin wrapper that calls `release.sh` with the PROJECT and TAG recorded by the previous
+   step in `dist/VERSION`. `release.sh PROJECT TAG [SIGNING-USER] [APR-SOURCE]` can still be run by
+   hand; the PROJECT and TAG parms are printed after the text "creating release candidate:" of the
+   preceding step.
 
 5. Review the generated tarballs in the dist/ subdirectory. If they look reasonable, run the following
    to add the generated tarballs, sigs, checksums, etc to checkout of https://dist.apache.org/repos/dist/dev/apr
