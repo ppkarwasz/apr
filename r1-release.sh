@@ -96,7 +96,14 @@ fi
 save_version
 
 # release.sh accepts empty optional args and treats them as unset.
-"`dirname $0`"/release.sh "$PROJECT" "$TAG" "$SIGNING_USER" "$APR_SOURCE"
+"`dirname $0`"/release.sh "$PROJECT" "$TAG" "$SIGNING_USER" "$APR_SOURCE" ||
+  fail "release.sh failed, see above. No release candidate tarballs were produced."
+
+echo ""
+echo "verifying checksums and signatures in ${DIST_DIR}:"
+verify_dist_files "${DIST_DIR}/${PROJECT}-${TAG}.tar.gz" \
+                  "${DIST_DIR}/${PROJECT}-${TAG}.tar.bz2" \
+                  "${DIST_DIR}/${PROJECT}-${TAG}-win32-src.zip"
 
 echo ""
 echo "release candidate tarballs created in ${DIST_DIR}:"

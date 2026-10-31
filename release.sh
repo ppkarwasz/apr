@@ -172,6 +172,9 @@ elif test -x "${gpg}"; then
               -e 'y#ABCDEF#abcdef#;s#::# *#' > ${file}.sha256
     fi
   done
+else
+  echo "ERROR: neither openssl nor gpg found, cannot create checksums." >&2
+  exit 1
 fi
 
 echo $split
@@ -182,16 +185,42 @@ echo ""
 rm -rf ${dirname}
 rm -rf ${dirname}-win32
 
+# Sign one file and refuse to continue unless a signature really was
+# produced and verifies. gpg exits non-zero when the pinentry/password
+# prompt times out or is cancelled, which is easy to miss in a long build
+# log, so every failure here is fatal.
+sign_file() {
+  signer="$1"; shift
+  file="$1"; shift
+  # a leftover .asc from an earlier run would make gpg prompt to overwrite
+  # (or silently mask a failed signing), so always start from scratch
+  rm -f "${file}.asc"
+  echo "${signer}: creating asc signature file for ${file} ..."
+  if ! "$@"; then
+    echo "ERROR: ${signer} failed to sign ${file} (password prompt timed out or cancelled?)" >&2
+    exit 1
+  fi
+  if ! test -s "${file}.asc"; then
+    echo "ERROR: ${signer} exited successfully but ${file}.asc is missing or empty" >&2
+    exit 1
+  fi
+  if test -x "${gpg}"; then
+    if ! ${gpg} --verify "${file}.asc" "${file}" >/dev/null 2>&1; then
+      echo "ERROR: signature ${file}.asc does not verify against ${file}" >&2
+      ${gpg} --verify "${file}.asc" "${file}" >&2
+      exit 1
+    fi
+    echo "${signer}: verified ${file}.asc"
+  fi
+}
+
 # if found we use pgp for signing the files
 if test -x "${pgp}"; then
   if test -n "${SIGNING_USER}"; then
     args="-u ${SIGNING_USER}"
   fi
   for file; do
-    if test -f "${file}"; then
-      echo "pgp: creating asc signature file for ${file} ..."
-      ${pgp} -sba ${file} ${args}
-    fi
+    sign_file pgp "${file}" ${pgp} -sba ${file} ${args}
   done
 # no pgp found - check for gpg
 elif test -x "${gpg}"; then
@@ -199,13 +228,35 @@ elif test -x "${gpg}"; then
     args="--default-key ${SIGNING_USER}"
   fi
   for file; do
-    if test -f "${file}"; then
-      echo "gpg: creating asc signature file for ${file} ..."
-      ${gpg} --armor ${args} --detach-sign ${file}
-    fi
+    sign_file gpg "${file}" ${gpg} --armor ${args} --detach-sign ${file}
   done
 else
-  echo "PGP or GnuPG not found!  Not signing release!"
+  echo "ERROR: PGP or GnuPG not found!  Cannot sign release." >&2
+  exit 1
+fi
+
+echo $split
+echo ""
+echo "Checking release artifacts ..."
+echo ""
+
+# Every tarball must exist and have a checksum and a signature beside it.
+# Checksum generation above silently skips files that don't exist, so this
+# is also where a missing tarball is caught.
+missing=0
+for file; do
+  for f in "${file}" "${file}.sha256" "${file}.asc"; do
+    if test -s "${f}"; then
+      echo "ok: ${f}"
+    else
+      echo "ERROR: missing or empty: ${f}" >&2
+      missing=1
+    fi
+  done
+done
+if test "${missing}" != 0; then
+  echo "ERROR: release artifacts are incomplete, not moving them to dist/" >&2
+  exit 1
 fi
 
 mv ${filename}* dist/

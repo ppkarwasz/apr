@@ -286,6 +286,17 @@ create_dist_checksums() {
   done
 }
 
+# Sign one file with the given command and fail unless a non-empty
+# signature was produced. gpg exits non-zero when the pinentry/password
+# prompt times out or is cancelled; that must never go unnoticed.
+sign_one_file() {
+  file="$1"; shift
+  rm -f "${file}.asc"
+  echo " - creating asc signature file for ${file} ..."
+  "$@" || fail "signing ${file} failed (password prompt timed out or cancelled?)"
+  test -s "${file}.asc" || fail "signing ${file} produced no signature file ${file}.asc"
+}
+
 sign_dist_files() {
   signing_user="$1"; shift
 
@@ -295,24 +306,14 @@ sign_dist_files() {
   pgp="`which pgp 2> /dev/null | head -1`"
 
   # there are 3 possible ways to sign, check in preference
-  if test -x "${gpg2}"; then
-    if test -z "${signing_user}"; then
-      args="--default-key"
-    else
+  if test -x "${gpg2}" -o -x "${gpg}"; then
+    test -x "${gpg2}" || gpg2="${gpg}"
+    args=""
+    if test -n "${signing_user}"; then
       args="-u ${signing_user}"
     fi
     for file in "$@"; do
-      echo " - gpg2: creating asc signature file for ${file} ..."
-      ${gpg2} --armor ${args} --detach-sign ${file}
-    done
-  elif test -x "${gpg}"; then
-    args=""
-    if test -n "${signing_user}"; then
-      args="-u ${signing_useruser}"
-    fi
-    for file in "$@"; do
-      echo " - gpg: creating asc signature file for ${file} ..."
-      ${gpg} --armor ${args} --detach-sign ${file}
+      sign_one_file "${file}" ${gpg2} --armor ${args} --detach-sign "${file}"
     done
   elif test -x "${pgp}"; then
     args=""
@@ -320,12 +321,38 @@ sign_dist_files() {
       args="-u ${signing_user}"
     fi
     for file in "$@"; do
-      echo " - pgp: creating asc signature file for ${file} ..."
-      ${pgp} -sba ${file} ${args}
+      sign_one_file "${file}" ${pgp} -sba "${file}" ${args}
     done
   else
     fail "neither PGP nor GnuPG found! Not signing release!"
   fi
+  verify_dist_signatures "$@"
+}
+
+# Verify the detached .asc signature of each given file. Fails on the first
+# missing or bad signature.
+verify_dist_signatures() {
+  gpg="`which gpg gpg2 2> /dev/null | head -1`"
+  test -x "${gpg}" || fail "gpg not found, unable to verify signatures"
+  for path in "$@"; do
+    test -s "${path}" || fail "release artifact missing or empty: ${path}"
+    test -s "${path}.asc" || fail "signature missing or empty: ${path}.asc"
+    if ! ${gpg} --verify "${path}.asc" "${path}" >/dev/null 2>&1; then
+      ${gpg} --verify "${path}.asc" "${path}" >&2 || true
+      fail "signature does not verify: ${path}.asc"
+    fi
+    echo " - good signature: `basename ${path}`.asc"
+  done
+}
+
+# Verify that each given release artifact exists and has a non-empty
+# sha256 checksum and a valid detached signature beside it.
+verify_dist_files() {
+  for path in "$@"; do
+    test -s "${path}" || fail "release artifact missing or empty: ${path}"
+    test -s "${path}.sha256" || fail "checksum missing or empty: ${path}.sha256"
+  done
+  verify_dist_signatures "$@"
 }
 
 export_httpd_srclib() {

@@ -52,6 +52,10 @@ test -d "${EXP_PATH}" ||
 test -f "${TAR_PATH}.tar.gz" ||
   fail "export tarball ${TAR_PATH}.tar.gz does not exist. Did you run 'r1-release.sh'?"
 
+# never publish a candidate whose signing (silently) failed in r1-release.sh
+echo "verifying checksums and signatures in ${DIST_DIR} ..."
+verify_dist_files "${TAR_PATH}.tar.gz" "${TAR_PATH}.tar.bz2" "${TAR_PATH}-win32-src.zip"
+
 #Ensure scratch space is in a state we are ready to work with
 AO_DIST_PATH="dist/apache.org-dist"
 # always apr
