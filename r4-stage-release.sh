@@ -88,7 +88,8 @@ test -d "${AO_DIST_PATH}" ||
 # remove the previous one if it exists
 prev_patch=`expr ${v_patch} - 1`
 PREV_VERSION="${v_major}.${v_minor}.${prev_patch}"
-for i in "${AO_DIST_RELEASE_PATH}/${PROJECT}-${PREV_VERSION}".*; do
+for i in "${AO_DIST_RELEASE_PATH}/${PROJECT}-${PREV_VERSION}".* \
+         "${AO_DIST_RELEASE_PATH}/${PROJECT}-${PREV_VERSION}-win32-src.zip"*; do
   test -f "$i" && svn rm "$i"
 done
 
