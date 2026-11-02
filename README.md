@@ -58,7 +58,8 @@
 
       If something goes wrong and you need to re-run, `svn revert CHANGES NOTICE STATUS include/apu_version.h`
 
-   3. Wait for dlcdn links (immediate) and directory listings (up to 2 hours) to show the new files.
+   3. Wait for dlcdn links to work. Directory listings will lag, but you can
+      test the direct links until they appear.  dist.apache.org should work immediately.
       - https://dist.apache.org/repos/dist/release/apr/
       - https://dlcdn.apache.org/apr/
    4. Run `$APR_DEV_TOOLS/r5-commit-staged-release.sh` to update the website and dev tree (and remove n-1 release)
