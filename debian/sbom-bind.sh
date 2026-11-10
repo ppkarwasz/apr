@@ -363,7 +363,9 @@ assemble() {
           (if $epoch == "" then {}
            else { timestamp: ($epoch | tonumber | floor | todate) } end)
           + {
-            lifecycles: [ { phase: "post-build" } ],
+            # "build": the SBOM is made during the package build, from
+            # the dependencies resolved in the build environment.
+            lifecycles: [ { phase: "build" } ],
             tools: {
               components: ($b.metadata.tools.components
                 + [ { type: "application", name: "debian/sbom-bind.sh",
@@ -391,7 +393,7 @@ assemble() {
 bom=`printf '%s\n' "$externals" | sed '/^$/d' | assemble`
 
 # serialNumber: version 5 UUID (URL namespace) of
-# PURL#sbom=post-build[&source_date_epoch=EPOCH][&sha256=DIGEST], the
+# PURL#sbom=build[&source_date_epoch=EPOCH][&sha256=DIGEST], the
 # digest being added only when SOURCE_DATE_EPOCH is unset.
 
 hexdigest() {
@@ -416,7 +418,7 @@ uuid5() {
     echo "$_h" | sed "s/^\(........\)\(....\).\(...\).\(...\)\(............\).*/\1-\2-5\3-$_v\4-\5/"
 }
 
-name="$pkg_purl#sbom=post-build"
+name="$pkg_purl#sbom=build"
 if test -n "$SOURCE_DATE_EPOCH"; then
     name="$name&source_date_epoch=$SOURCE_DATE_EPOCH"
 else
