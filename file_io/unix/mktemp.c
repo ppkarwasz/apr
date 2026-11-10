@@ -45,6 +45,9 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
+/* SPDX-License-Identifier: Apache-2.0 AND BSD-4-Clause-UC
+ * SPDX-FileCopyrightText: Copyright (c) 1987, 1993 The Regents of the University of California
+ */
 
 #include "apr_private.h"
 #include "apr_file_io.h" /* prototype of apr_mkstemp() */

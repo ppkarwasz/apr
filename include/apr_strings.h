@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* SPDX-License-Identifier: Apache-2.0 */
 
 /* Portions of this file are covered by */
 /* -*- mode: c; c-file-style: "k&r" -*-
@@ -65,6 +66,10 @@ extern "C" {
  * @{
  */
 
+/* SPDX-SnippetBegin
+ * SPDX-SnippetCopyrightText: Copyright (C) 2000 by Martin Pool <mbp@humbug.org.au>
+ * SPDX-License-Identifier: Zlib
+ */
 /**
  * Do a natural order comparison of two strings.
  * @param a The first string to compare
@@ -85,6 +90,7 @@ APR_DECLARE(int) apr_strnatcmp(char const *a, char const *b);
  *         first string is greater than second string it retuns >0.
  */
 APR_DECLARE(int) apr_strnatcasecmp(char const *a, char const *b);
+/* SPDX-SnippetEnd */
 
 /**
  * duplicate a string into memory allocated out of a pool

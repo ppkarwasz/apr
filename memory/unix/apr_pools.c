@@ -1036,33 +1036,46 @@ APR_DECLARE(void) apr_pool_destroy(apr_pool_t *pool)
     APR_IF_VALGRIND(VALGRIND_DESTROY_MEMPOOL(pool));
 }
 
-APR_DECLARE(apr_status_t) apr_pool_create_ex(apr_pool_t **newpool,
-                                             apr_pool_t *parent,
-                                             apr_abortfunc_t abort_fn,
-                                             apr_allocator_t *allocator)
+
+/* Create a managed or unmanaged pool. If PARENT is NULL, create an unmanaged
+   pool without a parent, otherwise create a managed pool under PARENT. */
+static apr_status_t create_pool(apr_pool_t **newpool,
+                                apr_pool_t *parent,
+                                apr_abortfunc_t abort_fn,
+                                apr_allocator_t *allocator)
 {
+    const int create_unmanaged = (parent == NULL);
+    const int need_allocator = (allocator == NULL);
     apr_pool_t *pool;
     apr_memnode_t *node;
 
-    *newpool = NULL;
+    if (create_unmanaged) {
+        if (need_allocator) {
+            if (apr_allocator_create(&allocator) != APR_SUCCESS) {
+                if (abort_fn)
+                    abort_fn(APR_ENOMEM);
 
-    if (!parent)
-        parent = global_pool;
+                return APR_ENOMEM;
+            }
+        }
+    }
+    else {
+        if (!abort_fn)
+            abort_fn = parent->abort_fn;
 
-    /* parent will always be non-NULL here except the first time a
-     * pool is created, in which case allocator is guaranteed to be
-     * non-NULL. */
-
-    if (!abort_fn && parent)
-        abort_fn = parent->abort_fn;
-
-    if (allocator == NULL)
-        allocator = parent->allocator;
+        if (need_allocator)
+            allocator = parent->allocator;
+    }
 
     if ((node = allocator_alloc(allocator,
                                 MIN_ALLOC - APR_MEMNODE_T_SIZE)) == NULL) {
         if (abort_fn)
             abort_fn(APR_ENOMEM);
+
+        if (create_unmanaged && need_allocator) {
+            /* We created the allocator; destroy it before returning. */
+            apr_allocator_destroy(allocator);
+        }
 
         return APR_ENOMEM;
     }
@@ -1098,12 +1111,13 @@ APR_DECLARE(apr_status_t) apr_pool_create_ex(apr_pool_t **newpool,
     pool->subprocesses = NULL;
     pool->user_data = NULL;
     pool->tag = NULL;
+    pool->parent = parent;
 
-#ifdef NETWARE
-    pool->owner_proc = (apr_os_proc_t)getnlmhandle();
-#endif /* defined(NETWARE) */
-
-    if ((pool->parent = parent) != NULL) {
+    if (create_unmanaged) {
+        pool->sibling = NULL;
+        pool->ref = NULL;
+    }
+    else {
         allocator_lock(parent->allocator);
 
         if ((pool->sibling = parent->child) != NULL)
@@ -1114,16 +1128,44 @@ APR_DECLARE(apr_status_t) apr_pool_create_ex(apr_pool_t **newpool,
 
         allocator_unlock(parent->allocator);
     }
-    else {
-        pool->sibling = NULL;
-        pool->ref = NULL;
+
+#ifdef NETWARE
+    pool->owner_proc = (apr_os_proc_t)getnlmhandle();
+#endif /* defined(NETWARE) */
+
+    if (create_unmanaged && need_allocator) {
+        /* We created the allocator; set its owner. */
+        allocator->owner = pool;
     }
 
     pool_concurrency_init(pool);
-
     *newpool = pool;
 
     return APR_SUCCESS;
+}
+
+APR_DECLARE(apr_status_t) apr_pool_create_ex(apr_pool_t **newpool,
+                                             apr_pool_t *parent,
+                                             apr_abortfunc_t abort_fn,
+                                             apr_allocator_t *allocator)
+{
+    *newpool = NULL;
+
+    if (!parent)
+        parent = global_pool;
+
+    /* parent will always be non-NULL here except the first time a
+     * pool is created, in which case allocator is guaranteed to be
+     * non-NULL. */
+
+    if (parent == NULL && allocator == NULL) {
+        if (abort_fn)
+            abort_fn(APR_ENOPOOL);
+
+        return APR_ENOPOOL;
+    }
+
+    return create_pool(newpool, parent, abort_fn, allocator);
 }
 
 /* Deprecated. Renamed to apr_pool_create_unmanaged_ex
@@ -1139,62 +1181,16 @@ APR_DECLARE(apr_status_t) apr_pool_create_unmanaged_ex(apr_pool_t **newpool,
                                                   apr_abortfunc_t abort_fn,
                                                   apr_allocator_t *allocator)
 {
-    apr_pool_t *pool;
-    apr_memnode_t *node;
-    apr_allocator_t *pool_allocator;
-
     *newpool = NULL;
 
-    if (!apr_pools_initialized)
-        return APR_ENOPOOL;
-    if ((pool_allocator = allocator) == NULL) {
-        if ((pool_allocator = malloc(SIZEOF_ALLOCATOR_T)) == NULL) {
-            if (abort_fn)
-                abort_fn(APR_ENOMEM);
-
-            return APR_ENOMEM;
-        }
-        memset(pool_allocator, 0, SIZEOF_ALLOCATOR_T);
-        pool_allocator->max_free_index = APR_ALLOCATOR_MAX_FREE_UNLIMITED;
-    }
-    if ((node = allocator_alloc(pool_allocator,
-                                MIN_ALLOC - APR_MEMNODE_T_SIZE)) == NULL) {
+    if (!apr_pools_initialized) {
         if (abort_fn)
-            abort_fn(APR_ENOMEM);
+            abort_fn(APR_ENOPOOL);
 
-        return APR_ENOMEM;
+        return APR_ENOPOOL;
     }
 
-    node->next = node;
-    node->ref = &node->next;
-
-    pool = (apr_pool_t *)node->first_avail;
-    node->first_avail = pool->self_first_avail = (char *)pool + SIZEOF_POOL_T;
-
-    pool->allocator = pool_allocator;
-    pool->active = pool->self = node;
-    pool->abort_fn = abort_fn;
-    pool->child = NULL;
-    pool->cleanups = NULL;
-    pool->free_cleanups = NULL;
-    pool->pre_cleanups = NULL;
-    pool->subprocesses = NULL;
-    pool->user_data = NULL;
-    pool->tag = NULL;
-    pool->parent = NULL;
-    pool->sibling = NULL;
-    pool->ref = NULL;
-
-#ifdef NETWARE
-    pool->owner_proc = (apr_os_proc_t)getnlmhandle();
-#endif /* defined(NETWARE) */
-    if (!allocator)
-        pool_allocator->owner = pool;
-
-    pool_concurrency_init(pool);
-    *newpool = pool;
-
-    return APR_SUCCESS;
+    return create_pool(newpool, NULL, abort_fn, allocator);
 }
 
 /*
@@ -1604,8 +1600,14 @@ static void apr_pool_check_lifetime(apr_pool_t *pool)
      * ok, since the only user is apr_pools.c.  Unless
      * people have searched for the top level parent and
      * started to use that...
+     * Like the global pool, unmanaged pools have their
+     * own lifetime and no ->parent, ignore both here.
+     * Last (internal) case is from apr_pool_create_ex_debug()
+     * where pool->mutex is created before attaching to the
+     * parent, hence an allocation happens with no ->parent
+     * nor lifetime to be checked here.
      */
-    if (pool == global_pool || global_pool == NULL)
+    if (pool->parent == NULL)
         return;
 
     /* Lifetime
@@ -2049,6 +2051,8 @@ APR_DECLARE(apr_status_t) apr_pool_create_ex_debug(apr_pool_t **newpool,
          */
         if ((rv = apr_thread_mutex_create(&pool->mutex,
                 APR_THREAD_MUTEX_NESTED, pool)) != APR_SUCCESS) {
+            if (abort_fn)
+                abort_fn(rv);
             free(pool);
             return rv;
         }
@@ -2116,26 +2120,6 @@ APR_DECLARE(apr_status_t) apr_pool_create_unmanaged_ex_debug(apr_pool_t **newpoo
     pool->file_line = file_line;
 
 #if APR_HAS_THREADS
-    {
-        apr_status_t rv;
-
-        /* No matter what the creation flags say, always create
-         * a lock.  Without it integrity_check and apr_pool_num_bytes
-         * blow up (because they traverse pools child lists that
-         * possibly belong to another thread, in combination with
-         * the pool having no lock).  However, this might actually
-         * hide problems like creating a child pool of a pool
-         * belonging to another thread.
-         */
-        if ((rv = apr_thread_mutex_create(&pool->mutex,
-                APR_THREAD_MUTEX_NESTED, pool)) != APR_SUCCESS) {
-            free(pool);
-            return rv;
-        }
-    }
-#endif /* APR_HAS_THREADS */
-
-#if APR_HAS_THREADS
     pool->owner = apr_os_thread_current();
 #endif /* APR_HAS_THREADS */
 #ifdef NETWARE
@@ -2152,6 +2136,31 @@ APR_DECLARE(apr_status_t) apr_pool_create_unmanaged_ex_debug(apr_pool_t **newpoo
         pool_allocator->owner = pool;
     }
     pool->allocator = pool_allocator;
+
+#if APR_HAS_THREADS
+    {
+        apr_status_t rv;
+
+        /* No matter what the creation flags say, always create
+         * a lock.  Without it integrity_check and apr_pool_num_bytes
+         * blow up (because they traverse pools child lists that
+         * possibly belong to another thread, in combination with
+         * the pool having no lock).  However, this might actually
+         * hide problems like creating a child pool of a pool
+         * belonging to another thread.
+         */
+        if ((rv = apr_thread_mutex_create(&pool->mutex,
+                APR_THREAD_MUTEX_NESTED, pool)) != APR_SUCCESS) {
+            if (abort_fn)
+                abort_fn(rv);
+            /* Free the allocator created/owned above eventually */
+            if (pool_allocator->owner == pool)
+                apr_allocator_destroy(pool_allocator);
+            free(pool);
+            return rv;
+        }
+    }
+#endif /* APR_HAS_THREADS */
 
 #if (APR_POOL_DEBUG & APR_POOL_DEBUG_VERBOSE)
     apr_pool_log_event(pool, "CREATEU", file_line, 1);

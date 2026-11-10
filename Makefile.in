@@ -46,6 +46,7 @@ LT_VERSION = @LT_VERSION@
 
 CLEAN_TARGETS = apr-config.out apr.exp exports.c export_vars.c .make.dirs \
 	build/apr_rules.out tools/gen_test_char@EXEEXT@ \
+	apr.cdx.json apr-source.cdx.json \
 	tools/gen_test_char.o \
 	include/private/apr_escape_test_char.h
 DISTCLEAN_TARGETS = config.cache config.log config.status \
@@ -120,6 +121,23 @@ apr.exp: exports.c export_vars.c
 
 dox:
 	doxygen $(top_srcdir)/docs/doxygen.conf
+
+# CycloneDX SBOMs: "sbom" describes this build (third-party code from
+# maintained upstreams compiled in, and the libraries it needs at run
+# time); "source-sbom" describes the source tree (all third-party code
+# and every library the build may use, with accepted version ranges).
+sbom: $(TARGET_LIB)
+	$(SHELL) $(top_srcdir)/build/sbom.sh build \
+	    --srcdir "$(top_srcdir)" --host "@host@" \
+	    --cross "@APR_CROSS_COMPILING@" \
+	    --libs "$(ALL_LIBS)" --objects "$(OBJECTS)" \
+	    --library "$(TARGET_LIB)" --cc "$(CC)" > apr.cdx.json.tmp
+	mv apr.cdx.json.tmp apr.cdx.json
+
+source-sbom:
+	$(SHELL) $(top_srcdir)/build/sbom.sh source "$(top_srcdir)" \
+	    > apr-source.cdx.json.tmp
+	mv apr-source.cdx.json.tmp apr-source.cdx.json
 
 gcov: 
 	@build/run-gcov.sh

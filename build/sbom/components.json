@@ -1,0 +1,631 @@
+{
+  "comment": [
+    "Input for build/sbom.sh: the third-party code bundled with APR and the",
+    "external libraries the UNIX build may link against.",
+    "",
+    "bundled[]: files    source files (shell patterns) containing the code",
+    "           license  SPDX expression; for tagged files it selects the",
+    "                    file-level tag or the snippet that belongs to this",
+    "                    entry, and licenses and copyrights are read from it",
+    "           tagged   false for files we do not edit (upstream copies and",
+    "                    generated files); license and copyright come from",
+    "                    this entry and from extract",
+    "           extract  values read from a file with a sed -n expression:",
+    "                    version, copyright, or any other name (a property)",
+    "           if-present  only listed when the files exist",
+    "           scope    required (default), optional or excluded (build only)",
+    "           objects  objects containing the code (build SBOM); - means",
+    "                    the code is installed as a header",
+    "           upstream \"maintained\" if the code comes from a maintained,",
+    "                    versioned project whose advisories could apply;",
+    "                    \"historical\" if it was forked long ago or has no",
+    "                    upstream left.  The build SBOM lists only",
+    "                    maintained code; the source SBOM lists everything.",
+    "           component  CycloneDX component fields",
+    "external[]: libs    library names provided by this library: NAME as in",
+    "                    -lNAME and libNAME.so.N",
+    "           pkg-config  modules to ask for the version in the build",
+    "                    SBOM, with component fields to use when found",
+    "           define   apr_private.h macro that includes it in the build",
+    "                    SBOM (instead of libs)",
+    "           compile-only  headers only: not a runtime component",
+    "           component  CycloneDX component fields (source SBOM)",
+    "glibc:     library names (shell patterns) provided by the GNU C library",
+    "           when building on it, including the dynamic loader",
+    "scan-exclude: files never checked for unclaimed SPDX tags"
+  ],
+  "bundled": [
+    {
+      "files": [
+        "misc/unix/getopt.c"
+      ],
+      "license": "BSD-4-Clause-UC",
+      "objects": [
+        "misc/unix/getopt.lo"
+      ],
+      "upstream": "historical",
+      "component": {
+        "type": "library",
+        "bom-ref": "bsd-getopt",
+        "supplier": {
+          "name": "The Regents of the University of California"
+        },
+        "name": "BSD getopt",
+        "description": "Command line option parser behind apr_getopt().",
+        "pedigree": {
+          "notes": "Derived from the BSD C library getopt(3) and adapted to APR."
+        }
+      }
+    },
+    {
+      "files": [
+        "file_io/unix/mktemp.c"
+      ],
+      "license": "Apache-2.0 AND BSD-4-Clause-UC",
+      "objects": [
+        "file_io/unix/mktemp.lo"
+      ],
+      "upstream": "historical",
+      "component": {
+        "type": "library",
+        "bom-ref": "bsd-mktemp",
+        "supplier": {
+          "name": "The Regents of the University of California"
+        },
+        "name": "BSD mktemp",
+        "description": "Temporary file creation behind apr_file_mktemp().",
+        "pedigree": {
+          "notes": "Derived from the BSD C library mktemp(3) and adapted to APR."
+        }
+      }
+    },
+    {
+      "files": [
+        "strings/apr_strings.c"
+      ],
+      "license": "BSD-4-Clause-UC",
+      "objects": [
+        "strings/apr_strings.lo"
+      ],
+      "upstream": "historical",
+      "component": {
+        "type": "library",
+        "bom-ref": "bsd-strtoq",
+        "supplier": {
+          "name": "The Regents of the University of California"
+        },
+        "name": "BSD strtoq",
+        "description": "64-bit string to integer conversion in apr_strtoi64().",
+        "pedigree": {
+          "notes": "Derived from the BSD C library strtoq(3) and adapted to APR."
+        }
+      }
+    },
+    {
+      "files": [
+        "include/apr_fnmatch.h"
+      ],
+      "license": "BSD-4-Clause-UC",
+      "objects": [
+        "-"
+      ],
+      "upstream": "historical",
+      "component": {
+        "type": "library",
+        "bom-ref": "bsd-fnmatch-h",
+        "supplier": {
+          "name": "The Regents of the University of California"
+        },
+        "name": "BSD fnmatch.h",
+        "description": "Public header declaring apr_fnmatch().",
+        "pedigree": {
+          "notes": "Derived from the BSD C library fnmatch.h; the implementation in strings/apr_fnmatch.c has since been rewritten."
+        }
+      }
+    },
+    {
+      "files": [
+        "network_io/unix/inet_ntop.c",
+        "network_io/unix/inet_pton.c"
+      ],
+      "license": "ISC",
+      "objects": [
+        "network_io/unix/inet_ntop.lo",
+        "network_io/unix/inet_pton.lo"
+      ],
+      "upstream": "historical",
+      "component": {
+        "type": "library",
+        "bom-ref": "isc-inet",
+        "supplier": {
+          "name": "Internet Software Consortium"
+        },
+        "name": "ISC inet_ntop/inet_pton",
+        "description": "IPv4/IPv6 address text conversion.",
+        "pedigree": {
+          "notes": "Derived from the ISC BIND resolver library and adapted to APR."
+        }
+      }
+    },
+    {
+      "files": [
+        "strings/apr_strnatcmp.c",
+        "include/apr_strings.h"
+      ],
+      "license": "Zlib",
+      "objects": [
+        "strings/apr_strnatcmp.lo"
+      ],
+      "upstream": "historical",
+      "component": {
+        "type": "library",
+        "bom-ref": "strnatcmp",
+        "supplier": {
+          "name": "Martin Pool"
+        },
+        "name": "strnatcmp",
+        "description": "Natural order string comparison in apr_strnatcmp() and apr_strnatcasecmp().",
+        "pedigree": {
+          "notes": "Adapted to APR from Martin Pool's strnatcmp.c."
+        }
+      }
+    },
+    {
+      "files": [
+        "strings/apr_snprintf.c"
+      ],
+      "license": "Caldera-no-preamble",
+      "objects": [
+        "strings/apr_snprintf.lo"
+      ],
+      "upstream": "historical",
+      "component": {
+        "type": "library",
+        "bom-ref": "unix-v7-cvt",
+        "supplier": {
+          "name": "Caldera International Inc."
+        },
+        "name": "UNIX V7 cvt",
+        "description": "IEEE floating point formatting routines (apr_ecvt, apr_fcvt, apr_gcvt).",
+        "pedigree": {
+          "notes": "Derived from UNIX V7."
+        }
+      }
+    },
+    {
+      "files": [
+        "random/unix/sha2.c",
+        "random/unix/sha2.h"
+      ],
+      "license": "Apache-2.0",
+      "objects": [
+        "random/unix/sha2.lo"
+      ],
+      "upstream": "historical",
+      "component": {
+        "type": "library",
+        "bom-ref": "sha2",
+        "supplier": {
+          "name": "Aaron D. Gifford"
+        },
+        "name": "sha2",
+        "description": "SHA-256 implementation used by the apr_random generator.",
+        "pedigree": {
+          "notes": "A licence to this code was granted to the ASF by Aaron D. Gifford on 4 November 2003; it is distributed under the Apache License 2.0."
+        }
+      }
+    },
+    {
+      "files": [
+        "dso/aix/dso.c"
+      ],
+      "license": "Apache-2.0 AND LicenseRef-AIX-dlfcn",
+      "scope": "optional",
+      "objects": [
+        "dso/aix/dso.lo"
+      ],
+      "upstream": "historical",
+      "component": {
+        "type": "library",
+        "bom-ref": "aix-dlfcn",
+        "supplier": {
+          "name": "Helios Software GmbH"
+        },
+        "name": "AIX libdl emulation",
+        "description": "dlopen() emulation used by apr_dso on AIX only.",
+        "pedigree": {
+          "notes": "Based on libdl (dlfcn.c/dlfcn.h) by Jens-Uwe Mager."
+        }
+      }
+    },
+    {
+      "files": [
+        "build/config.guess",
+        "build/config.sub"
+      ],
+      "tagged": false,
+      "license": "GPL-3.0-or-later WITH Autoconf-exception-generic-3.0",
+      "scope": "excluded",
+      "extract": {
+        "version": {
+          "file": "build/config.guess",
+          "sed": "s/^timestamp='\\(.*\\)'$/\\1/p"
+        },
+        "copyright": {
+          "file": "build/config.guess",
+          "sed": "s/^#  *\\(Copyright .*Free Software Foundation, Inc\\.\\)$/\\1/p"
+        }
+      },
+      "upstream": "maintained",
+      "component": {
+        "type": "application",
+        "bom-ref": "gnu-config",
+        "supplier": {
+          "name": "Free Software Foundation, Inc."
+        },
+        "name": "GNU config",
+        "description": "Build system type detection scripts.",
+        "pedigree": {
+          "notes": "Copied unmodified from the GNU config project."
+        }
+      }
+    },
+    {
+      "files": [
+        "build/ax_prog_cc_for_build.m4"
+      ],
+      "tagged": false,
+      "license": "FSFAP",
+      "scope": "excluded",
+      "copyright": "Copyright (c) 2008 Paolo Bonzini <bonzini@gnu.org>",
+      "extract": {
+        "version": {
+          "file": "build/ax_prog_cc_for_build.m4",
+          "sed": "s/^#serial \\([0-9]*\\)$/\\1/p"
+        }
+      },
+      "upstream": "maintained",
+      "component": {
+        "type": "application",
+        "bom-ref": "ax-prog-cc-for-build",
+        "supplier": {
+          "name": "GNU Autoconf Archive"
+        },
+        "name": "autoconf-archive AX_PROG_CC_FOR_BUILD",
+        "description": "Autoconf macro locating a native compiler when cross-compiling.",
+        "pedigree": {
+          "notes": "Copied unmodified from the GNU Autoconf Archive."
+        }
+      }
+    },
+    {
+      "files": [
+        "build/ltmain.sh",
+        "build/libtool.m4",
+        "build/lt*.m4",
+        "build/ltconfig",
+        "build/ltcf-c.sh"
+      ],
+      "tagged": false,
+      "if-present": true,
+      "license": "GPL-2.0-or-later WITH Libtool-exception AND FSFULLR",
+      "scope": "excluded",
+      "extract": {
+        "version": {
+          "file": "build/ltmain.sh",
+          "sed": "s/^package_revision=\\(.*\\)$/\\1/p"
+        },
+        "copyright": {
+          "file": "build/ltmain.sh",
+          "sed": "s/^# *\\(Copyright (C) .*Free Software Foundation, Inc\\.\\)$/\\1/p"
+        },
+        "apr:libtool:version-string": {
+          "file": "build/ltmain.sh",
+          "sed": "s/^VERSION=\"\\{0,1\\}\\([^\"]*\\)\"\\{0,1\\}$/\\1/p"
+        }
+      },
+      "upstream": "maintained",
+      "component": {
+        "type": "application",
+        "bom-ref": "gnu-libtool",
+        "supplier": {
+          "name": "Free Software Foundation, Inc."
+        },
+        "name": "GNU Libtool",
+        "description": "Libtool support files copied in by buildconf (libtoolize); present in release tarballs.",
+        "pedigree": {
+          "notes": "Copied by libtoolize. The full version string shows whether a distribution-patched libtool was used."
+        }
+      }
+    },
+    {
+      "files": [
+        "configure"
+      ],
+      "tagged": false,
+      "if-present": true,
+      "license": "FSFUL",
+      "scope": "excluded",
+      "copyright": "Copyright (C) Free Software Foundation, Inc.",
+      "extract": {
+        "version": {
+          "file": "configure",
+          "sed": "s/^# Generated by GNU Autoconf \\(.*\\)\\.$/\\1/p"
+        }
+      },
+      "upstream": "maintained",
+      "component": {
+        "type": "application",
+        "bom-ref": "gnu-autoconf",
+        "supplier": {
+          "name": "Free Software Foundation, Inc."
+        },
+        "name": "GNU Autoconf",
+        "description": "configure script generated by autoconf from configure.in; present in release tarballs.",
+        "pedigree": {
+          "notes": "Generated by buildconf; contains Autoconf-provided shell code."
+        }
+      }
+    }
+  ],
+  "external": [
+    {
+      "libs": [
+        "c"
+      ],
+      "component": {
+        "bom-ref": "libc",
+        "name": "libc",
+        "versionRange": "vers:generic/*",
+        "scope": "required",
+        "description": "C standard library and POSIX interfaces."
+      }
+    },
+    {
+      "libs": [
+        "pthread"
+      ],
+      "component": {
+        "bom-ref": "libpthread",
+        "name": "libpthread",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "POSIX threads; part of libc on many systems; not used with --disable-threads."
+      }
+    },
+    {
+      "libs": [
+        "dl"
+      ],
+      "component": {
+        "bom-ref": "libdl",
+        "name": "libdl",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "dlopen()/dlsym() for apr_dso; part of libc on many systems; not used with --disable-dso."
+      }
+    },
+    {
+      "libs": [
+        "dld"
+      ],
+      "component": {
+        "bom-ref": "libdld",
+        "name": "libdld",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "shl_load() for apr_dso on HP-UX."
+      }
+    },
+    {
+      "libs": [
+        "rt"
+      ],
+      "component": {
+        "bom-ref": "librt",
+        "name": "librt",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "shm_open() and sem_open() on systems where they are not in libc."
+      }
+    },
+    {
+      "libs": [
+        "uuid"
+      ],
+      "pkg-config": [
+        {
+          "module": "uuid",
+          "component": {
+            "cpe": "cpe:2.3:a:kernel:util-linux:@VERSION@:*:*:*:*:*:*:*"
+          }
+        }
+      ],
+      "component": {
+        "bom-ref": "libuuid",
+        "name": "libuuid",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "OS UUID generator (uuid_generate() or uuid_create()); APR uses its own generator when absent."
+      }
+    },
+    {
+      "libs": [
+        "crypt",
+        "ufc"
+      ],
+      "pkg-config": [
+        {
+          "module": "libxcrypt",
+          "component": {
+            "bom-ref": "libxcrypt",
+            "name": "libxcrypt"
+          }
+        }
+      ],
+      "component": {
+        "bom-ref": "libcrypt",
+        "name": "libcrypt",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "crypt(); linked when configure finds it in a separate library."
+      }
+    },
+    {
+      "libs": [
+        "m"
+      ],
+      "component": {
+        "bom-ref": "libm",
+        "name": "libm",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "modf(); linked when it is not in libc."
+      }
+    },
+    {
+      "libs": [
+        "resolv"
+      ],
+      "component": {
+        "bom-ref": "libresolv",
+        "name": "libresolv",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "hstrerror(); linked when it is not in libc."
+      }
+    },
+    {
+      "libs": [
+        "nsl"
+      ],
+      "component": {
+        "bom-ref": "libnsl",
+        "name": "libnsl",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "gethostbyname() and gethostname() on systems where they are not in libc."
+      }
+    },
+    {
+      "libs": [
+        "socket"
+      ],
+      "component": {
+        "bom-ref": "libsocket",
+        "name": "libsocket",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "BSD sockets on systems where they are not in libc (e.g. Solaris)."
+      }
+    },
+    {
+      "libs": [
+        "inet6"
+      ],
+      "component": {
+        "bom-ref": "libinet6",
+        "name": "libinet6",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "getaddrinfo() and getnameinfo() on systems where they are not in libc."
+      }
+    },
+    {
+      "libs": [
+        "sendfile"
+      ],
+      "component": {
+        "bom-ref": "libsendfile",
+        "name": "libsendfile",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "sendfilev() on Solaris."
+      }
+    },
+    {
+      "libs": [
+        "bsd"
+      ],
+      "pkg-config": [
+        {
+          "module": "libbsd"
+        }
+      ],
+      "component": {
+        "bom-ref": "libbsd",
+        "name": "libbsd",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "random() on systems where it is not in libc."
+      }
+    },
+    {
+      "libs": [
+        "truerand"
+      ],
+      "component": {
+        "bom-ref": "libtruerand",
+        "name": "libtruerand",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "TrueRand entropy source; linked when present."
+      }
+    },
+    {
+      "libs": [
+        "efence"
+      ],
+      "component": {
+        "bom-ref": "libefence",
+        "name": "Electric Fence",
+        "versionRange": "vers:generic/*",
+        "scope": "optional",
+        "description": "Malloc debugger; only with --with-efence."
+      }
+    },
+    {
+      "define": "HAVE_VALGRIND",
+      "compile-only": true,
+      "pkg-config": [
+        {
+          "module": "valgrind"
+        }
+      ],
+      "component": {
+        "bom-ref": "valgrind",
+        "name": "Valgrind client headers",
+        "scope": "excluded",
+        "description": "valgrind.h and memcheck.h, compiled in with --with-valgrind to annotate pool memory."
+      }
+    }
+  ],
+  "glibc": {
+    "libs": [
+      "c",
+      "pthread",
+      "dl",
+      "rt",
+      "m",
+      "resolv",
+      "util",
+      "anl",
+      "crypt",
+      "ld-linux*",
+      "ld64"
+    ],
+    "component": {
+      "bom-ref": "glibc",
+      "name": "glibc",
+      "description": "GNU C library, providing libc and the POSIX libraries linked by this build.",
+      "cpe": "cpe:2.3:a:gnu:glibc:@VERSION@:*:*:*:*:*:*:*"
+    }
+  },
+  "scan-exclude": [
+    "build/sbom.sh",
+    "build/sbom/*",
+    "LICENSES/*",
+    "libtool",
+    "REUSE.toml"
+  ]
+}

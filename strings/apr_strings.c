@@ -45,6 +45,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
+/* SPDX-License-Identifier: Apache-2.0 */
 
 #include "apr.h"
 #include "apr_strings.h"
@@ -241,6 +242,10 @@ APR_DECLARE(apr_status_t) apr_strtoff(apr_off_t *offset, const char *nptr,
     return APR_FROM_OS_ERROR(errno);
 }
 
+/* SPDX-SnippetBegin
+ * SPDX-SnippetCopyrightText: Copyright (c) 1990, 1993 The Regents of the University of California
+ * SPDX-License-Identifier: BSD-4-Clause-UC
+ */
 APR_DECLARE(apr_int64_t) apr_strtoi64(const char *nptr, char **endptr, int base)
 {
 #ifdef APR_INT64_STRFN
@@ -351,6 +356,7 @@ APR_DECLARE(apr_int64_t) apr_strtoi64(const char *nptr, char **endptr, int base)
     return (acc);
 #endif
 }
+/* SPDX-SnippetEnd */
 
 APR_DECLARE(apr_int64_t) apr_atoi64(const char *buf)
 {

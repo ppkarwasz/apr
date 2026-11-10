@@ -13,6 +13,9 @@
  * ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
  * SOFTWARE.
  */
+/* SPDX-License-Identifier: ISC
+ * SPDX-FileCopyrightText: Copyright (c) 1996 by Internet Software Consortium
+ */
 
 #include "apr_private.h"
 #include "apr_arch_networkio.h"

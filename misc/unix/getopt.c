@@ -30,6 +30,9 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
+/* SPDX-License-Identifier: BSD-4-Clause-UC
+ * SPDX-FileCopyrightText: Copyright (c) 1987, 1993, 1994 The Regents of the University of California
+ */
 
 #include "apr_arch_misc.h"
 #include "apr_strings.h"

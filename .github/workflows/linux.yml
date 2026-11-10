@@ -10,8 +10,11 @@ on:
 env:
   MARGS: "-j2"
 
-jobs:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+jobs:
   build:
     strategy:
       matrix:
@@ -57,7 +60,7 @@ jobs:
     steps:
     - name: Install prerequisites
       run: sudo apt-get install libtool libtool-bin
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     # https://github.com/actions/runner-images/issues/9491#issuecomment-1989718917
     - name: Workaround ASAN issue in Ubuntu 22.04 runners
       run: sudo sysctl vm.mmap_rnd_bits=28

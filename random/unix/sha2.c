@@ -19,6 +19,9 @@
  *
  * A licence was granted to the ASF by Aaron on 4 November 2003.
  */
+/* SPDX-License-Identifier: Apache-2.0
+ * SPDX-FileContributor: Aaron D. Gifford <me@aarongifford.com>
+ */
 
 #include <string.h>     /* memcpy()/memset() or bcopy()/bzero() */
 #include <assert.h>     /* assert() */

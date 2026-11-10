@@ -41,6 +41,9 @@
  *
  *  Added to APR by David Reid April 2000
  */
+/* SPDX-License-Identifier: Apache-2.0 AND LicenseRef-AIX-dlfcn
+ * SPDX-FileCopyrightText: Copyright (c) 1992,1993,1995,1996,1997,1988 Jens-Uwe Mager, Helios Software GmbH, Hannover, Germany
+ */
 
 #include <stdio.h>
 #include <errno.h>
