@@ -38,16 +38,29 @@ This is an experiment, not an official Apache APR or Debian release.
 
 ## How it works
 
-```
- APR source tree ───── make source-sbom ────▶ apr-source.cdx.json        lifecycle: pre-build
-       │
-   configure, make ─── make sbom ───────────▶ apr.cdx.json              lifecycle: build
-                                                    │
- Debian package build                               │ debian/sbom-bind.sh,
- (dpkg-buildpackage)                                │ after dh_shlibdeps
-                                                    ▼
-                         /usr/share/doc/libapr1t64/libapr1t64.cdx.json    lifecycle: build
-                         /usr/share/doc/libapr1-dev/libapr1-dev.cdx.json
+```mermaid
+flowchart TD
+    subgraph upstream["Upstream: APR"]
+        src["APR source tree"]
+        build["configure, make"]
+        ssbom[/"apr-source.cdx.json<br>lifecycle: pre-build"/]
+        bsbom[/"apr.cdx.json<br>lifecycle: build"/]
+        src -- "make source-sbom" --> ssbom
+        src --> build
+        build -- "make sbom" --> bsbom
+    end
+    subgraph debian["Packager: Debian package build (dpkg-buildpackage)"]
+        deps["shlibs:Depends,<br>installed packages (dpkg)"]
+        patches["debian/patches"]
+        bind["debian/sbom-bind.sh<br>after dh_shlibdeps"]
+        lib[/"/usr/share/doc/libapr1t64/<br>libapr1t64.cdx.json<br>lifecycle: build"/]
+        dev[/"/usr/share/doc/libapr1-dev/<br>libapr1-dev.cdx.json<br>lifecycle: build"/]
+        deps --> bind
+        patches --> bind
+        bind --> lib
+        bind --> dev
+    end
+    bsbom --> bind
 ```
 
 ### Upstream: the source SBOM
