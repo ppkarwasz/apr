@@ -12,5 +12,3 @@ use_fcntl_locking.patch
 python3-hashbang.patch
 fix-atomics.patch
 fix-flags-for-build.patch
-reuse-compliance.patch
-cyclonedx-sbom.patch

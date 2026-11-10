@@ -1,18 +1,21 @@
-apr (1.7.6-4) UNRELEASED; urgency=medium
+apr (1.7.7~git20261110.49b0b36-1) UNRELEASED; urgency=medium
 
-  [ Stefan Fritsch ]
-  * Pass correct CPPFLAGS and LDFLAGS to CC_FOR_BUILD. This fixes
-    a blhc error and may be relevant for cross-builds.
-
-  [ Piotr P. Karwasz ]
+  * New upstream snapshot of the sbom-1.7.x branch of APR: apr 1.7.x
+    (1.7.7-dev) with REUSE compliance and CycloneDX SBOM generation
+    ("make sbom").
   * Ship a CycloneDX SBOM of each binary package in
     /usr/share/doc/<package>/<package>.cdx.json:
-    - reuse-compliance.patch: SPDX tags and REUSE.toml, recording the
-      licenses and copyrights of the third-party code in APR.
-    - cyclonedx-sbom.patch: "make sbom" writes the upstream build SBOM.
-    - debian/sbom-bind.sh binds its external libraries to the Debian
-      packages providing them; run after dh_shlibdeps.
+    - debian/sbom-bind.sh binds the external libraries of the upstream
+      build SBOM to the Debian packages providing them; run after
+      dh_shlibdeps.
     - Build-Depend on jq.
+
+ -- Piotr P. Karwasz <piotr@github.copernik.eu>  Tue, 10 Nov 2026 22:41:32 +0100
+
+apr (1.7.6-4) UNRELEASED; urgency=medium
+
+  * Pass correct CPPFLAGS and LDFLAGS to CC_FOR_BUILD. This fixes
+    a blhc error and may be relevant for cross-builds.
 
  -- Stefan Fritsch <sf@debian.org>  Fri, 07 Nov 2025 21:17:18 +0100
 

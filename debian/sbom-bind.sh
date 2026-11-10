@@ -28,7 +28,7 @@
 #
 #   VERSION and ARCH default to the changelog version and DEB_HOST_ARCH.
 #   CODENAME defaults to the distribution the changelog targets (that of
-#   the previous entry while UNRELEASED; unstable is sid).  External
+#   the latest released entry while UNRELEASED; unstable is sid).  External
 #   components are bound using the packages installed on this system, so
 #   the system must be the targeted distribution, e.g. the chroot the
 #   package is built in; passing --distro skips this check.
@@ -154,9 +154,11 @@ test -n "$arch" || arch=`dpkg-architecture -qDEB_HOST_ARCH`
 # Debian's unstable and experimental are sid.
 target_distro() {
     _d=`dpkg-parsechangelog -SDistribution`
-    if test "$_d" = UNRELEASED; then
-        _d=`dpkg-parsechangelog -o1 -c1 -SDistribution 2>/dev/null || true`
-    fi
+    _n=1
+    while test "$_d" = UNRELEASED && test $_n -le 20; do
+        _d=`dpkg-parsechangelog -o$_n -c1 -SDistribution 2>/dev/null || true`
+        _n=`expr $_n + 1`
+    done
     set -- $_d
     _d=$1
     _d=`echo "$_d" | sed -e 's/-security$//' -e 's/-backports-sloppy$//' \
