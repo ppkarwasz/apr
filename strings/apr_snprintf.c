@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* SPDX-License-Identifier: Apache-2.0 */
 
 #include "apr.h"
 #include "apr_private.h"
@@ -68,6 +69,10 @@ static const char null_string[] = "(null)";
  */
 #define NUM_BUF_SIZE 512
 
+/* SPDX-SnippetBegin
+ * SPDX-SnippetCopyrightText: Copyright(C) Caldera International Inc. 2001-2002
+ * SPDX-License-Identifier: Caldera-no-preamble
+ */
 /*
  * cvt - IEEE floating point formatting routines.
  *       Derived from UNIX V7, Copyright(C) Caldera International Inc.
@@ -230,6 +235,7 @@ static char *apr_gcvt(double number, int ndigit, char *buf, boolean_e altform)
     *p2 = '\0';
     return (buf);
 }
+/* SPDX-SnippetEnd */
 
 /*
  * The INS_CHAR macro inserts a character in the buffer and writes

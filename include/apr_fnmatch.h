@@ -32,6 +32,9 @@
  *
  *	@(#)fnmatch.h	8.1 (Berkeley) 6/2/93
  */
+/* SPDX-License-Identifier: BSD-4-Clause-UC
+ * SPDX-FileCopyrightText: Copyright (c) 1992, 1993 The Regents of the University of California
+ */
 
 /* This file has been modified by the Apache Software Foundation. */
 #ifndef	_APR_FNMATCH_H_
