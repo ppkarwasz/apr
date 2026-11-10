@@ -1,7 +1,18 @@
 apr (1.7.6-4) UNRELEASED; urgency=medium
 
+  [ Stefan Fritsch ]
   * Pass correct CPPFLAGS and LDFLAGS to CC_FOR_BUILD. This fixes
     a blhc error and may be relevant for cross-builds.
+
+  [ Piotr P. Karwasz ]
+  * Ship a CycloneDX SBOM of each binary package in
+    /usr/share/doc/<package>/<package>.cdx.json:
+    - reuse-compliance.patch: SPDX tags and REUSE.toml, recording the
+      licenses and copyrights of the third-party code in APR.
+    - cyclonedx-sbom.patch: "make sbom" writes the upstream build SBOM.
+    - debian/sbom-bind.sh binds its external libraries to the Debian
+      packages providing them; run after dh_shlibdeps.
+    - Build-Depend on jq.
 
  -- Stefan Fritsch <sf@debian.org>  Fri, 07 Nov 2025 21:17:18 +0100
 

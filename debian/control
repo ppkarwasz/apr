@@ -5,6 +5,7 @@ Maintainer: Debian Apache Maintainers <debian-apache@lists.debian.org>
 Uploaders: Stefan Fritsch <sf@debian.org>
 Build-Depends: dpkg-dev (>= 1.22.5), debhelper-compat (= 13),
  autoconf,
+ jq,
  libcrypt-dev,
  mawk,
  uuid-dev,

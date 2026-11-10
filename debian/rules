@@ -121,6 +121,8 @@ endif
 override_dh_auto_build:
 	$(MAKE) -j$(NUMJOBS) -C $(BUILDDIR) all dox
 	find debian/build/docs/dox/html -name \*.md5 -delete
+	# Upstream build SBOM (apr.cdx.json), bound to Debian packages below
+	$(MAKE) -C $(BUILDDIR) sbom
 
 #
 # test
@@ -169,6 +171,17 @@ override_dh_strip:
 
 override_dh_makeshlibs:
 	dh_makeshlibs -- -Idebian/symbols.$(DEB_HOST_ARCH_OS)
+
+# CycloneDX SBOM of each binary package, derived from the upstream build
+# SBOM.  It needs the shlibs:Depends computed by dh_shlibdeps, and runs
+# after dh_compress, so the SBOMs stay uncompressed.
+execute_after_dh_shlibdeps:
+	for pkg in $$(dh_listpackages); do \
+		mkdir -p debian/$$pkg/usr/share/doc/$$pkg && \
+		$(SHELL) debian/sbom-bind.sh --build-sbom $(BUILDDIR)/apr.cdx.json \
+			--package $$pkg > debian/$$pkg/usr/share/doc/$$pkg/$$pkg.cdx.json \
+		|| exit 1; \
+	done
 
 override_dh_auto_clean:
 	dh_auto_clean
