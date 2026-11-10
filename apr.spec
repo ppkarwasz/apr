@@ -11,10 +11,16 @@
 # Disable .la file removal since the .la file is exported via apr-config.
 %global __brp_remove_la_files %nil
 
+# Snapshot of the asf/sbom-1.7.x branch of https://github.com/ppkarwasz/apr:
+# APR 1.7.x with REUSE compliance and CycloneDX SBOM generation.
+%global commit 49b0b36950c9b1a249392a516ba0f702cd7d6d52
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+%global commitdate 20261110
+
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.7.6
-Release: 7%{?dist}
+Version: 1.7.7~%{commitdate}git%{shortcommit}
+Release: 1%{?dist}
 # Apache-2.0: everything
 # ISC: network_io/apr-1.4.6/network_io/unix/inet_?to?.c
 # BSD-4-Clause-UC:  strings/apr_snprintf.c, strings/apr_fnmatch.c,
@@ -24,14 +30,18 @@ Release: 7%{?dist}
 # Caldera-no-preamble: strings/apr_snprintf.c
 License: Apache-2.0 AND (BSD-4-Clause-UC AND ISC AND Zlib AND Caldera-no-preamble)
 URL: https://apr.apache.org/
-Source0: https://www.apache.org/dist/apr/%{name}-%{version}.tar.bz2
+Source0: https://github.com/ppkarwasz/apr/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
 Source1: apr-wrapper.h
+# Derives the SBOM of each binary package from the upstream build SBOM.
+Source2: apr-sbom-bind.sh
 Patch1: apr-1.7.2-libdir.patch
 Patch2: apr-1.2.7-pkgconf.patch
 Patch3: apr-1.7.0-deepbind.patch
 Patch4: apr-1.7.6-autoconf.patch
 BuildRequires: gcc, autoconf, libtool, libuuid-devel, python3
 BuildRequires: make
+# SBOM generation
+BuildRequires: jq
 BuildRequires: libxcrypt-devel
 
 %description
@@ -52,7 +62,7 @@ Apache Portable Runtime (APR) is to provide a free library of
 C data structures and routines.
 
 %prep
-%autosetup -p1 -S gendiff
+%autosetup -p1 -S gendiff -n %{name}-%{commit}
 
 %build
 # regenerate configure script etc.
@@ -86,6 +96,9 @@ if grep 'define SIZEOF_VOIDP 4' include/apr.h \
 fi
 
 %{make_build}
+
+# Upstream SBOMs: apr.cdx.json (this build) and apr-source.cdx.json
+make sbom source-sbom
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -123,6 +136,22 @@ for f in build/gen-build.py build/install.sh build/config.*; do
     install -c -m755 $f $RPM_BUILD_ROOT%{_libdir}/apr-%{aprver}/build
 done
 
+# CycloneDX SBOM of each binary package, derived from the upstream build
+# SBOM and shipped with %%doc.  apr-devel also ships GNU config
+# (config.guess, config.sub, installed above), taken from the upstream
+# source SBOM.
+mkdir -p fedora-sbom
+for pkg in apr apr-devel; do
+    case $pkg in
+      apr)       opts="--installed-as library" ;;
+      apr-devel) opts="--installed-as header,build-file --add-source-component gnu-config" ;;
+    esac
+    sh %{SOURCE2} --build-sbom apr.cdx.json --source-sbom apr-source.cdx.json \
+        --package $pkg --version %{?epoch:%{epoch}:}%{version}-%{release} \
+        --arch %{_target_cpu} --distro fedora-%{fedora} $opts \
+        -- %{patches} > fedora-sbom/$pkg.cdx.json
+done
+
 %check
 grep ^cross_compiling=no $RPM_BUILD_ROOT%{_bindir}/apr-%{aprver}-config
 
@@ -137,11 +166,13 @@ popd
 
 %files
 %doc CHANGES LICENSE NOTICE README*
+%doc fedora-sbom/apr.cdx.json
 %{_libdir}/libapr-%{aprver}.so.*
 
 %files devel
 %doc docs/APRDesign.html docs/canonical_filenames.html
 %doc docs/incomplete_types docs/non_apr_programs
+%doc fedora-sbom/apr-devel.cdx.json
 %{_bindir}/apr-%{aprver}-config
 %{_libdir}/libapr-%{aprver}.la
 %{_libdir}/libapr-%{aprver}.so
@@ -154,6 +185,14 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Tue Nov 10 2026 Piotr P. Karwasz <piotr@github.copernik.eu> - 1.7.7~20261110git49b0b36-1
+- update to a snapshot of the asf/sbom-1.7.x branch of
+  https://github.com/ppkarwasz/apr: APR 1.7.x (1.7.7-dev) with REUSE
+  compliance and CycloneDX SBOM generation ("make sbom")
+- ship a CycloneDX SBOM of each binary package in
+  %%{_docdir}/<package>/<package>.cdx.json, derived from the upstream
+  build SBOM by apr-sbom-bind.sh
+
 * Mon Sep 28 2026 Joe Orton  <jorton@redhat.com> - 1.7.6-7
 - make .m4 files available in libdir/apr-1/build as well
 
