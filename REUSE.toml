@@ -25,6 +25,14 @@ precedence = "override"
 SPDX-FileCopyrightText = "Copyright 1992-2025 Free Software Foundation, Inc."
 SPDX-License-Identifier = "GPL-3.0-or-later WITH Autoconf-exception-generic-3.0"
 
+# Data for build/sbom.sh, which quotes the copyright notices of the components it describes;
+# these must not be taken for its own.
+[[annotations]]
+path = "build/sbom/components.json"
+precedence = "override"
+SPDX-FileCopyrightText = "The Apache Software Foundation"
+SPDX-License-Identifier = "Apache-2.0"
+
 # Copied from the GNU Autoconf Archive
 [[annotations]]
 path = "build/ax_prog_cc_for_build.m4"

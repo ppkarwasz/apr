@@ -1,7 +1,9 @@
 /apr-*-config
+/apr.cdx.json
 /apr-config
 /apr-config.out
 /apr.exp
+/apr-source.cdx.json
 /apr*.pc
 /apr.spec
 /*.aps
