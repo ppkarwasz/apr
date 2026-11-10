@@ -1,0 +1,659 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.7.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.7",
+  "serialNumber": "urn:uuid:4af5bc1e-251b-5d28-a93a-f9b612d8581d",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-10T20:43:58Z",
+    "lifecycles": [
+      {
+        "phase": "pre-build"
+      }
+    ],
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "APR build/sbom.sh",
+          "version": "1.7.7-dev"
+        }
+      ]
+    },
+    "component": {
+      "type": "library",
+      "bom-ref": "apr",
+      "supplier": {
+        "name": "The Apache Software Foundation",
+        "url": [
+          "https://www.apache.org/"
+        ]
+      },
+      "name": "apr",
+      "version": "1.7.7-dev",
+      "description": "Apache Portable Runtime",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "copyright": "Copyright 2026 The Apache Software Foundation.",
+      "cpe": "cpe:2.3:a:apache:portable_runtime:1.7.7-dev:*:*:*:*:*:*:*",
+      "purl": "pkg:software-id/apache.org/apr-portable-runtime@1.7.7-dev",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://apr.apache.org/"
+        },
+        {
+          "type": "distribution",
+          "url": "https://release-catalog.apache.org/apr-portable-runtime/"
+        },
+        {
+          "type": "vcs",
+          "url": "https://svn.apache.org/repos/asf/apr/apr/"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://bz.apache.org/bugzilla/"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "bsd-getopt",
+      "supplier": {
+        "name": "The Regents of the University of California"
+      },
+      "name": "BSD getopt",
+      "description": "Command line option parser behind apr_getopt().",
+      "pedigree": {
+        "notes": "Derived from the BSD C library getopt(3) and adapted to APR."
+      },
+      "isExternal": false,
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-4-Clause-UC"
+          }
+        }
+      ],
+      "copyright": "Copyright (c) 1987, 1993, 1994 The Regents of the University of California",
+      "properties": [
+        {
+          "name": "apr:upstream",
+          "value": "historical"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "misc/unix/getopt.c"
+          }
+        ]
+      }
+    },
+    {
+      "type": "library",
+      "bom-ref": "bsd-mktemp",
+      "supplier": {
+        "name": "The Regents of the University of California"
+      },
+      "name": "BSD mktemp",
+      "description": "Temporary file creation behind apr_file_mktemp().",
+      "pedigree": {
+        "notes": "Derived from the BSD C library mktemp(3) and adapted to APR."
+      },
+      "isExternal": false,
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "Apache-2.0 AND BSD-4-Clause-UC"
+        }
+      ],
+      "copyright": "Copyright (c) 1987, 1993 The Regents of the University of California",
+      "properties": [
+        {
+          "name": "apr:upstream",
+          "value": "historical"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "file_io/unix/mktemp.c"
+          }
+        ]
+      }
+    },
+    {
+      "type": "library",
+      "bom-ref": "bsd-strtoq",
+      "supplier": {
+        "name": "The Regents of the University of California"
+      },
+      "name": "BSD strtoq",
+      "description": "64-bit string to integer conversion in apr_strtoi64().",
+      "pedigree": {
+        "notes": "Derived from the BSD C library strtoq(3) and adapted to APR."
+      },
+      "isExternal": false,
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-4-Clause-UC"
+          }
+        }
+      ],
+      "copyright": "Copyright (c) 1990, 1993 The Regents of the University of California",
+      "properties": [
+        {
+          "name": "apr:upstream",
+          "value": "historical"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "strings/apr_strings.c",
+            "line": 245
+          }
+        ]
+      }
+    },
+    {
+      "type": "library",
+      "bom-ref": "bsd-fnmatch-h",
+      "supplier": {
+        "name": "The Regents of the University of California"
+      },
+      "name": "BSD fnmatch.h",
+      "description": "Public header declaring apr_fnmatch().",
+      "pedigree": {
+        "notes": "Derived from the BSD C library fnmatch.h; the implementation in strings/apr_fnmatch.c has since been rewritten."
+      },
+      "isExternal": false,
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-4-Clause-UC"
+          }
+        }
+      ],
+      "copyright": "Copyright (c) 1992, 1993 The Regents of the University of California",
+      "properties": [
+        {
+          "name": "apr:upstream",
+          "value": "historical"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "include/apr_fnmatch.h"
+          }
+        ]
+      }
+    },
+    {
+      "type": "library",
+      "bom-ref": "isc-inet",
+      "supplier": {
+        "name": "Internet Software Consortium"
+      },
+      "name": "ISC inet_ntop/inet_pton",
+      "description": "IPv4/IPv6 address text conversion.",
+      "pedigree": {
+        "notes": "Derived from the ISC BIND resolver library and adapted to APR."
+      },
+      "isExternal": false,
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "copyright": "Copyright (c) 1996 by Internet Software Consortium",
+      "properties": [
+        {
+          "name": "apr:upstream",
+          "value": "historical"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "network_io/unix/inet_ntop.c"
+          },
+          {
+            "location": "network_io/unix/inet_pton.c"
+          }
+        ]
+      }
+    },
+    {
+      "type": "library",
+      "bom-ref": "strnatcmp",
+      "supplier": {
+        "name": "Martin Pool"
+      },
+      "name": "strnatcmp",
+      "description": "Natural order string comparison in apr_strnatcmp() and apr_strnatcasecmp().",
+      "pedigree": {
+        "notes": "Adapted to APR from Martin Pool's strnatcmp.c."
+      },
+      "isExternal": false,
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "Zlib"
+          }
+        }
+      ],
+      "copyright": "Copyright (C) 2000 by Martin Pool <mbp@humbug.org.au>",
+      "properties": [
+        {
+          "name": "apr:upstream",
+          "value": "historical"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "strings/apr_strnatcmp.c"
+          },
+          {
+            "location": "include/apr_strings.h",
+            "line": 69
+          }
+        ]
+      }
+    },
+    {
+      "type": "library",
+      "bom-ref": "unix-v7-cvt",
+      "supplier": {
+        "name": "Caldera International Inc."
+      },
+      "name": "UNIX V7 cvt",
+      "description": "IEEE floating point formatting routines (apr_ecvt, apr_fcvt, apr_gcvt).",
+      "pedigree": {
+        "notes": "Derived from UNIX V7."
+      },
+      "isExternal": false,
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "Caldera-no-preamble"
+          }
+        }
+      ],
+      "copyright": "Copyright(C) Caldera International Inc. 2001-2002",
+      "properties": [
+        {
+          "name": "apr:upstream",
+          "value": "historical"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "strings/apr_snprintf.c",
+            "line": 72
+          }
+        ]
+      }
+    },
+    {
+      "type": "library",
+      "bom-ref": "sha2",
+      "supplier": {
+        "name": "Aaron D. Gifford"
+      },
+      "name": "sha2",
+      "description": "SHA-256 implementation used by the apr_random generator.",
+      "pedigree": {
+        "notes": "A licence to this code was granted to the ASF by Aaron D. Gifford on 4 November 2003; it is distributed under the Apache License 2.0."
+      },
+      "authors": [
+        {
+          "name": "Aaron D. Gifford",
+          "email": "me@aarongifford.com"
+        }
+      ],
+      "isExternal": false,
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "apr:upstream",
+          "value": "historical"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "random/unix/sha2.c"
+          },
+          {
+            "location": "random/unix/sha2.h"
+          }
+        ]
+      }
+    },
+    {
+      "type": "library",
+      "bom-ref": "aix-dlfcn",
+      "supplier": {
+        "name": "Helios Software GmbH"
+      },
+      "name": "AIX libdl emulation",
+      "description": "dlopen() emulation used by apr_dso on AIX only.",
+      "pedigree": {
+        "notes": "Based on libdl (dlfcn.c/dlfcn.h) by Jens-Uwe Mager."
+      },
+      "isExternal": false,
+      "scope": "optional",
+      "licenses": [
+        {
+          "expression": "Apache-2.0 AND LicenseRef-AIX-dlfcn",
+          "expressionDetails": [
+            {
+              "licenseIdentifier": "LicenseRef-AIX-dlfcn",
+              "text": {
+                "content": "Not derived from licensed software.\n\nPermission is granted to freely use, copy, modify, and redistribute\nthis software, provided that the author is not construed to be liable\nfor any results of using the software, alterations are clearly marked\nas such, and this notice is not modified.\n"
+              }
+            }
+          ]
+        }
+      ],
+      "copyright": "Copyright (c) 1992,1993,1995,1996,1997,1988 Jens-Uwe Mager, Helios Software GmbH, Hannover, Germany",
+      "properties": [
+        {
+          "name": "apr:upstream",
+          "value": "historical"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "dso/aix/dso.c"
+          }
+        ]
+      }
+    },
+    {
+      "type": "application",
+      "bom-ref": "gnu-config",
+      "supplier": {
+        "name": "Free Software Foundation, Inc."
+      },
+      "name": "GNU config",
+      "description": "Build system type detection scripts.",
+      "pedigree": {
+        "notes": "Copied unmodified from the GNU config project."
+      },
+      "version": "2025-07-10",
+      "isExternal": false,
+      "scope": "excluded",
+      "licenses": [
+        {
+          "expression": "GPL-3.0-or-later WITH Autoconf-exception-generic-3.0"
+        }
+      ],
+      "copyright": "Copyright 1992-2025 Free Software Foundation, Inc.",
+      "properties": [
+        {
+          "name": "apr:upstream",
+          "value": "maintained"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "build/config.guess"
+          },
+          {
+            "location": "build/config.sub"
+          }
+        ]
+      }
+    },
+    {
+      "type": "application",
+      "bom-ref": "ax-prog-cc-for-build",
+      "supplier": {
+        "name": "GNU Autoconf Archive"
+      },
+      "name": "autoconf-archive AX_PROG_CC_FOR_BUILD",
+      "description": "Autoconf macro locating a native compiler when cross-compiling.",
+      "pedigree": {
+        "notes": "Copied unmodified from the GNU Autoconf Archive."
+      },
+      "version": "9",
+      "isExternal": false,
+      "scope": "excluded",
+      "licenses": [
+        {
+          "license": {
+            "id": "FSFAP"
+          }
+        }
+      ],
+      "copyright": "Copyright (c) 2008 Paolo Bonzini <bonzini@gnu.org>",
+      "properties": [
+        {
+          "name": "apr:upstream",
+          "value": "maintained"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "build/ax_prog_cc_for_build.m4"
+          }
+        ]
+      }
+    },
+    {
+      "type": "library",
+      "bom-ref": "libc",
+      "name": "libc",
+      "versionRange": "vers:generic/*",
+      "scope": "required",
+      "description": "C standard library and POSIX interfaces.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "libpthread",
+      "name": "libpthread",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "POSIX threads; part of libc on many systems; not used with --disable-threads.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "libdl",
+      "name": "libdl",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "dlopen()/dlsym() for apr_dso; part of libc on many systems; not used with --disable-dso.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "libdld",
+      "name": "libdld",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "shl_load() for apr_dso on HP-UX.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "librt",
+      "name": "librt",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "shm_open() and sem_open() on systems where they are not in libc.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "libuuid",
+      "name": "libuuid",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "OS UUID generator (uuid_generate() or uuid_create()); APR uses its own generator when absent.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "libcrypt",
+      "name": "libcrypt",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "crypt(); linked when configure finds it in a separate library.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "libm",
+      "name": "libm",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "modf(); linked when it is not in libc.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "libresolv",
+      "name": "libresolv",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "hstrerror(); linked when it is not in libc.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "libnsl",
+      "name": "libnsl",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "gethostbyname() and gethostname() on systems where they are not in libc.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "libsocket",
+      "name": "libsocket",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "BSD sockets on systems where they are not in libc (e.g. Solaris).",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "libinet6",
+      "name": "libinet6",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "getaddrinfo() and getnameinfo() on systems where they are not in libc.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "libsendfile",
+      "name": "libsendfile",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "sendfilev() on Solaris.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "libbsd",
+      "name": "libbsd",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "random() on systems where it is not in libc.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "libtruerand",
+      "name": "libtruerand",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "TrueRand entropy source; linked when present.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "libefence",
+      "name": "Electric Fence",
+      "versionRange": "vers:generic/*",
+      "scope": "optional",
+      "description": "Malloc debugger; only with --with-efence.",
+      "isExternal": true
+    },
+    {
+      "type": "library",
+      "bom-ref": "valgrind",
+      "name": "Valgrind client headers",
+      "scope": "excluded",
+      "description": "valgrind.h and memcheck.h, compiled in with --with-valgrind to annotate pool memory."
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "apr",
+      "dependsOn": [
+        "bsd-getopt",
+        "bsd-mktemp",
+        "bsd-strtoq",
+        "bsd-fnmatch-h",
+        "isc-inet",
+        "strnatcmp",
+        "unix-v7-cvt",
+        "sha2",
+        "aix-dlfcn",
+        "libc",
+        "libpthread",
+        "libdl",
+        "libdld",
+        "librt",
+        "libuuid",
+        "libcrypt",
+        "libm",
+        "libresolv",
+        "libnsl",
+        "libsocket",
+        "libinet6",
+        "libsendfile",
+        "libbsd",
+        "libtruerand",
+        "libefence"
+      ]
+    }
+  ]
+}

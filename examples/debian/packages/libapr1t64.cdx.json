@@ -1,0 +1,339 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.7.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.7",
+  "serialNumber": "urn:uuid:680dba46-6fd1-53ca-90d9-5b9a6bc7de49",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-10T21:41:32Z",
+    "lifecycles": [
+      {
+        "phase": "build"
+      }
+    ],
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "APR build/sbom.sh",
+          "version": "1.7.7-dev"
+        },
+        {
+          "type": "application",
+          "name": "debian/sbom-bind.sh",
+          "version": "1.7.7~git20261110.49b0b36-1"
+        }
+      ]
+    },
+    "component": {
+      "type": "library",
+      "bom-ref": "libapr1t64",
+      "supplier": {
+        "name": "Debian"
+      },
+      "name": "libapr1t64",
+      "version": "1.7.7~git20261110.49b0b36-1",
+      "description": "Apache Portable Runtime",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:deb/debian/libapr1t64@1.7.7~git20261110.49b0b36-1?arch=amd64&distro=sid",
+      "pedigree": {
+        "ancestors": [
+          {
+            "type": "library",
+            "bom-ref": "apr",
+            "supplier": {
+              "name": "The Apache Software Foundation",
+              "url": [
+                "https://www.apache.org/"
+              ]
+            },
+            "name": "apr",
+            "version": "1.7.7-dev",
+            "description": "Apache Portable Runtime",
+            "licenses": [
+              {
+                "license": {
+                  "id": "Apache-2.0"
+                }
+              }
+            ],
+            "copyright": "Copyright 2026 The Apache Software Foundation.",
+            "cpe": "cpe:2.3:a:apache:portable_runtime:1.7.7-dev:*:*:*:*:*:*:*",
+            "purl": "pkg:software-id/apache.org/apr-portable-runtime@1.7.7-dev",
+            "externalReferences": [
+              {
+                "type": "website",
+                "url": "https://apr.apache.org/"
+              },
+              {
+                "type": "distribution",
+                "url": "https://release-catalog.apache.org/apr-portable-runtime/"
+              },
+              {
+                "type": "vcs",
+                "url": "https://svn.apache.org/repos/asf/apr/apr/"
+              },
+              {
+                "type": "issue-tracker",
+                "url": "https://bz.apache.org/bugzilla/"
+              }
+            ],
+            "properties": [
+              {
+                "name": "apr:build:host",
+                "value": "x86_64-pc-linux-gnu"
+              },
+              {
+                "name": "apr:build:configure-options",
+                "value": "LTFLAGS=--no-silent --host=x86_64-linux-gnu --build=x86_64-linux-gnu --enable-layout=Debian --includedir=/usr/include/apr-1.0 --with-installbuilddir=/usr/share/apr-1.0/build --libdir=/usr/lib/x86_64-linux-gnu --enable-nonportable-atomics --enable-allocator-uses-mmap ac_cv_prog_AWK=mawk apr_cv_sctp=yes SED=/bin/sed GREP=/bin/grep 'EGREP=/bin/grep -E' 'FGREP=/bin/grep -F' ac_cv_path_lt_DD=/bin/dd build_alias=x86_64-linux-gnu host_alias=x86_64-linux-gnu 'CFLAGS=-g -O2 -Werror=implicit-function-declaration -ffile-prefix-map=@abs_srcdir@=. -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection' LDFLAGS=-Wl,-z,relro 'CPPFLAGS=-Wdate-time -D_FORTIFY_SOURCE=2'"
+              },
+              {
+                "name": "apr:build:libs",
+                "value": "-luuid -lcrypt -lpthread"
+              }
+            ]
+          }
+        ],
+        "patches": [
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "From: <tfheen@debian.org>\nSubject: No description.\n\n---\n apr-config.in |    8 ++------\n 1 file changed, 2 insertions(+), 6 deletions(-)\n\n--- apr.orig/apr-config.in\n+++ apr/apr-config.in\n@@ -39,7 +39,7 @@ LDFLAGS=\"@EXTRA_LDFLAGS@\"\n LIBS=\"@EXTRA_LIBS@\"\n EXTRA_INCLUDES=\"@EXTRA_INCLUDES@\"\n SHLIBPATH_VAR=\"@shlibpath_var@\"\n-APR_SOURCE_DIR=\"@apr_srcdir@\"\n+APR_SOURCE_DIR=\"$(cd @installbuilddir@/.. ; pwd)\"\n APR_BUILD_DIR=\"@apr_builddir@\"\n APR_SO_EXT=\"@so_ext@\"\n APR_LIB_TARGET=\"@export_lib_target@\"\n"
+              },
+              "url": "debian/patches/fix_apr-config.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "From: Tollef Fog Heen <tfheen@err.no>\nSubject: Install a set of random build files too\n\n---\n Makefile.in |    9 +++++++++\n 1 file changed, 9 insertions(+)\n\n--- apr.orig/Makefile.in\n+++ apr/Makefile.in\n@@ -94,6 +94,15 @@ install: $(TARGETS)\n \tdone\n \t$(INSTALL_DATA) build/apr_rules.out $(DESTDIR)$(installbuilddir)/apr_rules.mk\n \t$(INSTALL) -m 755 apr-config.out $(DESTDIR)$(bindir)/$(APR_CONFIG)\n+\n+\tif [ ! -d $(DESTDIR)$(installbuilddir) ]; then \\\n+\t    $(top_srcdir)/build/mkdir.sh $(DESTDIR)$(installbuilddir); \\\n+\tfi\n+\tfor file in install.sh gen-build.py get-version.sh ; do \\\n+\t\t$(LIBTOOL) --mode=install cp $(top_srcdir)/build/$$file \\\n+\t    $(DESTDIR)$(installbuilddir)/$$file\t; \\\n+\tdone\n+\n \t@if [ $(INSTALL_SUBDIRS) != \"none\" ]; then \\\n             for i in $(INSTALL_SUBDIRS); do \\\n \t        ( cd $$i ; $(MAKE) DESTDIR=$(DESTDIR) install ); \\\n"
+              },
+              "url": "debian/patches/ship_find_apr.m4.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "From: <tfheen@debian.org>\nSubject: No description.\n\n---\n apr.pc.in |    5 +++--\n 1 file changed, 3 insertions(+), 2 deletions(-)\n\n--- apr.orig/apr.pc.in\n+++ apr/apr.pc.in\n@@ -7,5 +7,6 @@ includedir=@includedir@\n Name: APR\n Description: The Apache Portable Runtime library\n Version: @APR_DOTTED_VERSION@\n-Libs: -L${libdir} -l@APR_LIBNAME@ @EXTRA_LIBS@\n-Cflags: @EXTRA_CPPFLAGS@ @EXTRA_CFLAGS@ -I${includedir}\n+Libs: -L${libdir} -l@APR_LIBNAME@\n+Libs.private: @EXTRA_LIBS@\n+Cflags: @EXTRA_CPPFLAGS@ -I${includedir}\n"
+              },
+              "url": "debian/patches/fix-apr.pc.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "From: Stefan Fritsch <sf@debian.org>\nSubject: #349418\n\n---\n include/apr.h.in |    3 ++-\n 1 file changed, 2 insertions(+), 1 deletion(-)\n\n--- apr.orig/include/apr.h.in\n+++ apr/include/apr.h.in\n@@ -638,7 +638,8 @@ typedef int apr_wait_t;\n #elif defined(_POSIX_PATH_MAX)\n #define APR_PATH_MAX       _POSIX_PATH_MAX\n #else\n-#error no decision has been made on APR_PATH_MAX for your platform\n+#warning no decision has been made on APR_PATH_MAX for your platform\n+#define APR_PATH_MAX 4096\n #endif\n \n #define APR_DSOPATH \"@shlibpath_var@\"\n"
+              },
+              "url": "debian/patches/hurd_path_max.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "From: Stefan Fritsch <sf@debian.org>\nSubject: Fix generation of docs for out-of-tree builds and newer doxygen versions\n\n---\n docs/doxygen.conf |    2 +-\n include/apr.h.in  |   24 ++++++++++++------------\n 2 files changed, 13 insertions(+), 13 deletions(-)\n\n--- apr.orig/docs/doxygen.conf\n+++ apr/docs/doxygen.conf\n@@ -1,6 +1,6 @@\n PROJECT_NAME=\"Apache Portable Runtime\"\n \n-INPUT=.\n+INPUT=../../include include\n QUIET=YES\n RECURSIVE=YES\n FILE_PATTERNS=*.h\n--- apr.orig/include/apr.h.in\n+++ apr/include/apr.h.in\n@@ -473,11 +473,11 @@ typedef  apr_uint32_t            apr_uin\n /** \n  * Thread callbacks from APR functions must be declared with APR_THREAD_FUNC, \n  * so that they follow the platform's calling convention.\n- * <PRE>\n- *\n+ */\n+/**\n+ * @code\n  * void* APR_THREAD_FUNC my_thread_entry_fn(apr_thread_t *thd, void *data);\n- *\n- * </PRE>\n+ * @endcode\n  */\n #define APR_THREAD_FUNC       @apr_thread_func@\n \n@@ -511,11 +511,11 @@ typedef  apr_uint32_t            apr_uin\n  * APR_DECLARE_NONSTD(), as they must follow the C language calling convention.\n  * @see APR_DECLARE @see APR_DECLARE_DATA\n  * @remark Both the declaration and implementations must use the same macro.\n- * <PRE>\n- *\n+ */\n+/**\n+ * @code\n  * APR_DECLARE_NONSTD(rettype) apr_func(args, ...);\n- *\n- * </PRE>\n+ * @endcode\n  */\n #define APR_DECLARE_NONSTD(type)     type\n \n@@ -526,12 +526,12 @@ typedef  apr_uint32_t            apr_uin\n  * @remark Note that the declaration and implementations use different forms,\n  * but both must include the macro.\n  * \n- * <PRE>\n- *\n+ */\n+/**\n+ * @code\n  * extern APR_DECLARE_DATA type apr_variable;\\n\n  * APR_DECLARE_DATA type apr_variable = value;\n- *\n- * </PRE>\n+ * @endcode\n  */\n #define APR_DECLARE_DATA\n \n"
+              },
+              "url": "debian/patches/fix_doxygen.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "From: Stefan Fritsch <sf@debian.org>\nSubject: #463399\n\n---\n apr-config.in |    2 +-\n 1 file changed, 1 insertion(+), 1 deletion(-)\n\n--- apr.orig/apr-config.in\n+++ apr/apr-config.in\n@@ -36,7 +36,7 @@ SHELL=\"@SHELL@\"\n CPPFLAGS=\"@EXTRA_CPPFLAGS@\"\n CFLAGS=\"@EXTRA_CFLAGS@\"\n LDFLAGS=\"@EXTRA_LDFLAGS@\"\n-LIBS=\"@EXTRA_LIBS@\"\n+LIBS=\"\"\n EXTRA_INCLUDES=\"@EXTRA_INCLUDES@\"\n SHLIBPATH_VAR=\"@shlibpath_var@\"\n APR_SOURCE_DIR=\"$(cd @installbuilddir@/.. ; pwd)\"\n"
+              },
+              "url": "debian/patches/omit_extra_libs.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "From: Pino Toscano <pino@debian.org>\nBug: #656880\n\n# * hurd_shm_flock.diff\n# This patch disables all the methods for shared memory and file locking\n# found by the configure checks, forcing the only working ones.\n# This patch should stay Debian-specific, as it is not that suitable for\n# upstream inclusion. (As you can guess, ideally all of those\n# non-working methods should be ideally fixed in Hurd...)\n\n--- apr.orig/configure.in\n+++ apr/configure.in\n@@ -1464,6 +1464,13 @@ case $host in\n         APR_DECISION_OVERRIDE(USE_SHMEM_SHMGET_ANON)\n         ;;\n esac\n+case $host_os in\n+    gnu* )\n+        haveshmgetanon=\"0\"\n+        havemmapanon=\"0\"\n+        APR_DECISION_OVERRIDE(USE_SHMEM_MMAP_ZERO)\n+        ;;\n+esac\n APR_END_DECISION\n AC_DEFINE_UNQUOTED($ac_decision)\n \n@@ -1548,6 +1555,13 @@ case $host in\n         APR_DECISION_OVERRIDE(USE_SHMEM_SHMGET)\n        ;;\n esac\n+case $host_os in\n+    gnu* )\n+        havemmapshm=\"0\"\n+        haveshmget=\"0\"\n+        APR_DECISION_OVERRIDE(USE_SHMEM_MMAP_TMP)\n+        ;;\n+esac\n APR_END_DECISION\n AC_DEFINE_UNQUOTED($ac_decision)\n \n@@ -2608,6 +2622,12 @@ esac\n if test \"x$apr_lock_method\" != \"x\"; then\n     APR_DECISION_FORCE($apr_lock_method)\n fi\n+case $host_os in\n+    gnu* )\n+        hasfcntlser=\"0\"\n+        APR_DECISION_OVERRIDE(USE_FLOCK_SERIALIZE)\n+        ;;\n+esac\n APR_END_DECISION\n AC_DEFINE_UNQUOTED($ac_decision)\n \n"
+              },
+              "url": "debian/patches/hurd_shm_flock.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "# Don't force apr-using projects to use the compile flags used during\n# apr's compilation.\n--- apr.orig/build/apr_rules.mk.in\n+++ apr/build/apr_rules.mk.in\n@@ -42,10 +42,10 @@ LIBTOOL=@LIBTOOL@\n # compilation and linking flags that are supposed to be set only by the user.\n # configure adds to them for tests, but we restore them at the end.\n #\n-CFLAGS=@CFLAGS@\n-CPPFLAGS=@CPPFLAGS@\n-LDFLAGS=@LDFLAGS@\n-LIBS=@LIBS@\n+CFLAGS?=@CFLAGS@\n+CPPFLAGS?=@CPPFLAGS@\n+LDFLAGS?=@LDFLAGS@\n+LIBS?=@LIBS@\n DEFS=@DEFS@\n \n # anything added to the standard flags by configure is moved to EXTRA_*\n"
+              },
+              "url": "debian/patches/dont_override_external_buildflags"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "From: Helmut Grohne <helmut@subdivi.de>\nSubject: check for libtoolize rather than libtool\nLast-Update: 2014-09-19\n\nlibtool is now in package libtool-bin, but apr only needs libtoolize.\n\n--- apr.orig/build/buildcheck.sh\n+++ apr/build/buildcheck.sh\n@@ -39,13 +39,13 @@ fi\n # ltmain.sh (GNU libtool 1.1361 2004/01/02 23:10:52) 1.5a\n # output is multiline from 1.5 onwards\n \n-# Require libtool 1.4 or newer\n-if test -z \"$libtool\"; then\n-  libtool=`build/PrintPath glibtool1 glibtool libtool libtool15 libtool14`\n+# Require libtoolize 1.4 or newer\n+if test -z \"$libtoolize\"; then\n+  libtoolize=`build/PrintPath glibtoolize1 glibtoolize libtoolize libtoolize15 libtoolize14`\n fi\n-lt_pversion=`$libtool --version 2>/dev/null|sed -e 's/([^)]*)//g;s/^[^0-9]*//;s/[- ].*//g;q'`\n+lt_pversion=`$libtoolize --version 2>/dev/null|sed -e 's/([^)]*)//g;s/^[^0-9]*//;s/[- ].*//g;q'`\n if test -z \"$lt_pversion\"; then\n-  echo \"buildconf: libtool not found.\"\n+  echo \"buildconf: libtoolize not found.\"\n   echo \"           You need libtool version 1.4 or newer installed\"\n   echo \"           to build APR from SVN.\"\n   res=1\n"
+              },
+              "url": "debian/patches/libtoolize_check.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "# reproducible.debian.net gave strange test error on build:\n#   testpoll            :  Line 876: apr_pollcb_poll() didn't sleep\n#   FAILED 1 of 23\n# add some debug output\n--- apr.orig/test/testpoll.c\n+++ apr/test/testpoll.c\n@@ -924,6 +924,9 @@ static void justsleep(abts_case *tc, voi\n             rv = apr_pollcb_poll(pollcb, JUSTSLEEP_DELAY, NULL, NULL);\n             t2 = apr_time_now();\n             ABTS_INT_EQUAL(tc, 1, APR_STATUS_IS_TIMEUP(rv));\n+            if ((t2 - t1) <= apr_time_from_msec(100))\n+                abts_log_message(\"pollset method: %d t1: %ld t2: %ld rv: %d\\n\",\n+                                 i, (long)t1, (long)t2, rv);\n             ABTS_ASSERT(tc,\n                         \"apr_pollcb_poll() didn't sleep\",\n                         JUSTSLEEP_ENOUGH(t1, t2));\n"
+              },
+              "url": "debian/patches/debug_testpoll_failure.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "# use flock for apr_file_lock/_unlock()\n# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=752872\n--- apr.orig/file_io/unix/flock.c\n+++ apr/file_io/unix/flock.c\n@@ -27,7 +27,7 @@ APR_DECLARE(apr_status_t) apr_file_lock(\n {\n     int rc;\n \n-#if defined(HAVE_FCNTL_H)\n+#if 0 && defined(HAVE_FCNTL_H)\n     {\n         struct flock l = { 0 };\n         int fc;\n@@ -86,7 +86,7 @@ APR_DECLARE(apr_status_t) apr_file_unloc\n {\n     int rc;\n \n-#if defined(HAVE_FCNTL_H)\n+#if 0 && defined(HAVE_FCNTL_H)\n     {\n         struct flock l = { 0 };\n \n"
+              },
+              "url": "debian/patches/use_fcntl_locking.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "--- apr.orig/build/gen-build.py\n+++ apr/build/gen-build.py\n@@ -1,4 +1,4 @@\n-#!/usr/bin/env python\n+#!/usr/bin/python3\n #\n # USAGE: gen-build.py TYPE\n #\n"
+              },
+              "url": "debian/patches/python3-hashbang.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "# upstream trunk commits r1907442, r1907441\n--- apr.orig/atomic/unix/builtins64.c\n+++ apr/atomic/unix/builtins64.c\n@@ -27,7 +27,7 @@\n \n APR_DECLARE(apr_uint64_t) apr_atomic_read64(volatile apr_uint64_t *mem)\n {\n-#if HAVE__ATOMIC_BUILTINS\n+#if HAVE__ATOMIC_BUILTINS64\n     return __atomic_load_n(mem, __ATOMIC_SEQ_CST);\n #elif WEAK_MEMORY_ORDERING || APR_SIZEOF_VOIDP < 8\n     /* No __sync_load() available => apr_atomic_add64(mem, 0) */\n@@ -39,7 +39,7 @@ APR_DECLARE(apr_uint64_t) apr_atomic_rea\n \n APR_DECLARE(void) apr_atomic_set64(volatile apr_uint64_t *mem, apr_uint64_t val)\n {\n-#if HAVE__ATOMIC_BUILTINS\n+#if HAVE__ATOMIC_BUILTINS64\n     __atomic_store_n(mem, val, __ATOMIC_SEQ_CST);\n #elif WEAK_MEMORY_ORDERING || APR_SIZEOF_VOIDP < 8\n     /* No __sync_store() available => apr_atomic_xchg64(mem, val) */\n@@ -52,7 +52,7 @@ APR_DECLARE(void) apr_atomic_set64(volat\n \n APR_DECLARE(apr_uint64_t) apr_atomic_add64(volatile apr_uint64_t *mem, apr_uint64_t val)\n {\n-#if HAVE__ATOMIC_BUILTINS\n+#if HAVE__ATOMIC_BUILTINS64\n     return __atomic_fetch_add(mem, val, __ATOMIC_SEQ_CST);\n #else\n     return __sync_fetch_and_add(mem, val);\n@@ -61,7 +61,7 @@ APR_DECLARE(apr_uint64_t) apr_atomic_add\n \n APR_DECLARE(void) apr_atomic_sub64(volatile apr_uint64_t *mem, apr_uint64_t val)\n {\n-#if HAVE__ATOMIC_BUILTINS\n+#if HAVE__ATOMIC_BUILTINS64\n     __atomic_fetch_sub(mem, val, __ATOMIC_SEQ_CST);\n #else\n     __sync_fetch_and_sub(mem, val);\n@@ -70,7 +70,7 @@ APR_DECLARE(void) apr_atomic_sub64(volat\n \n APR_DECLARE(apr_uint64_t) apr_atomic_inc64(volatile apr_uint64_t *mem)\n {\n-#if HAVE__ATOMIC_BUILTINS\n+#if HAVE__ATOMIC_BUILTINS64\n     return __atomic_fetch_add(mem, 1, __ATOMIC_SEQ_CST);\n #else\n     return __sync_fetch_and_add(mem, 1);\n@@ -79,7 +79,7 @@ APR_DECLARE(apr_uint64_t) apr_atomic_inc\n \n APR_DECLARE(int) apr_atomic_dec64(volatile apr_uint64_t *mem)\n {\n-#if HAVE__ATOMIC_BUILTINS\n+#if HAVE__ATOMIC_BUILTINS64\n     return __atomic_sub_fetch(mem, 1, __ATOMIC_SEQ_CST);\n #else\n     return __sync_sub_and_fetch(mem, 1);\n@@ -89,7 +89,7 @@ APR_DECLARE(int) apr_atomic_dec64(volati\n APR_DECLARE(apr_uint64_t) apr_atomic_cas64(volatile apr_uint64_t *mem, apr_uint64_t val,\n                                            apr_uint64_t cmp)\n {\n-#if HAVE__ATOMIC_BUILTINS\n+#if HAVE__ATOMIC_BUILTINS64\n     __atomic_compare_exchange_n(mem, &cmp, val, 0, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);\n     return cmp;\n #else\n@@ -99,7 +99,7 @@ APR_DECLARE(apr_uint64_t) apr_atomic_cas\n \n APR_DECLARE(apr_uint64_t) apr_atomic_xchg64(volatile apr_uint64_t *mem, apr_uint64_t val)\n {\n-#if HAVE__ATOMIC_BUILTINS\n+#if HAVE__ATOMIC_BUILTINS64\n     return __atomic_exchange_n(mem, val, __ATOMIC_SEQ_CST);\n #else\n     __sync_synchronize();\n"
+              },
+              "url": "debian/patches/fix-atomics.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "Index: apr/Makefile.in\n===================================================================\n--- apr.orig/Makefile.in\n+++ apr/Makefile.in\n@@ -142,7 +142,7 @@ etags:\n \n tools/gen_test_char@EXEEXT@: $(top_srcdir)/tools/gen_test_char.c\n \t$(APR_MKDIR) tools\n-\t$(CC_FOR_BUILD) $(CFLAGS_FOR_BUILD) $(top_srcdir)/tools/gen_test_char.c -o $@\n+\t$(CC_FOR_BUILD) $(CFLAGS_FOR_BUILD) $(CPPFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) $(top_srcdir)/tools/gen_test_char.c -o $@\n \n include/private/apr_escape_test_char.h: tools/gen_test_char@EXEEXT@\n \t$(APR_MKDIR) include/private\n"
+              },
+              "url": "debian/patches/fix-flags-for-build.patch"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "libuuid",
+      "supplier": {
+        "name": "Debian"
+      },
+      "name": "libuuid1",
+      "versionRange": "vers:deb/>=2.16",
+      "isExternal": true,
+      "description": "OS UUID generator (uuid_generate() or uuid_create()); APR uses its own generator when absent.",
+      "scope": "required",
+      "purl": "pkg:deb/debian/libuuid1?arch=amd64&distro=sid",
+      "properties": [
+        {
+          "name": "apr:soname",
+          "value": "libuuid.so.1"
+        },
+        {
+          "name": "debian:build-version",
+          "value": "2.42.4-1"
+        },
+        {
+          "name": "debian:source-package",
+          "value": "util-linux"
+        },
+        {
+          "name": "apr:upstream-name",
+          "value": "libuuid"
+        },
+        {
+          "name": "apr:upstream-version",
+          "value": "2.42.4"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "/usr/lib/x86_64-linux-gnu/libuuid.so.1"
+          }
+        ]
+      }
+    },
+    {
+      "type": "library",
+      "bom-ref": "libc",
+      "supplier": {
+        "name": "Debian"
+      },
+      "name": "libc6",
+      "versionRange": "vers:deb/>=2.38",
+      "isExternal": true,
+      "description": "C standard library and POSIX interfaces.",
+      "scope": "required",
+      "purl": "pkg:deb/debian/libc6?arch=amd64&distro=sid",
+      "properties": [
+        {
+          "name": "apr:soname",
+          "value": "libc.so.6"
+        },
+        {
+          "name": "debian:build-version",
+          "value": "2.43-7"
+        },
+        {
+          "name": "debian:source-package",
+          "value": "glibc"
+        },
+        {
+          "name": "apr:upstream-name",
+          "value": "libc"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "/usr/lib/x86_64-linux-gnu/libc.so.6"
+          }
+        ]
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "libapr1t64",
+      "dependsOn": [
+        "libuuid",
+        "libc"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+# Build environment for the Fedora package of APR (fedora:rawhide).
+#
+# Build the image once, from the directory containing apr-fedora/ (UID/GID
+# make files written to mounted directories belong to you):
+#
+#   docker build -f Dockerfile.fedora -t apr-fedora-build \
+#       --build-arg UID="$(id -u)" --build-arg GID="$(id -g)" .
+#
+# See README.md for the build commands.
+#
+# Rebuild the image (with --pull) to pick up updates of rawhide, or after
+# the BuildRequires of apr-fedora/apr.spec change.
+
+FROM fedora:rawhide
+
+# Tools for building RPM packages from a dist-git checkout.
+RUN dnf -y install --setopt=install_weak_deps=False \
+      rpm-build rpmdevtools dnf5-plugins jq \
+ && dnf clean all
+
+# Build dependencies of the package, taken from its spec file.
+COPY apr-fedora/apr.spec /tmp/apr.spec
+RUN dnf -y builddep --setopt=install_weak_deps=False /tmp/apr.spec \
+ && dnf clean all \
+ && rm /tmp/apr.spec
+
+# Unprivileged user matching the owner of the mounted directories.
+ARG UID=1000
+ARG GID=1000
+RUN groupadd -o -g "$GID" builder \
+ && useradd -o -m -u "$UID" -g "$GID" builder
+USER builder
+WORKDIR /home/builder

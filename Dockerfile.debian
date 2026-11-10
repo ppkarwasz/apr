@@ -1,25 +1,12 @@
 # Build environment for APR and its Debian package (debian:sid).
 #
-# Build the image once (UID/GID make files written to mounted
-# directories belong to you):
+# Build the image once, from the directory containing apr-debian/ (UID/GID
+# make files written to mounted directories belong to you):
 #
-#   docker build -t apr-build --build-arg UID="$(id -u)" --build-arg GID="$(id -g)" .
+#   docker build -f Dockerfile.debian -t apr-debian-build \
+#       --build-arg UID="$(id -u)" --build-arg GID="$(id -g)" .
 #
-# Out-of-tree upstream build with SBOMs, from this directory (apr/ must
-# not be configured in place):
-#
-#   mkdir -p out
-#   docker run --rm -v "$PWD/apr":/src:ro -v "$PWD/out":/out apr-build sh -ec '
-#       cp -a /src /tmp/apr && cd /tmp/apr && ./buildconf
-#       chmod -R a-w /tmp/apr
-#       mkdir /tmp/build && cd /tmp/build && /tmp/apr/configure
-#       make -j"$(nproc)" && make sbom source-sbom
-#       cp apr.cdx.json apr-source.cdx.json /out/'
-#
-# Debian package build (the .deb files are written next to apr-debian/):
-#
-#   docker run --rm -v "$PWD":/work -w /work/apr-debian \
-#       -e DEB_BUILD_OPTIONS=nocheck apr-build dpkg-buildpackage -us -uc -b
+# See README.md for the build commands.
 #
 # Rebuild the image (with --pull) to pick up updates of sid, or after
 # Build-Depends in apr-debian/debian/control change.

@@ -1,0 +1,227 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.7.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.7",
+  "serialNumber": "urn:uuid:52c1a5ea-c459-5f77-bc73-00cff0121140",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-10T00:00:00Z",
+    "lifecycles": [
+      {
+        "phase": "build"
+      }
+    ],
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "APR build/sbom.sh",
+          "version": "1.7.7-dev"
+        },
+        {
+          "type": "application",
+          "name": "apr-sbom-bind.sh",
+          "version": "1.7.7~20261110git49b0b36-1.fc46"
+        }
+      ]
+    },
+    "component": {
+      "type": "library",
+      "bom-ref": "apr-devel",
+      "supplier": {
+        "name": "Fedora Project"
+      },
+      "name": "apr-devel",
+      "version": "1.7.7~20261110git49b0b36-1.fc46",
+      "description": "Apache Portable Runtime",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/fedora/apr-devel@1.7.7~20261110git49b0b36-1.fc46?arch=x86_64&distro=fedora-46",
+      "pedigree": {
+        "ancestors": [
+          {
+            "type": "library",
+            "bom-ref": "apr",
+            "supplier": {
+              "name": "The Apache Software Foundation",
+              "url": [
+                "https://www.apache.org/"
+              ]
+            },
+            "name": "apr",
+            "version": "1.7.7-dev",
+            "description": "Apache Portable Runtime",
+            "licenses": [
+              {
+                "license": {
+                  "id": "Apache-2.0"
+                }
+              }
+            ],
+            "copyright": "Copyright 2026 The Apache Software Foundation.",
+            "cpe": "cpe:2.3:a:apache:portable_runtime:1.7.7-dev:*:*:*:*:*:*:*",
+            "purl": "pkg:software-id/apache.org/apr-portable-runtime@1.7.7-dev",
+            "externalReferences": [
+              {
+                "type": "website",
+                "url": "https://apr.apache.org/"
+              },
+              {
+                "type": "distribution",
+                "url": "https://release-catalog.apache.org/apr-portable-runtime/"
+              },
+              {
+                "type": "vcs",
+                "url": "https://svn.apache.org/repos/asf/apr/apr/"
+              },
+              {
+                "type": "issue-tracker",
+                "url": "https://bz.apache.org/bugzilla/"
+              }
+            ],
+            "properties": [
+              {
+                "name": "apr:build:host",
+                "value": "x86_64-redhat-linux-gnu"
+              },
+              {
+                "name": "apr:build:configure-options",
+                "value": "--build=x86_64-redhat-linux --host=x86_64-redhat-linux --program-prefix= --disable-dependency-tracking --prefix=/usr --exec-prefix=/usr --bindir=/usr/bin --sbindir=/usr/bin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib64 --libexecdir=/usr/libexec --localstatedir=/var --runstatedir=/run --sharedstatedir=/var/lib --mandir=/usr/share/man --infodir=/usr/share/info --includedir=/usr/include/apr-1 --with-installbuilddir=/usr/lib64/apr-1/build --with-devrandom=/dev/urandom --disable-static --disable-sctp build_alias=x86_64-redhat-linux host_alias=x86_64-redhat-linux CC=gcc 'CFLAGS=-O2 -flto=auto -ffat-lto-objects -fexceptions -g -grecord-gcc-switches -pipe -Wall -Werror=format-security -Wp,-U_FORTIFY_SOURCE,-D_FORTIFY_SOURCE=3 -Wp,-D_GLIBCXX_ASSERTIONS -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -fstack-protector-strong -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1  -m64 -march=x86-64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -mtls-dialect=gnu2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer  ' 'LDFLAGS=-Wl,-z,relro -Wl,--as-needed  -Wl,-z,pack-relative-relocs -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -specs=/usr/lib/rpm/redhat/redhat-hardened-ld-errors -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1  -Wl,--build-id=sha1   ' LT_SYS_LIBRARY_PATH=/usr/lib64:"
+              },
+              {
+                "name": "apr:build:libs",
+                "value": "-luuid -lcrypt -lpthread"
+              }
+            ]
+          }
+        ],
+        "patches": [
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "diff --git a/apr-config.in b/apr-config.in\nindex bed47ca..d4bf4d8 100644\n--- a/apr-config.in\n+++ b/apr-config.in\n@@ -198,8 +198,10 @@ while test $# -gt 0; do\n     ;;\n     --link-ld)\n     if test \"$location\" = \"installed\"; then\n-        ### avoid using -L if libdir is a \"standard\" location like /usr/lib\n-        flags=\"$flags -L$libdir -l${APR_LIBNAME}\"\n+        if test \"$prefix\" != \"/usr\"; then\n+            flags=\"$flags -L$libdir\"\n+        fi\n+        flags=\"$flags -l${APR_LIBNAME}\"\n     elif test \"$location\" = \"crosscompile\"; then\n         flags=\"$flags -L$APR_TARGET_DIR/$libdir -l${APR_LIBNAME}\"\n     else\n"
+              },
+              "url": "apr-1.7.2-libdir.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "\nThis is a fugly hack to make apr-1-config libdir-agnostic, by using\npkg-config to determine the libdir setting.  pkg-config will\nmagically determine the appropriate libdir setting.\n\nThis allows apr-devel.i386 and apr-devel.x86_64 to be \ninstalled in parallel.\n\n--- apr-1.2.7/Makefile.in.pkgconf\n+++ apr-1.2.7/Makefile.in\n@@ -60,7 +60,7 @@\n \n # Create apr-config script suitable for the install tree\n apr-config.out: $(APR_CONFIG)\n-\tsed 's,^\\(location=\\).*$$,\\1installed,' < $(APR_CONFIG) > $@\n+\tsed 's,^\\(location=\\).*$$,\\1installed,;s,^\\(APR_.*_DIR\\)=.*,\\1=\"$${libdir}/build\",' < $(APR_CONFIG) > $@\n \n # Create apr_rules.mk suitable for the install tree\n build/apr_rules.out: build/apr_rules.mk\n--- apr-1.2.7/apr.pc.in.pkgconf\n+++ apr-1.2.7/apr.pc.in\n@@ -3,9 +3,10 @@\n libdir=@libdir@\n APR_MAJOR_VERSION=@APR_MAJOR_VERSION@\n includedir=@includedir@\n+CPPFLAGS=@EXTRA_CPPFLAGS@\n \n Name: APR\n Description: The Apache Portable Runtime library\n Version: @APR_DOTTED_VERSION@\n Libs: -L${libdir} -l@APR_LIBNAME@ @EXTRA_LIBS@\n-Cflags: @EXTRA_CPPFLAGS@ @EXTRA_CFLAGS@ -I${includedir}\n+Cflags: ${CPPFLAGS} @EXTRA_CFLAGS@ -I${includedir}\n--- apr-1.2.7/apr-config.in.pkgconf\n+++ apr-1.2.7/apr-config.in\n@@ -24,16 +24,17 @@\n prefix=\"@prefix@\"\n exec_prefix=\"@exec_prefix@\"\n bindir=\"@bindir@\"\n-libdir=\"@libdir@\"\n datarootdir=\"@datadir@\"\n datadir=\"@datadir@\"\n-installbuilddir=\"@installbuilddir@\"\n includedir=\"@includedir@\"\n \n+libdir=`pkg-config --variable=libdir apr-@APR_MAJOR_VERSION@`\n+installbuilddir=\"${libdir}/apr-@APR_MAJOR_VERSION@/build\"\n+\n CC=\"@CC@\"\n CPP=\"@CPP@\"\n SHELL=\"@SHELL@\"\n-CPPFLAGS=\"@EXTRA_CPPFLAGS@\"\n+CPPFLAGS=`pkg-config --variable=CPPFLAGS apr-@APR_MAJOR_VERSION@`\n CFLAGS=\"@EXTRA_CFLAGS@\"\n LDFLAGS=\"@EXTRA_LDFLAGS@\"\n LIBS=\"@EXTRA_LIBS@\"\n"
+              },
+              "url": "apr-1.2.7-pkgconf.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "\nAdd $APR_DEEPBIND to enable use of RTLD_DEEPBIND in apr_dso_open().\n\n--- apr-1.7.0/dso/unix/dso.c.deepbind\n+++ apr-1.7.0/dso/unix/dso.c\n@@ -38,6 +38,8 @@\n #define DYLD_LIBRARY_HANDLE (void *)-1\n #endif\n \n+static int use_deepbind; /* 0 = unset, 1 = use DEEPBIND, -1, don't use DEEPBIND */\n+\n APR_DECLARE(apr_status_t) apr_os_dso_handle_put(apr_dso_handle_t **aprdso,\n                                                 apr_os_dso_handle_t osdso,\n                                                 apr_pool_t *pool)\n@@ -125,6 +127,12 @@\n #else\n     int flags = RTLD_NOW | RTLD_GLOBAL;\n     void *os_handle;\n+\n+    if (use_deepbind == 0)\n+        use_deepbind = secure_getenv(\"APR_DEEPBIND\") != NULL ? 1 : -1;\n+    if (use_deepbind == 1)\n+        flags |= RTLD_DEEPBIND;\n+\n #ifdef _AIX\n     if (strchr(path + 1, '(') && path[strlen(path) - 1] == ')')\n     {\n--- apr-1.7.0/README.deepbind.deepbind\n+++ apr-1.7.0/README.deepbind\n@@ -0,0 +1,30 @@\n+This distribution of APR contains a modification of the behaviour of\n+the apr_dso_open() function which allows users enable the\n+\"RTLD_DEEPBIND\" flag when dlopen() is called.\n+\n+If the \"APR_DEEPBIND\" environment variable is set at runtime, the\n+RTLD_DEEPBIND flag is always added to the flags passed to dlopen().\n+\n+With normal use of dlopen(), dynamically loaded objects will use\n+global symbols in preference to any symbols defined within the object.\n+Using RTLD_DEEPBIND reverses this binding order.  See the dlopen(3)\n+man page for more information.\n+\n+This can be useful with Apache httpd, where two different modules are\n+loaded like:\n+\n+1. mod_foo.so uses library \"libfoo.so\"\n+   libfoo.so defines a function \"SomeSym\"\n+2. mod_bar.so uses library \"libbar.so\"\n+   libbar.so defines a different \"SomeSym\" function\n+\n+By default, mod_bar or mod_foo would use the \"SomeSym\" definition from\n+the \"wrong\" library depending on the load order.  If RTLD_DEEPBIND is\n+used, the \"SomeSym\" definition will always be mapped to the definition\n+from the corresponding dependent library.  This can avoid symbol\n+conflicts.\n+\n+There are some risks with using RTLD_DEEPBIND, in particular potential\n+issues with modules written in C++.  It is not recommended to enable\n+$APR_DEEPBIND unless it solves a specific problem and after thorough\n+testing of the configuration.\n"
+              },
+              "url": "apr-1.7.0-deepbind.patch"
+            }
+          },
+          {
+            "type": "unofficial",
+            "diff": {
+              "text": {
+                "contentType": "text/x-diff",
+                "content": "\nhttps://github.com/apache/apr/pull/68\n\n--- apr-1.7.6/build/apr_common.m4.5\n+++ apr-1.7.6/build/apr_common.m4\n@@ -467,19 +467,11 @@\n    CFLAGS=\"$CFLAGS -Werror\"\n  fi\n  AC_COMPILE_IFELSE(\n-  [AC_LANG_SOURCE(\n-   [\n-#ifndef PACKAGE_NAME\n-#include \"confdefs.h\"\n-#endif\n-   ]\n-   [[$1]]\n-   [int main(int argc, const char *const *argv) {]\n-   [[$2]]\n-   [   return 0; }]\n-  )], [CFLAGS=$apr_save_CFLAGS\n-$3],  [CFLAGS=$apr_save_CFLAGS\n-$4])\n+  [AC_LANG_PROGRAM([[$1]], [[$2]])],\n+  [CFLAGS=$apr_save_CFLAGS\n+   $3],\n+  [CFLAGS=$apr_save_CFLAGS\n+   $4])\n ])\n \n dnl\n--- apr-1.7.6/build/apr_network.m4.5\n+++ apr-1.7.6/build/apr_network.m4\n@@ -259,11 +259,12 @@\n #ifdef HAVE_STDLIB_H\n #include <stdlib.h>\n #endif\n+#include <stdio.h>\n ],[\n int tmp = gethostbyname_r((const char *) 0, (struct hostent *) 0, \n                           (char *) 0, 0, (struct hostent **) 0, &tmp);\n /* use tmp to suppress the warning */\n-tmp=0;\n+puts(tmp ? \"non-zero\" : \"zero\");\n ], ac_cv_gethostbyname_r_style=glibc2, ac_cv_gethostbyname_r_style=none))\n \n if test \"$ac_cv_gethostbyname_r_style\" = \"glibc2\"; then\n@@ -287,11 +288,12 @@\n #ifdef HAVE_STDLIB_H\n #include <stdlib.h>\n #endif\n+#include <stdio.h>\n ],[\n int tmp = gethostbyname_r((const char *) 0, (struct hostent *) 0, \n                           (struct hostent_data *) 0);\n /* use tmp to suppress the warning */\n-tmp=0;\n+puts(tmp ? \"non-zero\" : \"zero\");\n ], ac_cv_gethostbyname_r_arg=hostent_data, ac_cv_gethostbyname_r_arg=char))\n \n if test \"$ac_cv_gethostbyname_r_arg\" = \"hostent_data\"; then\n@@ -327,12 +329,13 @@\n #ifdef HAVE_STDLIB_H\n #include <stdlib.h>\n #endif\n+#include <stdio.h>\n ],[\n int tmp = getservbyname_r((const char *) 0, (const char *) 0,\n                           (struct servent *) 0, (char *) 0, 0,\n                           (struct servent **) 0);\n /* use tmp to suppress the warning */\n-tmp=0;\n+puts(tmp ? \"non-zero\" : \"zero\");\n ], ac_cv_getservbyname_r_style=glibc2, ac_cv_getservbyname_r_style=none)\n \n if test \"$ac_cv_getservbyname_r_style\" = \"none\"; then\n@@ -354,11 +357,12 @@\n     #ifdef HAVE_STDLIB_H\n     #include <stdlib.h>\n     #endif\n+    #include <stdio.h>\n     ],[\n     struct servent *tmp = getservbyname_r((const char *) 0, (const char *) 0,\n                                           (struct servent *) 0, (char *) 0, 0);\n     /* use tmp to suppress the warning */\n-    tmp=NULL;\n+    puts(tmp ? \"non-zero\" : \"zero\");\n     ], ac_cv_getservbyname_r_style=solaris, ac_cv_getservbyname_r_style=none)\n fi\n \n@@ -381,11 +385,12 @@\n     #ifdef HAVE_STDLIB_H\n     #include <stdlib.h>\n     #endif\n+    #include <stdio.h>\n     ],[\n     int tmp = getservbyname_r((const char *) 0, (const char *) 0,\n                               (struct servent *) 0, (struct servent_data *) 0);\n     /* use tmp to suppress the warning */\n-    tmp=0;\n+    puts(tmp ? \"non-zero\" : \"zero\");\n     ], ac_cv_getservbyname_r_style=osf1, ac_cv_getservbyname_r_style=none)\n fi\n ])\n--- apr-1.7.6/build/buildcheck.sh.5\n+++ apr-1.7.6/build/buildcheck.sh\n@@ -15,11 +15,11 @@\n   echo \"buildconf: python version $py_version (ok)\"\n fi\n \n-# autoconf 2.59 or newer\n+# autoconf 2.61 or newer\n ac_version=`${AUTOCONF:-autoconf} --version 2>/dev/null|sed -e 's/^[^0-9]*//;s/[a-z]* *$//;q'`\n if test -z \"$ac_version\"; then\n   echo \"buildconf: autoconf not found.\"\n-  echo \"           You need autoconf version 2.59 or newer installed\"\n+  echo \"           You need autoconf version 2.61 or newer installed\"\n   echo \"           to build APR from SVN.\"\n   res=1\n else\n--- apr-1.7.6/configure.in.5\n+++ apr-1.7.6/configure.in\n@@ -145,12 +145,14 @@\n     APR_CROSS_COMPILING=maybe\n   elif test \"x$build_alias\" != \"x$host_alias\"; then\n     APR_CROSS_COMPILING=yes\n+  else\n+    APR_CROSS_COMPILING=no\n   fi\n else\n     APR_CROSS_COMPILING=no\n fi\n-\n AC_SUBST(APR_CROSS_COMPILING)\n+AC_MSG_NOTICE([cross-compilation detection: $APR_CROSS_COMPILING])\n \n # Libtool might need this symbol -- it must point to the location of\n # the generated libtool script (not necessarily the \"top\" build dir).\n@@ -1876,6 +1878,7 @@\n AC_CHECK_TYPE(ssize_t, int)\n AC_C_INLINE\n AC_C_CONST\n+AC_C_VARARRAYS\n AC_FUNC_SETPGRP\n \n APR_CHECK_SOCKLEN_T\n@@ -1971,6 +1974,8 @@\n     AC_ERROR([could not detect a 64-bit integer type])\n fi\n \n+AC_MSG_NOTICE([for apr_(u)int64_t using $int64_strfn and ${int64_value}/${uint64_value}])\n+\n # If present, allow the C99 macro INT64_C to override our conversion.\n #\n # HP-UX's ANSI C compiler provides this without any includes, so we\n@@ -2152,7 +2157,6 @@\n     aprlfs=0     \n fi\n \n-AC_MSG_CHECKING([which type to use for apr_off_t])\n if test \"${ac_cv_sizeof_off_t}${apr_cv_use_lfs64}\" = \"4yes\"; then\n     # LFS is go!\n     off_t_fmt='#define APR_OFF_T_FMT APR_INT64_T_FMT'\n@@ -2203,7 +2207,7 @@\n    off_t_fmt=d\n    off_t_strfn='strtoi'\n fi\n-AC_MSG_RESULT($off_t_value)\n+AC_MSG_NOTICE([for apr_off_t using $off_t_strfn and $off_t_value])\n \n # Regardless of whether _LARGEFILE64_SOURCE is used, on some\n # platforms _FILE_OFFSET_BITS will affect the size of ino_t and hence\n@@ -2234,7 +2238,7 @@\n     fi\n     ;;\n esac\n-AC_MSG_NOTICE([using $ino_t_value for ino_t])\n+AC_MSG_NOTICE([for apr_ino_t using $ino_t_value])\n \n # Checks for endianness\n AC_C_BIGENDIAN\n--- apr-1.7.6/poll/unix/poll.c.5\n+++ apr-1.7.6/poll/unix/poll.c\n@@ -73,7 +73,7 @@\n                                    apr_interval_time_t timeout)\n {\n     int i, num_to_poll;\n-#ifdef HAVE_VLA\n+#ifdef HAVE_C_VARARRAYS\n     /* XXX: I trust that this is a segv when insufficient stack exists? */\n     struct pollfd pollset[num + 1]; /* +1 since allocating 0 is undefined behaviour */\n #elif defined(HAVE_ALLOCA)\n@@ -130,7 +130,7 @@\n         }\n     }\n     \n-#if !defined(HAVE_VLA) && !defined(HAVE_ALLOCA)\n+#if !defined(HAVE_C_VARARRAYS) && !defined(HAVE_ALLOCA)\n     if (num > SMALL_POLLSET_LIMIT) {\n         free(pollset);\n     }\n"
+              },
+              "url": "apr-1.7.6-autoconf.patch"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "components": [
+    {
+      "type": "application",
+      "bom-ref": "gnu-libtool",
+      "supplier": {
+        "name": "Free Software Foundation, Inc."
+      },
+      "name": "GNU Libtool",
+      "version": "2.6.2",
+      "isExternal": false,
+      "description": "libtool script generated by configure and installed in APR's build directory.",
+      "scope": "excluded",
+      "licenses": [
+        {
+          "expression": "GPL-2.0-or-later WITH Libtool-exception"
+        }
+      ],
+      "properties": [
+        {
+          "name": "apr:installed-as",
+          "value": "build-file"
+        },
+        {
+          "name": "apr:libtool:version-string",
+          "value": "2.6.2"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "libtool"
+          }
+        ]
+      }
+    },
+    {
+      "type": "application",
+      "bom-ref": "gnu-config",
+      "supplier": {
+        "name": "Free Software Foundation, Inc."
+      },
+      "name": "GNU config",
+      "description": "Build system type detection scripts.",
+      "pedigree": {
+        "notes": "Copied unmodified from the GNU config project."
+      },
+      "version": "2026-05-17",
+      "isExternal": false,
+      "scope": "excluded",
+      "licenses": [
+        {
+          "expression": "GPL-3.0-or-later WITH Autoconf-exception-generic-3.0"
+        }
+      ],
+      "copyright": "Copyright 1992-2026 Free Software Foundation, Inc.",
+      "properties": [
+        {
+          "name": "apr:upstream",
+          "value": "maintained"
+        }
+      ],
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "build/config.guess"
+          },
+          {
+            "location": "build/config.sub"
+          }
+        ]
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "apr-devel",
+      "dependsOn": []
+    }
+  ]
+}
