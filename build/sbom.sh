@@ -58,6 +58,16 @@ set -e
 LC_ALL=C
 export LC_ALL
 
+# bash applies set -e to command substitutions only in POSIX mode (as
+# sh) or with inherit_errexit; configure may have chosen bash as SHELL.
+if (shopt -s inherit_errexit) >/dev/null 2>&1; then
+    shopt -s inherit_errexit
+fi
+
+# Field separator of the records about files: file names may contain
+# blanks or tabs, but not this control character.
+SEP=`printf '\034'`
+
 usage() {
     sed -n '/^# Usage:/,/^# The components/p' "$0" | sed '$d' \
         | sed 's/^# \{0,1\}//' >&2
@@ -145,13 +155,15 @@ pc_version() {
 }
 
 # Print the existing files matching the shell patterns $@, relative to
-# the source directory, one per line.
+# the source directory, one per line.  IFS is emptied so that a pattern
+# is expanded as a whole, not split on blanks first.
 expand_files() {
     (
-        cd "$srcdir"
+        cd "$srcdir" || exit 1
+        IFS=
         for _p in "$@"; do
             for _f in $_p; do
-                test ! -f "$_f" || echo "$_f"
+                test ! -f "$_f" || printf '%s\n' "$_f"
             done
         done
     )
@@ -173,14 +185,67 @@ expand_files() {
 #   { "FILE": { "license": "...", "copyright": [...], "contributor": [...],
 #               "snippets": [ { "line": N, "end": N, "license": "...",
 #                               "copyright": [...] } ] } }
+#
+# File names are passed as data, never as command arguments, so they
+# may contain blanks, quotes or tabs; only newlines are not supported.
 # ---------------------------------------------------------------------
 
+# Print the files of the source tree, relative to it, one per line,
+# except those matching a scan-exclude pattern.
+source_files() {
+    _excl=`$JQ -r '."scan-exclude"[]' "$DATA"` || exit 1
+    _all=`cd "$srcdir" && find . \( -name .git -o -name .svn \
+              -o -name autom4te.cache -o -name .libs -o -name .deps \
+              -o -name 'cmake-build-*' \) -prune -o -type f -print` \
+        || die "cannot list the files of $srcdir"
+    # Split on newlines only, and do not expand the patterns as globs.
+    _ifs=$IFS
+    IFS='
+'
+    set -f
+    for _f in $_all; do
+        _f=${_f#./}
+        for _x in $_excl; do
+            case $_f in
+              $_x) continue 2 ;;
+            esac
+        done
+        printf '%s\n' "$_f"
+    done
+    set +f
+    IFS=$_ifs
+}
+
+# Reads file names on stdin and prints one record per tag, its fields
+# separated by \034 (FILE, F or S, snippet start line, key, value).
+# Exits with status 2 if a file cannot be read.
 AWK_TAGS='
-FNR == 1 { snip = 0 }
-{
-    line = $0
+BEGIN { SEP = "\034"; status = 0 }
+$0 != "" {
+    file = $0
+    path = "./" file
+    snip = 0
+    n = 0
+    while ((r = (getline line < path)) > 0) {
+        n++
+        if (index(line, "SPDX-"))
+            tag_line(line)
+    }
+    if (r < 0) {
+        print "cannot read " file | "cat 1>&2"
+        status = 2
+    }
+    close(path)
+}
+END { exit status }
+
+function emit(kind, start, key, val) {
+    print file SEP kind SEP start SEP key SEP val
+}
+
+function tag_line(line,    tag, val, key) {
     if (line !~ /^[ \t]*(\/\*+|\*|#+|\/\/|dnl)?[ \t]*SPDX-[A-Za-z]/)
-        next
+        return
     sub(/^[ \t]*(\/\*+|\*|#+|\/\/|dnl)?[ \t]*/, "", line)
     tag = line
     sub(/[: \t].*$/, "", tag)
@@ -192,14 +257,14 @@ FNR == 1 { snip = 0 }
         sub(/[ \t]+$/, "", val)
     }
     if (tag == "SPDX-SnippetBegin") {
-        snip = FNR
-        print FILENAME "\tS\t" snip "\tbegin\t"
-        next
+        snip = n
+        emit("S", snip, "begin", "")
+        return
     }
     if (tag == "SPDX-SnippetEnd") {
-        print FILENAME "\tS\t" snip "\tend\t" FNR
+        emit("S", snip, "end", n)
         snip = 0
-        next
+        return
     }
     if (tag == "SPDX-License-Identifier")
         key = "license"
@@ -208,34 +273,22 @@ FNR == 1 { snip = 0 }
     else if (tag == "SPDX-FileContributor")
         key = "contributor"
     else
-        next
+        return
     if (snip)
-        print FILENAME "\tS\t" snip "\t" key "\t" val
+        emit("S", snip, key, val)
     else
-        print FILENAME "\tF\t0\t" key "\t" val
+        emit("F", 0, key, val)
 }
 '
 
+# The list of files and the output of awk are kept in variables, not
+# piped, so that set -e (or the explicit checks) sees their failures.
 scan_tags() {
-    _excl=`$JQ -r '."scan-exclude"[]' "$DATA"`
-    (
-        cd "$srcdir"
-        find . \( -name .git -o -name .svn -o -name autom4te.cache \
-                  -o -name .libs -o -name .deps -o -name 'cmake-build-*' \) \
-               -prune -o -type f -print \
-            | sed 's|^\./||' \
-            | while read _f; do
-                  for _x in $_excl; do
-                      case $_f in
-                        $_x) continue 2 ;;
-                      esac
-                  done
-                  echo "$_f"
-              done \
-            | LC_ALL=C xargs grep -l 'SPDX-' /dev/null \
-            | LC_ALL=C xargs awk "$AWK_TAGS" /dev/null
-    ) | $JQ -R -s '
-        [ split("\n")[] | select(. != "") | split("\t")
+    _files=`source_files` || exit 1
+    _records=`printf '%s\n' "$_files" | (cd "$srcdir" && awk "$AWK_TAGS")` \
+        || die "cannot read the SPDX tags of $srcdir"
+    printf '%s\n' "$_records" | $JQ -R -s '
+        [ split("\n")[] | select(. != "") | split("\u001c")
           | { file: .[0], kind: .[1], snip: (.[2] | tonumber),
               key: .[3], val: .[4] } ]
         | group_by(.file)
@@ -277,7 +330,7 @@ license_refs() {
 # Bundled third-party code
 #
 # Prints one JSON component per line and appends to $claims the files
-# each entry accounts for ("FILE<tab>LICENSE", or "FILE<tab>*" for
+# each entry accounts for ("FILE<SEP>LICENSE", or "FILE<SEP>*" for
 # untagged entries).
 # ---------------------------------------------------------------------
 
@@ -297,10 +350,16 @@ bundled_components() {
         _scope=`printf '%s' "$_entry" | $JQ -r '.scope // "required"'`
         _upstream=`printf '%s' "$_entry" | $JQ -r '.upstream // ""'`
 
+        # The patterns and the files they match are split on newlines
+        # only, as file names may contain blanks.
+        _ifs=$IFS
+        IFS='
+'
         set -f
         set -- `printf '%s' "$_entry" | $JQ -r '.files[]'`
         set +f
-        _files=`expand_files "$@"`
+        IFS=$_ifs
+        _files=`expand_files "$@"` || exit 1
         if test -z "$_files"; then
             test "$_ifpresent" = true && continue
             die "$_ref: none of its files exist: $*"
@@ -311,15 +370,20 @@ bundled_components() {
             done
         fi
 
+        IFS='
+'
+        set -f
         for _f in $_files; do
             if test "$_tagged" = true; then
-                claims="$claims$_f	$_lic
+                claims="$claims$_f$SEP$_lic
 "
             else
-                claims="$claims$_f	*
+                claims="$claims$_f$SEP*
 "
             fi
         done
+        set +f
+        IFS=$_ifs
 
         # The build SBOM lists only code from a maintained upstream, whose
         # advisories could apply to this build; code forked long ago is
@@ -346,7 +410,11 @@ bundled_components() {
         for _k in `printf '%s' "$_entry" | $JQ -r '(.extract // {}) | keys[]'`; do
             _file=`printf '%s' "$_entry" | $JQ -r --arg k "$_k" '.extract[$k].file'`
             _sed=`printf '%s' "$_entry" | $JQ -r --arg k "$_k" '.extract[$k].sed'`
-            _v=`sed -n "$_sed" "$srcdir/$_file" | sed q`
+            # The file may be missing from an entry with if-present.
+            test -f "$srcdir/$_file" || continue
+            _v=`sed -n "$_sed" "$srcdir/$_file"` \
+                || die "$_ref: cannot read $_file"
+            _v=`printf '%s\n' "$_v" | sed q`
             _extracted=`$JQ -nc --argjson o "$_extracted" --arg k "$_k" --arg v "$_v" \
                             '$o + { ($k): $v }'`
         done
@@ -421,7 +489,7 @@ bundled_components() {
 # bundled entry accounts for, or a snippet is malformed.
 check_claims() {
     _errors=`printf '%s' "$claims" | $JQ -r -R -s --argjson tags "$tags" '
-        [ split("\n")[] | select(. != "") | split("\t")
+        [ split("\n")[] | select(. != "") | split("\u001c")
           | { file: .[0], license: .[1] } ] as $claims
         | def claimed($f; $l):
             any($claims[]; .file == $f and (.license == $l or .license == "*"));
@@ -637,7 +705,14 @@ build_externals() {
     fi
 
     # Dependencies selected by a macro in apr_private.h.
-    $JQ -c '.external[] | select(.define)' "$DATA" | while read -r entry; do
+    # (A loop over a variable, not a pipeline, so that set -e applies.)
+    defined=`$JQ -c '.external[] | select(.define)' "$DATA"`
+    _ifs=$IFS
+    IFS='
+'
+    set -f
+    for entry in $defined; do
+        IFS=$_ifs
         define=`printf '%s' "$entry" | $JQ -r '.define'`
         if grep "^#define $define 1" include/arch/unix/apr_private.h \
            >/dev/null 2>&1; then
@@ -646,6 +721,8 @@ build_externals() {
                 "`printf '%s' "$found" | cut -f1`" "" "" "" ""
         fi
     done
+    set +f
+    IFS=$_ifs
 
     # The libtool script is installed with APR's build files.  Its
     # version line may end with a distribution suffix, as in
