@@ -229,7 +229,8 @@ owner() {
 
 # The vers range package $1 is required in by shlibs:Depends, or "*".
 version_range() {
-    _deps=`sed -n 's/^shlibs:Depends=//p' "$substvars" 2>/dev/null`
+    test -f "$substvars" || return 0
+    _deps=`sed -n 's/^shlibs:Depends=//p' "$substvars"`
     printf '%s\n' "$_deps" | tr ',' '\n' | sed 's/^ *//' | grep -v '|' \
         | sed -n "s/^$1 *(\([<>=]*\) *\([^)]*\))\$/\1 \2/p;s/^$1\$/*/p" | sed q \
         | sed -e 's/^>> /> /' -e 's/^<< /< /' -e 's/^>= />=/' -e 's/^<= /<=/' \
@@ -237,12 +238,24 @@ version_range() {
 }
 
 # One line per external component: its bound form, as JSON.
+#
+# Loops run over variables split on newlines, not over pipelines, so
+# that set -e applies and file names may contain blanks.
 bind_externals() {
-    $JQ -c '.components[] | select(.isExternal == true)' "$build_sbom" \
-    | while read -r comp; do
+    comps=`$JQ -c '.components[] | select(.isExternal == true)' "$build_sbom"`
+    _ifs=$IFS
+    IFS='
+'
+    set -f
+    for comp in $comps; do
+        IFS=$_ifs
         ref=`printf '%s' "$comp" | $JQ -r '."bom-ref"'`
         pkgs=
-        for path in `printf '%s' "$comp" | $JQ -r '.evidence.occurrences[]?.location'`; do
+        paths=`printf '%s' "$comp" | $JQ -r '.evidence.occurrences[]?.location'`
+        IFS='
+'
+        for path in $paths; do
+            IFS=$_ifs
             o=`owner "$path"`
             if test -z "$o"; then
                 warn "$ref: no package owns $path"
@@ -253,6 +266,7 @@ bind_externals() {
               *) pkgs="$pkgs $o" ;;
             esac
         done
+        IFS=$_ifs
         if test -z "$pkgs"; then
             warn "$ref: not bound to a package"
             printf '%s\n' "$comp"
@@ -294,6 +308,8 @@ bind_externals() {
                   evidence: .evidence }'
         done
     done
+    set +f
+    IFS=$_ifs
 }
 
 # ---------------------------------------------------------------------
