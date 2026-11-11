@@ -1,4 +1,4 @@
-apr (1.7.7~git20261110.49b0b36-1) UNRELEASED; urgency=medium
+apr (1.7.7~git20261111.2bf9207-1) UNRELEASED; urgency=medium
 
   * New upstream snapshot of the sbom-1.7.x branch of APR: apr 1.7.x
     (1.7.7-dev) with REUSE compliance and CycloneDX SBOM generation
@@ -10,7 +10,7 @@ apr (1.7.7~git20261110.49b0b36-1) UNRELEASED; urgency=medium
       dh_shlibdeps.
     - Build-Depend on jq.
 
- -- Piotr P. Karwasz <piotr@github.copernik.eu>  Tue, 10 Nov 2026 22:41:32 +0100
+ -- Piotr P. Karwasz <piotr@github.copernik.eu>  Wed, 11 Nov 2026 16:16:01 +0100
 
 apr (1.7.6-4) UNRELEASED; urgency=medium
 
