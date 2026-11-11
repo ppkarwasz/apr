@@ -13,9 +13,9 @@
 
 # Snapshot of the asf/sbom-1.7.x branch of https://github.com/ppkarwasz/apr:
 # APR 1.7.x with REUSE compliance and CycloneDX SBOM generation.
-%global commit 49b0b36950c9b1a249392a516ba0f702cd7d6d52
+%global commit 2bf920725e55cb3ecf18783cfdbfb70e268cfd62
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global commitdate 20261110
+%global commitdate 20261111
 
 Summary: Apache Portable Runtime library
 Name: apr
@@ -185,6 +185,11 @@ popd
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Wed Nov 11 2026 Piotr P. Karwasz <piotr@github.copernik.eu> - 1.7.7~20261111git2bf9207-1
+- update to snapshot 2bf9207 of asf/sbom-1.7.x: the SBOM generator
+  supports file names with blanks and quotes, and fails on errors
+- apr-sbom-bind.sh: split file lists on newlines only
+
 * Tue Nov 10 2026 Piotr P. Karwasz <piotr@github.copernik.eu> - 1.7.7~20261110git49b0b36-1
 - update to a snapshot of the asf/sbom-1.7.x branch of
   https://github.com/ppkarwasz/apr: APR 1.7.x (1.7.7-dev) with REUSE
