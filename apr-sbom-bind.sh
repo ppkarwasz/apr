@@ -122,12 +122,24 @@ owner() {
 }
 
 # One line per external component: its bound form, as JSON.
+#
+# Loops run over variables split on newlines, not over pipelines, so
+# that set -e applies and file names may contain blanks.
 bind_externals() {
-    $JQ -c '.components[] | select(.isExternal == true)' "$build_sbom" \
-    | while read -r comp; do
+    comps=`$JQ -c '.components[] | select(.isExternal == true)' "$build_sbom"`
+    _ifs=$IFS
+    IFS='
+'
+    set -f
+    for comp in $comps; do
+        IFS=$_ifs
         ref=`printf '%s' "$comp" | $JQ -r '."bom-ref"'`
         owners=
-        for path in `printf '%s' "$comp" | $JQ -r '.evidence.occurrences[]?.location'`; do
+        paths=`printf '%s' "$comp" | $JQ -r '.evidence.occurrences[]?.location'`
+        IFS='
+'
+        for path in $paths; do
+            IFS=$_ifs
             o=`owner "$path"`
             if test -z "$o"; then
                 warn "$ref: no package owns $path"
@@ -141,6 +153,7 @@ $o"*) ;;
 $o" ;;
             esac
         done
+        IFS=$_ifs
         if test -z "$owners"; then
             warn "$ref: not bound to a package"
             printf '%s\n' "$comp"
@@ -174,6 +187,8 @@ $o" ;;
                   evidence: .evidence }'
         done
     done
+    set +f
+    IFS=$_ifs
 }
 
 # ---------------------------------------------------------------------
